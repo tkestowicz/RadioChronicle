@@ -1,0 +1,148 @@
+Feature: 10 the most popular tracks
+  In order to browse the list of the most popular tracks
+  As an application user
+  I want to get the list of 10 the most popular tracks
+  
+Scenario: Happy Path
+  Given I access the most popular tracks
+  When month is set
+  And year is set
+  And radio station is selected
+  Then tracks are filtered by given criteria
+  And the list of 10 tracks is returned
+  And the list is ordered by popularity descending
+
+Scenario: All criteria are not specified
+  Given I access the most popular tracks
+  When month and year are not set
+  And radio station is not selected
+  Then month and year are set to current date
+  And first radio station from the list is selected
+  And tracks are filtered by given criteria
+  And the list of 10 tracks is returned
+  And the list is ordered by popularity descending
+
+----
+
+Feature: 10 the most recent tracks
+  In order to browse the list of the most recent tracks
+  As an application user
+  I want to get the list of 10 the most recent tracks
+
+Scenario: Happy Path
+  Given I access the most recent tracks
+  When radio station is selected
+  Then tracks are filtered by given radio station
+  And the list of 10 tracks is returned 
+  And the list is ordered by the most recent descending
+
+Scenario: Radio station is not selected
+  Given I access the most recent tracks
+  When radio station is not selected
+  Then first radio station from the list is selected
+  And tracks are filtered by given radio station
+  And the list of 10 tracks is returned 
+  And the list is ordered by the most recent descending
+
+----
+
+Feature: Currently broadcasting tracks
+  In order to browse the list of currently broadcasting tracks
+  As an application user
+  I want to get the list of tracks currently broadcasted by each radio station
+
+Scenario: Happy path
+  Given I access currently broadcasting tracks
+  When radio stations are broadcasting
+  Then the list of tracks currently broadcasted by each radio station is returned
+  And the list is ordered by radio station name ascending
+  
+ Scenario: None radio station is broadcasting
+  Given I access currently broadcasting tracks
+  When radio stations are not broadcasting
+  Then an empty list of tracks currently broadcasted is returned
+
+----
+
+Feature: Broadcast history
+  In order to browse the history of tracks broadcasted by radio station
+  As an application user
+  I want to get the list of all broadcasted tracks in defined date and time range
+
+Scenario: Happy Path
+  Given I access radio station history
+  When radio station is selected
+  And date is set
+  And time range is set
+  Then tracks are filtered by given criteria
+  And the list of tracks from specified range is returned
+  And the list is ordered by date and time descending
+
+Scenario: All criteria are not specified
+  Given I access radio station history
+  When radio station is not selected
+  And date is not selected
+  And time range is not set
+  Then first radio station from the list is selected
+  And current date is set
+  And time range is set to the current and recent hour
+  And tracks are filtered by given criteria
+  And the list of tracks from specified range is returned
+  And the list is ordered by date and time descending
+
+----
+
+Feature: Newest tracks
+  In order to browse the list of the newest tracks on specified radio station
+  As an application user
+  I want to get the list of all the newest tracks from specified year and month
+  
+Scenario: Happy path
+  Given I access newest tracks
+  When radio station is selected
+  And year is set
+  And month is set
+  Then tracks are filtered by given criteria
+  And the list of the newest tracks is returned
+  And results in the list are grouped by date descending
+  And each group is ordered by time descending
+  
+Scenario: All criteria are not specified
+  Given I access the newest tracks
+  When radio station is not selected
+  And year is not selected
+  And month is not selected
+  Then first radio station from the list is selected
+  And current year is set
+  And current month is set
+  And tracks are filtered by given criteria
+  And the list of the newest tracks is returned
+  And results in the list are grouped by date descending
+  And each group is ordered by time descending
+ 
+ ----
+ 
+ Feature: Track history
+  In order to view a history of specified track
+  As an application user
+  I want to get the list of all broadcasts of the track in all radio stations
+  
+Scenario: Happy path
+  Given I access track
+  When year is set
+  And month is set
+  Then broadcast history is filtered by given criteria
+  And the list of all broadcasts of the track in all radio stations is returned
+  And results in the list are grouped by date descending
+  And each group is ordered by time descending
+
+Scenario: All criteria are not specified
+  Given I access newest tracks
+  When year is not selected
+  And month is not selected
+  Then current year is set
+  And current month is set
+  Then broadcast history is filtered by given criteria
+  And the list of all broadcasts of the track in all radio stations is returned
+  And results in the list are grouped by date descending
+  And each group is ordered by time descending
