@@ -340,6 +340,26 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
             result.Count().ShouldEqual(expectedElementsInCollection);
         }
+
+        [Test]
+        public void get_radio_stations___response_has_one_radio_group_with_no_radio_stations___return_radio_station_group_with_empty_radio_stations()
+        {
+            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
+                .Returns(File.ReadAllText("FakeResponses/ResponseWithOneGroupAndNoRadioStations.txt"));
+
+            var result = _remoteService.GetRadioStations();
+
+            var expectedCollection = new List<RadioStationGroup>()
+            {
+                new RadioStationGroup()
+                {
+                    GroupName = "Eurozet",
+                    RadioStations = new List<RadioStation>()
+                }
+            };
+
+            result.ShouldEqual(expectedCollection);
+        }
     }
 
     

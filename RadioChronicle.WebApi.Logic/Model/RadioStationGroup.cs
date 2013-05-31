@@ -24,7 +24,7 @@ namespace RadioChronicle.WebApi.Logic.Model
 
             var toEqual = obj as RadioStationGroup;
 
-            var colEqual = false;
+            var colEqual = toEqual.RadioStations.Count() == RadioStations.Count();
             for (int i = 0; i < RadioStations.Count(); i++)
             {
                 colEqual = RadioStations.ElementAt(i).Equals(toEqual.RadioStations.ElementAt(i));
