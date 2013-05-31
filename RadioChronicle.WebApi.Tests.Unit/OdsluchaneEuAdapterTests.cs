@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Autofac;
 using Autofac.Core;
 using Moq;
 using NUnit.Framework;
-using RadioChronicle.WebApi.Logic.Infrastracture;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
 using RadioChronicle.WebApi.Logic.Model;
-using RadioChronicle.WebApi.Logic.OdsluchaneEu;
 using Should;
 
 namespace RadioChronicle.WebApi.Tests.Unit
@@ -20,6 +19,13 @@ namespace RadioChronicle.WebApi.Tests.Unit
         private Mock<IRequestHelper> _requestHelperMock;
         private IRemoteServiceStrategy _remoteService;
         private IUrlRepository _urlRepository;
+
+        private enum ResponseType
+        {
+            Empty,
+            WithRadioStations,
+            WithOneRadioGroupAndNoRadioStations
+        }
 
         [SetUp]
         public void ResolveDependencies()
@@ -314,12 +320,29 @@ namespace RadioChronicle.WebApi.Tests.Unit
                 }
             };
         }
+
+        private string _getFakeResponse(ResponseType responseType)
+        {
+            switch (responseType)
+            {
+                case ResponseType.WithRadioStations:
+                    return File.ReadAllText("FakeResponses/ResponseWithRadioStationList.txt");
+
+                case ResponseType.WithOneRadioGroupAndNoRadioStations:
+                    return File.ReadAllText("FakeResponses/ResponseWithOneGroupAndNoRadioStations.txt");
+
+                case ResponseType.Empty:
+                default:
+                    return "";
+            }
+        }
             
         [Test]
+        [Category("Get radio stations")]
         public void get_radio_stations___response_contains_radio_stations___list_of_radio_stations_grouped_by_radio_family_is_returned()
         {
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
-                .Returns(File.ReadAllText("FakeResponses/ResponseWithRadioStationList.txt"));
+                .Returns(_getFakeResponse(ResponseType.WithRadioStations));
 
             var result = _remoteService.GetRadioStations();
            
@@ -329,10 +352,11 @@ namespace RadioChronicle.WebApi.Tests.Unit
         }
 
         [Test]
+        [Category("Get radio stations")]
         public void get_radio_stations___response_is_empty___list_of_radio_stations_should_be_empty()
         {
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
-                .Returns("");
+                .Returns(_getFakeResponse(ResponseType.Empty));
 
             var result = _remoteService.GetRadioStations();
 
@@ -342,10 +366,11 @@ namespace RadioChronicle.WebApi.Tests.Unit
         }
 
         [Test]
+        [Category("Get radio stations")]
         public void get_radio_stations___response_has_one_radio_group_with_no_radio_stations___return_radio_station_group_with_empty_radio_stations()
         {
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
-                .Returns(File.ReadAllText("FakeResponses/ResponseWithOneGroupAndNoRadioStations.txt"));
+                .Returns(_getFakeResponse(ResponseType.WithOneRadioGroupAndNoRadioStations));
 
             var result = _remoteService.GetRadioStations();
 
