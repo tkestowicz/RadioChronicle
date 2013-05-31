@@ -8,6 +8,7 @@ using RadioChronicle.WebApi.Logic.Infrastracture;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
 using RadioChronicle.WebApi.Logic.Model;
 using RadioChronicle.WebApi.Logic.OdsluchaneEu;
+using Should;
 
 namespace RadioChronicle.WebApi.Tests.Unit
 {
@@ -323,7 +324,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
            
             var expected = _prepareExpectedRadioStationGroups();
 
-            CollectionAssert.AreEqual(expected, result);
+            result.ShouldEqual(expected);
         }
     }
 
