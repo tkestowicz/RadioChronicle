@@ -1,16 +1,39 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Security.Policy;
-using HtmlAgilityPack;
+using Autofac;
+using Autofac.Core;
 using Moq;
 using NUnit.Framework;
+using RadioChronicle.WebApi.Logic.Infrastracture;
+using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
+using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.OdsluchaneEu;
 
 namespace RadioChronicle.WebApi.Tests.Unit
 {
     [TestFixture]
     public class OdsluchaneEuAdapterTests
     {
+
+        private Mock<IRequestHelper> _requestHelperMock;
+        private IRemoteServiceStrategy _remoteService;
+        private IUrlRepository _urlRepository;
+
+        [SetUp]
+        public void ResolveDependencies()
+        {
+            var diContainer = Bootstrap.DiContainer();
+
+            _requestHelperMock = diContainer.Resolve<Mock<IRequestHelper>>();
+            _urlRepository = diContainer.Resolve<IUrlRepository>();
+
+            _remoteService = diContainer.ResolveKeyed<IRemoteServiceStrategy>(Bootstrap.RemoteServiceStrategy.StrategyContainer,
+                        new ResolvedParameter(
+                            (p, c) => p.ParameterType == typeof(IRemoteServiceStrategy),
+                            (p, c) => c.ResolveKeyed<IRemoteServiceStrategy>(Bootstrap.RemoteServiceStrategy.OdsluchaneEuStrategy,
+                                new TypedParameter(typeof(IRequestHelper), _requestHelperMock.Object)))
+                        );
+        }
 
         private IEnumerable<RadioStationGroup> _prepareExpectedRadioStationGroups()
         {
@@ -293,243 +316,16 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [Test]
         public void get_radio_stations___response_contains_radio_stations___list_of_radio_stations_grouped_by_radio_family_is_returned()
         {
-            var urlRepository = new OdsluchaneEuUrlRepository();
+            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
+                .Returns(File.ReadAllText("FakeResponses/ResponseWithRadioStationList.txt"));
 
-            var concreteHtmlRequestHelper = new ConcreteHtmlRequestHelper();
-            var requestHelper = new Mock<IRequestHelper>();
+            var result = _remoteService.GetRadioStations();
+           
+            var expected = _prepareExpectedRadioStationGroups();
 
-            requestHelper.Setup(s => s.RequestURL(urlRepository.RadioStationsPage.Value))
-                .Returns(File.ReadAllText("FakeResponses/RadioStationListsResponse.txt"));
-
-            var adapter = new OdsluchaneEuAdapter(requestHelper.Object, urlRepository);
-            //var adapter = new OdsluchaneEuAdapter(concreteHtmlRequestHelper, urlRepository);
-
-            var remoteService = new RadioChronicleRemoteService(adapter);
-
-            var result = remoteService.GetRadioStations();
-            var exptected = _prepareExpectedRadioStationGroups();
-
-            CollectionAssert.AreEqual(exptected, result);
+            CollectionAssert.AreEqual(expected, result);
         }
     }
 
-    public class ConcreteHtmlRequestHelper : IRequestHelper
-    {
-        #region Implementation of IRequestHelper
-
-        public string RequestURL(string url)
-        {
-            var web = new HtmlWeb();
-            return web.Load(url).DocumentNode.InnerHtml;
-        }
-
-        #endregion
-    }
-
-    public class OdsluchaneEuUrlRepository : IUrlRepository
-    {
-        private readonly Url _radioStationsPage = new Url("http://www.odsluchane.eu/szukaj.php");
-
-        #region Implementation of IUrlRepository
-
-        public Url RadioStationsPage
-        {
-            get { return _radioStationsPage; }
-        }
-
-        #endregion
-    }
-
-    public interface IUrlRepository
-    {
-        Url RadioStationsPage { get; }
-
-    }
-
-    public class RadioChronicleRemoteService : IRemoteServiceStrategy
-    {
-        private readonly IRemoteServiceStrategy _serviceStrategy;
-
-        public RadioChronicleRemoteService(IRemoteServiceStrategy serviceStrategy)
-        {
-            _serviceStrategy = serviceStrategy;
-        }
-
-        #region Implementation of IRemoteServiceStrategy
-
-        public IEnumerable<RadioStationGroup> GetRadioStations()
-        {
-            return _serviceStrategy.GetRadioStations();
-        }
-
-        #endregion
-    }
-
-    public interface IRemoteServiceStrategy
-    {
-        IEnumerable<RadioStationGroup> GetRadioStations();
-    }
-
-    public class OdsluchaneEuAdapter : IRemoteServiceStrategy
-    {
-        private readonly IRequestHelper _requestHelper;
-        private readonly OdsluchaneEuUrlRepository _urlRepository;
-
-        public OdsluchaneEuAdapter(IRequestHelper requestHelper, OdsluchaneEuUrlRepository urlRepository)
-        {
-            _requestHelper = requestHelper;
-            _urlRepository = urlRepository;
-        }
-
-        public IEnumerable<RadioStationGroup> GetRadioStations()
-        {
-            
-            var doc = new HtmlDocument();
-
-            doc.LoadHtml(_requestHelper.RequestURL(_urlRepository.RadioStationsPage.Value));
-
-            return _ParseRadioStationSelectList(_RetrieveRadioStationGroupListFromHTMLDocument(doc));
-        }
-
-        private static IEnumerable<HtmlNode> _RetrieveRadioStationGroupListFromHTMLDocument(HtmlDocument doc)
-        {
-            return doc.DocumentNode.SelectNodes("//select[@name='r']/optgroup");
-        }
-
-        private static IEnumerable<HtmlNode> _RetrieveRadioStationListFromGroup(HtmlNode radioStationGroup)
-        {
-            return radioStationGroup.SelectNodes("option");
-        }
-
-        private IEnumerable<RadioStationGroup> _ParseRadioStationSelectList(IEnumerable<HtmlNode> radioStationSelectList)
-        {
-            var result = new List<RadioStationGroup>();
-
-            foreach (var radioStationGroup in radioStationSelectList)
-            {
-                var radioStations = _ParseRadioStations(_RetrieveRadioStationListFromGroup(radioStationGroup));
-                result.Add(new RadioStationGroup()
-                {
-                    GroupName = radioStationGroup.Attributes[0].Value,
-                    RadioStations = radioStations
-                });        
-            }
-
-            return result;
-        }
-
-        private IEnumerable<RadioStation> _ParseRadioStations(IEnumerable<HtmlNode> radioStations)
-        {
-            var result = new List<RadioStation>();
-
-            foreach (var radioStation in radioStations)
-            {
-                var radioName = radioStation.Attributes.SingleOrDefault(a => a.Name == "label");
-                var radioId = radioStation.Attributes.SingleOrDefault(a => a.Name == "value");
-
-                result.Add(new RadioStation()
-                {
-                    Id = (radioId != null)? int.Parse(radioId.Value) : 0,
-                    Name = (radioName != null)? radioName.Value : ""
-                });
-            }
-
-            return result;
-        }
-    }
-
-    public class RadioStationGroup
-    {
-        public string GroupName { get; set; }
-
-        public IEnumerable<RadioStation> RadioStations { get; set; }
-
-        #region Overrides of Object
-
-        /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
-        /// </summary>
-        /// <returns>
-        /// true if the specified object  is equal to the current object; otherwise, false.
-        /// </returns>
-        /// <param name="obj">The object to compare with the current object. </param>
-        public override bool Equals(object obj)
-        {
-            if ((obj is RadioStationGroup) == false) return false;
-
-            var toEqual = obj as RadioStationGroup;
-
-            var colEqual = false;
-            for (int i = 0; i < RadioStations.Count(); i++)
-            {
-                colEqual = RadioStations.ElementAt(i).Equals(toEqual.RadioStations.ElementAt(i));
-            }
-
-            return toEqual.GroupName == GroupName && colEqual;
-        }
-
-        #region Overrides of Object
-
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
-        /// </returns>
-        public override int GetHashCode()
-        {
-            return string.IsNullOrEmpty(GroupName) ? 0 : GroupName.GetHashCode() + RadioStations.GetHashCode();
-        }
-
-        #endregion
-
-        #endregion
-    }
-
-    public class RadioStation
-    {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        #region Overrides of Object
-
-        /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
-        /// </summary>
-        /// <returns>
-        /// true if the specified object  is equal to the current object; otherwise, false.
-        /// </returns>
-        /// <param name="obj">The object to compare with the current object. </param>
-        public override bool Equals(object obj)
-        {
-            if ((obj is RadioStation) == false) return false;
-
-            var toEqual = obj as RadioStation;
-
-            return (toEqual.Id == Id && toEqual.Name == Name);
-        }
-
-        #region Overrides of Object
-
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
-        /// </returns>
-        public override int GetHashCode()
-        {
-            return string.IsNullOrEmpty(Name) ? 0 : Name.GetHashCode() + Id.GetHashCode();
-        }
-
-        #endregion
-
-        #endregion
-    }
-
-    public interface IRequestHelper
-    {
-        string RequestURL(string url);
-    }
+    
 }

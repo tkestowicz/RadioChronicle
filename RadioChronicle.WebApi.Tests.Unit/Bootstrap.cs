@@ -1,26 +1,33 @@
 ﻿using Autofac;
 using Moq;
+using RadioChronicle.WebApi.Logic.Infrastracture;
+using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
+using RadioChronicle.WebApi.Logic.OdsluchaneEu;
 
 namespace RadioChronicle.WebApi.Tests.Unit
 {
     public class Bootstrap
     {
+        public enum RemoteServiceStrategy
+        {
+            StrategyContainer,
+            OdsluchaneEuStrategy
+        }
 
         public static IContainer DiContainer()
         {
-            return null;
-/*
             var builder = new ContainerBuilder();
 
             builder.RegisterType<Mock<IRequestHelper>>().As<Mock<IRequestHelper>>();
-            builder.RegisterType<OdsluchaneEuAdapter>().
-                .As<IRemoteServiceStrategy>()
-                .WithMetadata("Name", "ConcreteStrategy");
+            builder.RegisterType<OdsluchaneEuDOMParser>().As<IDOMParser>();
+            builder.RegisterType<OdsluchaneEuUrlRepository>().As<IUrlRepository>();
+
+            builder.RegisterType<OdsluchaneEuRemoteServiceAdapter>()
+                .Keyed<IRemoteServiceStrategy>(RemoteServiceStrategy.OdsluchaneEuStrategy);
          
-            builder.RegisterAdapter<IRemoteServiceStrategy, RadioChronicleRemoteService>(s => new RadioChronicleRemoteService(s));
+            builder.RegisterType<RadioChronicleRemoteService>().Keyed<IRemoteServiceStrategy>(RemoteServiceStrategy.StrategyContainer);
 
-*/
-
+            return builder.Build();
         }
 
     }
