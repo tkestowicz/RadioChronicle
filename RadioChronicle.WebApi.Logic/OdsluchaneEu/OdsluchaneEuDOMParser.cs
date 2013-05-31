@@ -26,7 +26,11 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         {
             var result = new List<RadioStationGroup>();
 
-            foreach (var radioStationGroup in SelectListWithGroupedRadioStationsFromHTMLDocument(document))
+            var radioStationGroups = SelectListWithGroupedRadioStationsFromHTMLDocument(document);
+
+            if (radioStationGroups == null) return result;
+
+            foreach (var radioStationGroup in radioStationGroups)
             {
                 var radioStations = ParseDOMAndSelectRadioStations(SelectListWithRadioStationsFromHtmlGroup(radioStationGroup));
                 result.Add(new RadioStationGroup()
@@ -42,6 +46,8 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         private IEnumerable<RadioStation> ParseDOMAndSelectRadioStations(IEnumerable<HtmlNode> radioStations)
         {
             var result = new List<RadioStation>();
+
+            if (radioStations == null) return result;
 
             foreach (var radioStation in radioStations)
             {

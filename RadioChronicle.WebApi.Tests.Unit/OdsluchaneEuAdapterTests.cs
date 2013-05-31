@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Autofac;
 using Autofac.Core;
 using Moq;
@@ -325,6 +326,19 @@ namespace RadioChronicle.WebApi.Tests.Unit
             var expected = _prepareExpectedRadioStationGroups();
 
             result.ShouldEqual(expected);
+        }
+
+        [Test]
+        public void get_radio_stations___response_is_empty___list_of_radio_stations_should_be_empty()
+        {
+            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
+                .Returns("");
+
+            var result = _remoteService.GetRadioStations();
+
+            const int expectedElementsInCollection = 0;
+
+            result.Count().ShouldEqual(expectedElementsInCollection);
         }
     }
 
