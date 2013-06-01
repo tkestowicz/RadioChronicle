@@ -6,13 +6,13 @@ using RadioChronicle.WebApi.Logic.Model;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 {
-    public class OdsluchaneEuRemoteServiceAdapter : IRemoteServiceStrategy
+    public class OdsluchaneEuRemoteRadioChronicleServiceAdapter : IRemoteRadioChronicleService
     {
         private readonly IRequestHelper _requestHelper;
         private readonly IUrlRepository _urlRepository;
         private readonly IDOMParser _domParser;
 
-        public OdsluchaneEuRemoteServiceAdapter(IRequestHelper requestHelper, IUrlRepository urlRepository, IDOMParser domParser)
+        public OdsluchaneEuRemoteRadioChronicleServiceAdapter(IRequestHelper requestHelper, IUrlRepository urlRepository, IDOMParser domParser)
         {
             _requestHelper = requestHelper;
             _urlRepository = urlRepository;

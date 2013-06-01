@@ -19,7 +19,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
     {
 
         private Mock<IRequestHelper> _requestHelperMock;
-        private IRemoteServiceStrategy _remoteService;
+        private IRemoteRadioChronicleService _remoteRadioChronicleService;
         private IUrlRepository _urlRepository;
 
         private static IEnumerable<Track> _ExpectedMostPopularTracksOnRMFFMRadioStationInMay2013
@@ -148,11 +148,8 @@ namespace RadioChronicle.WebApi.Tests.Unit
             _requestHelperMock = diContainer.Resolve<Mock<IRequestHelper>>();
             _urlRepository = diContainer.Resolve<IUrlRepository>();
 
-            _remoteService = diContainer.ResolveKeyed<IRemoteServiceStrategy>(Bootstrap.RemoteServiceStrategy.StrategyContainer,
-                        new ResolvedParameter(
-                            (p, c) => p.ParameterType == typeof(IRemoteServiceStrategy),
-                            (p, c) => c.ResolveKeyed<IRemoteServiceStrategy>(Bootstrap.RemoteServiceStrategy.OdsluchaneEuStrategy,
-                                new TypedParameter(typeof(IRequestHelper), _requestHelperMock.Object)))
+            _remoteRadioChronicleService = diContainer.Resolve<IRemoteRadioChronicleService>(
+                                new TypedParameter(typeof(IRequestHelper), _requestHelperMock.Object)
                         );
         }
 
@@ -460,7 +457,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
                 .Returns(_getFakeResponse(ResponseType.WithRadioStations));
 
-            var result = _remoteService.GetRadioStations();
+            var result = _remoteRadioChronicleService.GetRadioStations();
            
             var expected = _prepareExpectedRadioStationGroups();
 
@@ -474,7 +471,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
                 .Returns(_getFakeResponse(ResponseType.Empty));
 
-            var result = _remoteService.GetRadioStations();
+            var result = _remoteRadioChronicleService.GetRadioStations();
 
             const int expectedElementsInCollection = 0;
 
@@ -488,7 +485,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
                 .Returns(_getFakeResponse(ResponseType.WithOneRadioGroupAndNoRadioStations));
 
-            var result = _remoteService.GetRadioStations();
+            var result = _remoteRadioChronicleService.GetRadioStations();
 
             var expectedCollection = new List<RadioStationGroup>()
             {
@@ -512,7 +509,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             _requestHelperMock.Setup(s => s.RequestURL(string.Format(_urlRepository.MostPopularTracksPage(radioStation.Id, month, year).Value)))
                 .Returns(_getFakeResponse(ResponseType.WithMostPopularTracks));
 
-            var result = _remoteService.GetMostPopularTracks(radioStation, month, year);
+            var result = _remoteRadioChronicleService.GetMostPopularTracks(radioStation, month, year);
 
             result.ShouldEqual(_ExpectedMostPopularTracksOnRMFFMRadioStationInMay2013);
         }

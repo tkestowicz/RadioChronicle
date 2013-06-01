@@ -43,16 +43,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastracture\Interfaces\IDOMParser.cs" />
-    <Compile Include="Infrastracture\Interfaces\IRemoteServiceStrategy.cs" />
+    <Compile Include="Infrastracture\Interfaces\IRemoteRadioChronicleService.cs" />
     <Compile Include="Infrastracture\Interfaces\IRequestHelper.cs" />
     <Compile Include="Infrastracture\Interfaces\IUrlRepository.cs" />
     <Compile Include="Model\Track.cs" />
-    <Compile Include="Infrastracture\RadioChronicleRemoteService.cs" />
     <Compile Include="Infrastracture\ServerRequestHelper.cs" />
     <Compile Include="Model\RadioStation.cs" />
     <Compile Include="Model\RadioStationGroup.cs" />
     <Compile Include="Model\TrackHistory.cs" />
-    <Compile Include="OdsluchaneEu\OdsluchaneEuRemoteServiceAdapter.cs" />
+    <Compile Include="OdsluchaneEu\OdsluchaneEuRemoteRadioChronicleServiceAdapter.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEuDOMParser.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEuUrlRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
