@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
 using RadioChronicle.WebApi.Logic.Model;
@@ -41,6 +43,59 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             }
 
             return result;
+        }
+
+        public IEnumerable<Track> ParseDOMAndSelectMostPopularTracks(HtmlDocument document)
+        {
+            var result = new List<Track>();
+            var mostPopularTracks = SelectListWithMostPopularTracks(document);
+
+            if(mostPopularTracks == null) return result;
+
+            foreach (var mostPopularTrack in mostPopularTracks)
+            {
+                result.Add(ParseDOMAndReturnMostPopularTrack(mostPopularTrack));
+            }
+
+            return result;
+        }
+
+        private Track ParseDOMAndReturnMostPopularTrack(HtmlNode mostPopularTrack)
+        {
+            const int trackNameElement = 1;
+            const int trackTimesPlayedElement = 2;
+            const int cellsInRow = 4;
+
+            var track = Track.Empty;
+
+            var tableCells = mostPopularTrack.SelectNodes("td");
+
+            if (tableCells == null || tableCells.Count != cellsInRow) return track;
+
+            track.Name = tableCells[trackNameElement].InnerText ?? track.Name;
+
+            try
+            {
+                var trackUrlDetails =  tableCells[trackNameElement].ChildNodes.Single().Attributes["href"].Value;
+
+                track.RelativeUrlToTrackDetails = trackUrlDetails;
+            }
+            catch
+            {
+                
+            }
+
+            int timesPlayed;
+            if (int.TryParse(tableCells[trackTimesPlayedElement].InnerText, out timesPlayed))
+                track.TimesPlayed = timesPlayed;
+
+            return track;
+        }
+
+        private IEnumerable<HtmlNode> SelectListWithMostPopularTracks(HtmlDocument document)
+        {
+            // skip first element which is a result header
+            return document.DocumentNode.SelectNodes("//table[@class='wyniki']/tr").Skip(1);
         }
 
         private IEnumerable<RadioStation> ParseDOMAndSelectRadioStations(IEnumerable<HtmlNode> radioStations)

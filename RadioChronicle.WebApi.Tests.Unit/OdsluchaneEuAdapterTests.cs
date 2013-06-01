@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Security.Policy;
 using Autofac;
 using Autofac.Core;
 using Moq;
@@ -20,11 +22,122 @@ namespace RadioChronicle.WebApi.Tests.Unit
         private IRemoteServiceStrategy _remoteService;
         private IUrlRepository _urlRepository;
 
+        private static IEnumerable<Track> _ExpectedMostPopularTracksOnRMFFMRadioStationInMay2013
+        {
+            get
+            {
+                return new List<Track>()
+                {
+                    new Track()
+                    {
+                        Name = "One Direction - One Way Or Another",
+                        RelativeUrlToTrackDetails = "/utwor/141032/one_direction_-_one_way_or_another",
+                        TimesPlayed = 122,
+                        TrackHistory = new List<TrackHistory>()
+                    },
+                    new Track()
+                    {
+                        Name = "Pink / Nate Ruess - Just Give Me A Reason",
+                        RelativeUrlToTrackDetails = "/utwor/137317/pink_nate_ruess_-_just_give_me_a_reason",
+                        TimesPlayed = 116,
+                        TrackHistory = new List<TrackHistory>()
+                    },
+                    new Track()
+                    {
+                        Name = "Rihanna - Stay",
+                        RelativeUrlToTrackDetails = "/utwor/123861/rihanna_-_stay",
+                        TimesPlayed = 112,
+                        TrackHistory = new List<TrackHistory>()
+                    },
+                    new Track()
+                    {
+                        Name = "Dido - No Freedom",
+                        RelativeUrlToTrackDetails = "/utwor/134632/dido_-_no_freedom",
+                        TimesPlayed = 110,
+                        TrackHistory = new List<TrackHistory>()
+                    },
+                    new Track()
+                    {
+                        Name = "Lana Del Rey - Dark Paradise",
+                        RelativeUrlToTrackDetails = "/utwor/115431/lana_del_rey_-_dark_paradise",
+                        TimesPlayed = 105,
+                        TrackHistory = new List<TrackHistory>()
+                    },
+                    new Track()
+                    {
+                        Name = "Justin Timberlake - Mirrors",
+                        RelativeUrlToTrackDetails = "/utwor/141039/justin_timberlake_-_mirrors",
+                        TimesPlayed = 101,
+                        TrackHistory = new List<TrackHistory>()
+                    },
+                    new Track()
+                    {
+                        Name = "Lemon - Napraw",
+                        RelativeUrlToTrackDetails = "/utwor/124264/lemon_-_napraw",
+                        TimesPlayed = 96,
+                        TrackHistory = new List<TrackHistory>()
+                    },
+                    new Track()
+                    {
+                        Name = "Passenger - Let Her Go",
+                        RelativeUrlToTrackDetails = "/utwor/123001/passenger_-_let_her_go",
+                        TimesPlayed = 95,
+                        TrackHistory = new List<TrackHistory>()
+                    },
+                    new Track()
+                    {
+                        Name = "Bastille - Pompeii",
+                        RelativeUrlToTrackDetails = "/utwor/136911/bastille_-_pompeii",
+                        TimesPlayed = 94,
+                        TrackHistory = new List<TrackHistory>()
+                    },
+                    new Track()
+                    {
+                        Name = "Honorata Skarbek Honey - Nie Powiem Jak",
+                        RelativeUrlToTrackDetails = "/utwor/145876/honorata_skarbek_honey_-_nie_powiem_jak",
+                        TimesPlayed = 93,
+                        TrackHistory = new List<TrackHistory>()
+                    }
+                };
+            }
+        }
+
+        private static int _DefaultYear
+        {
+            get
+            {
+                // represents current year
+                return 2013;
+            }
+        }
+
+        private static int _DefaultMonth
+        {
+            get
+            {
+                // represents May
+                return 5;
+            }
+        }
+
+        private static RadioStation _DefaultRadioStation
+        {
+            get
+            {
+                return new RadioStation()
+                {
+                    Id = 2,
+                    Name = "RMF FM"
+                };
+            }
+        }
+
         private enum ResponseType
         {
             Empty,
             WithRadioStations,
-            WithOneRadioGroupAndNoRadioStations
+            WithOneRadioGroupAndNoRadioStations,
+            WithMostPopularTracks
         }
 
         [SetUp]
@@ -331,12 +444,15 @@ namespace RadioChronicle.WebApi.Tests.Unit
                 case ResponseType.WithOneRadioGroupAndNoRadioStations:
                     return File.ReadAllText("FakeResponses/ResponseWithOneGroupAndNoRadioStations.txt");
 
+                case ResponseType.WithMostPopularTracks:
+                    return File.ReadAllText("FakeResponses/ResponseWithMostPopularTracksOnRMFFMInMay2013.txt");
+
                 case ResponseType.Empty:
                 default:
                     return "";
             }
         }
-            
+
         [Test]
         [Category("Get radio stations")]
         public void get_radio_stations___response_contains_radio_stations___list_of_radio_stations_grouped_by_radio_family_is_returned()
@@ -367,7 +483,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
         [Test]
         [Category("Get radio stations")]
-        public void get_radio_stations___response_has_one_radio_group_with_no_radio_stations___return_radio_station_group_with_empty_radio_stations()
+        public void get_radio_stations___response_has_one_radio_group_with_no_radio_stations___returns_radio_station_group_with_empty_radio_stations()
         {
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
                 .Returns(_getFakeResponse(ResponseType.WithOneRadioGroupAndNoRadioStations));
@@ -385,7 +501,20 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
             result.ShouldEqual(expectedCollection);
         }
-    }
 
-    
+        [Test]
+        [Category("Get most popular tracks")]
+        public void get_most_popular_tracks___default_criteria_set_and_response_contains_most_popular_tracks__returns_top_10_tracks_ordered_by_played_times_descending()
+        {
+            var radioStation = _DefaultRadioStation;
+            var month = _DefaultMonth;
+            var year = _DefaultYear;
+            _requestHelperMock.Setup(s => s.RequestURL(string.Format(_urlRepository.MostPopularTracksPage(radioStation.Id, month, year).Value)))
+                .Returns(_getFakeResponse(ResponseType.WithMostPopularTracks));
+
+            var result = _remoteService.GetMostPopularTracks(radioStation, month, year);
+
+            result.ShouldEqual(_ExpectedMostPopularTracksOnRMFFMRadioStationInMay2013);
+        }
+    }
 }

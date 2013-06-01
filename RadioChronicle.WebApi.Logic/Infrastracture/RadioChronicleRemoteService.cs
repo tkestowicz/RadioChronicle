@@ -20,6 +20,11 @@ namespace RadioChronicle.WebApi.Logic.Infrastracture
             return _serviceStrategy.GetRadioStations();
         }
 
+        public IEnumerable<Track> GetMostPopularTracks(RadioStation radioStation, int month, int year)
+        {
+            return _serviceStrategy.GetMostPopularTracks(radioStation, month, year);
+        }
+
         #endregion
     }
 }
