@@ -406,7 +406,6 @@ namespace RadioChronicle.WebApi.Tests.Unit
             return document;
         }
 
-
         private static int _DefaultYear
         {
             get
@@ -518,6 +517,23 @@ namespace RadioChronicle.WebApi.Tests.Unit
             var result = _remoteRadioChronicleService.GetMostPopularTracks(radioStation, month, year);
 
             result.ShouldEqual(_ExpectedMostPopularTracksOnRMFFMRadioStationInMay2013);
+        }
+
+        [Test]
+        [Category("Get most popular tracks")]
+        public void get_most_popular_tracks___response_is_empty___return_empty_list()
+        {
+            var radioStation = _DefaultRadioStation;
+            var month = _DefaultMonth;
+            var year = _DefaultYear;
+            _requestHelperMock.Setup(s => s.RequestURL(string.Format(_urlRepository.MostPopularTracksPage(radioStation.Id, month, year).Value)))
+                .Returns(_getFakeResponse(ResponseKeys.Empty));
+
+            var result = _remoteRadioChronicleService.GetMostPopularTracks(radioStation, month, year);
+
+            const int expectedNumberOfItems = 0;
+
+            result.Count().ShouldEqual(expectedNumberOfItems);
         }
     }
 }

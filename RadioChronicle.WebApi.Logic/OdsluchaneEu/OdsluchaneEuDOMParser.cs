@@ -92,8 +92,12 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         private IEnumerable<HtmlNode> SelectListWithMostPopularTracks(HtmlDocument document)
         {
+            var tableRows = document.DocumentNode.SelectNodes("//table[@class='wyniki']/tr");
+
+            if(tableRows == null) return new List<HtmlNode>();
+
             // skip first element which is a result header
-            return document.DocumentNode.SelectNodes("//table[@class='wyniki']/tr").Skip(1);
+            return tableRows.Skip(1);
         }
 
         private IEnumerable<RadioStation> ParseDOMAndSelectRadioStations(IEnumerable<HtmlNode> radioStations)
