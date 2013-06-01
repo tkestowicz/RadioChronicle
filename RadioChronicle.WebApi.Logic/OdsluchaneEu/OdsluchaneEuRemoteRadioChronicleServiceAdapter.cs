@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
 using RadioChronicle.WebApi.Logic.Model;
 
@@ -21,18 +20,14 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         public IEnumerable<RadioStationGroup> GetRadioStations()
         {
-            var doc = new HtmlDocument();
-
-            doc.LoadHtml(_requestHelper.RequestURL(_urlRepository.RadioStationsPage.Value));
+            var doc = _requestHelper.RequestURL(_urlRepository.RadioStationsPage.Value);
 
             return _domParser.ParseDOMAndSelectRadioStationGroups(doc);
         }
 
         public IEnumerable<Track> GetMostPopularTracks(RadioStation radioStation, int month, int year)
         {
-            var doc = new HtmlDocument();
-
-            doc.LoadHtml(_requestHelper.RequestURL(_urlRepository.MostPopularTracksPage(radioStation.Id, month, year).Value));
+            var doc = _requestHelper.RequestURL(_urlRepository.MostPopularTracksPage(radioStation.Id, month, year).Value);
 
             return _domParser.ParseDOMAndSelectMostPopularTracks(doc).Take(10).ToList();
         }

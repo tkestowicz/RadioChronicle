@@ -1,4 +1,6 @@
-﻿namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
+﻿using HtmlAgilityPack;
+
+namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
 {
     public interface IRequestHelper
     {
@@ -6,7 +8,7 @@
         /// Sends HTTP request to the specified URL.
         /// </summary>
         /// <param name="url">URL which has to be requested.</param>
-        /// <returns>Server response.</returns>
-        string RequestURL(string url);
+        /// <returns>Server response as a HTML document.</returns>
+        HtmlDocument RequestURL(string url);
     }
 }

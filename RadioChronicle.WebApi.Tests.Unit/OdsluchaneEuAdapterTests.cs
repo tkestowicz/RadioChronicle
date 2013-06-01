@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using System.Security.Policy;
 using Autofac;
-using Autofac.Core;
+using HtmlAgilityPack;
 using Moq;
 using NUnit.Framework;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
@@ -132,7 +129,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             }
         }
 
-        private enum ResponseType
+        private enum ResponseKeys
         {
             Empty,
             WithRadioStations,
@@ -431,23 +428,30 @@ namespace RadioChronicle.WebApi.Tests.Unit
             };
         }
 
-        private string _getFakeResponse(ResponseType responseType)
+        private HtmlDocument _getFakeResponse(ResponseKeys responseKey)
         {
-            switch (responseType)
+            var document = new HtmlDocument();
+            switch (responseKey)
             {
-                case ResponseType.WithRadioStations:
-                    return File.ReadAllText("FakeResponses/ResponseWithRadioStationList.txt");
+                case ResponseKeys.WithRadioStations:
+                    document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithRadioStationList.txt"));
+                    break;
 
-                case ResponseType.WithOneRadioGroupAndNoRadioStations:
-                    return File.ReadAllText("FakeResponses/ResponseWithOneGroupAndNoRadioStations.txt");
+                case ResponseKeys.WithOneRadioGroupAndNoRadioStations:
+                    document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithOneGroupAndNoRadioStations.txt"));
+                    break;
 
-                case ResponseType.WithMostPopularTracks:
-                    return File.ReadAllText("FakeResponses/ResponseWithMostPopularTracksOnRMFFMInMay2013.txt");
+                case ResponseKeys.WithMostPopularTracks:
+                    document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostPopularTracksOnRMFFMInMay2013.txt"));
+                    break;
 
-                case ResponseType.Empty:
+                case ResponseKeys.Empty:
                 default:
-                    return "";
+                    document.LoadHtml("");
+                    break;
             }
+
+            return document;
         }
 
         [Test]
@@ -455,7 +459,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         public void get_radio_stations___response_contains_radio_stations___list_of_radio_stations_grouped_by_radio_family_is_returned()
         {
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
-                .Returns(_getFakeResponse(ResponseType.WithRadioStations));
+                .Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
 
             var result = _remoteRadioChronicleService.GetRadioStations();
            
@@ -469,7 +473,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         public void get_radio_stations___response_is_empty___list_of_radio_stations_should_be_empty()
         {
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
-                .Returns(_getFakeResponse(ResponseType.Empty));
+                .Returns(_getFakeResponse(ResponseKeys.Empty));
 
             var result = _remoteRadioChronicleService.GetRadioStations();
 
@@ -483,7 +487,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         public void get_radio_stations___response_has_one_radio_group_with_no_radio_stations___returns_radio_station_group_with_empty_radio_stations()
         {
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
-                .Returns(_getFakeResponse(ResponseType.WithOneRadioGroupAndNoRadioStations));
+                .Returns(_getFakeResponse(ResponseKeys.WithOneRadioGroupAndNoRadioStations));
 
             var result = _remoteRadioChronicleService.GetRadioStations();
 
@@ -507,7 +511,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             var month = _DefaultMonth;
             var year = _DefaultYear;
             _requestHelperMock.Setup(s => s.RequestURL(string.Format(_urlRepository.MostPopularTracksPage(radioStation.Id, month, year).Value)))
-                .Returns(_getFakeResponse(ResponseType.WithMostPopularTracks));
+                .Returns(_getFakeResponse(ResponseKeys.WithMostPopularTracks));
 
             var result = _remoteRadioChronicleService.GetMostPopularTracks(radioStation, month, year);
 
