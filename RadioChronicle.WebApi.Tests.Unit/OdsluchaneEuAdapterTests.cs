@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Autofac;
@@ -382,6 +383,47 @@ namespace RadioChronicle.WebApi.Tests.Unit
             }
         }
 
+        private static IDictionary<DateTime, IEnumerable<Track>> _ExpectedMostRecentTracksOnRMFFm
+        {
+            get
+            {
+                return new Dictionary<DateTime, IEnumerable<Track>>
+                {
+                    {new DateTime(2013, 5, 31), new List<Track>()
+                    {
+                        new Track(){ PlayedFirstTime = new DateTime(2013, 5, 31, 19, 34, 0), Name = "Video / Jan Borysewicz - Kryzysowy", RelativeUrlToTrackDetails = "/utwor/157779/video_jan_borysewicz_-_kryzysowy", TimesPlayed = 0, TrackHistory = new List<TrackHistory>()}
+                    }},
+                    {new DateTime(2013, 5, 28), new List<Track>()
+                    {
+                        new Track(){ PlayedFirstTime = new DateTime(2013, 5, 28, 3, 49, 0), Name = "Celine Dion - Tous Les Secrets", RelativeUrlToTrackDetails = "/utwor/118748/celine_dion_-_tous_les_secrets", TimesPlayed = 0, TrackHistory = new List<TrackHistory>()}
+                    }},
+                    {new DateTime(2013, 5, 27), new List<Track>()
+                    {
+                        new Track(){ PlayedFirstTime = new DateTime(2013, 5, 27, 20, 19, 0), Name = "Dawid Podsiadło - Trójkąty I Kwadraty", RelativeUrlToTrackDetails = "/utwor/151772/dawid_podsiadlo_-_trojkaty_i_kwadraty", TimesPlayed = 0, TrackHistory = new List<TrackHistory>()}
+                    }},
+                    {new DateTime(2013, 5, 25), new List<Track>()
+                    {
+                        new Track(){ PlayedFirstTime = new DateTime(2013, 5, 25, 22, 17, 0), Name = "Counting Crows - Big Yellow Taxi", RelativeUrlToTrackDetails = "/utwor/64339/counting_crows_-_big_yellow_taxi", TimesPlayed = 0, TrackHistory = new List<TrackHistory>()},
+                        new Track(){ PlayedFirstTime = new DateTime(2013, 5, 25, 4, 27, 0), Name = "Marta Podulka - Nieodkryty Ląd", RelativeUrlToTrackDetails = "/utwor/156172/marta_podulka_-_nieodkryty_lad", TimesPlayed = 0, TrackHistory = new List<TrackHistory>()},
+                        new Track(){ PlayedFirstTime = new DateTime(2013, 5, 25, 1, 25, 0), Name = "Red Lips - To Co Nam Było", RelativeUrlToTrackDetails = "/utwor/156496/red_lips_-_to_co_nam_bylo", TimesPlayed = 0, TrackHistory = new List<TrackHistory>()},
+                        new Track(){ PlayedFirstTime = new DateTime(2013, 5, 25, 1, 24, 0), Name = "Blondie - The Tide Is High", RelativeUrlToTrackDetails = "/utwor/22211/blondie_-_the_tide_is_high", TimesPlayed = 0, TrackHistory = new List<TrackHistory>()}
+                    }},
+                    {new DateTime(2013, 5, 21), new List<Track>()
+                    {
+                        new Track(){ PlayedFirstTime = new DateTime(2013, 5, 21, 20, 20, 0), Name = "Lana Del Rey - Young And Beautiful", RelativeUrlToTrackDetails = "/utwor/151740/lana_del_rey_-_young_and_beautiful", TimesPlayed = 0, TrackHistory = new List<TrackHistory>()},
+                    }},
+                    {new DateTime(2013, 5, 17), new List<Track>()
+                    {
+                        new Track(){ PlayedFirstTime = new DateTime(2013, 5, 17, 20, 22, 0), Name = "Naughty Boy / Sam Smith - La La La", RelativeUrlToTrackDetails = "/utwor/146755/naughty_boy_sam_smith_-_la_la_la", TimesPlayed = 0, TrackHistory = new List<TrackHistory>()},
+                    }},
+                    {new DateTime(2013, 5, 16), new List<Track>()
+                    {
+                        new Track(){ PlayedFirstTime = new DateTime(2013, 5, 16, 19, 16, 0), Name = "Loreen - We Got The Power", RelativeUrlToTrackDetails = "/utwor/154943/loreen_-_we_got_the_power", TimesPlayed = 0, TrackHistory = new List<TrackHistory>()},
+                    }}
+                };
+            }
+        }
+
         private HtmlDocument _getFakeResponse(ResponseKeys responseKey)
         {
             var document = new HtmlDocument();
@@ -405,6 +447,10 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
                 case ResponseKeys.WithMostPopularTracksWhereTrackRowHas5Columns:
                     document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostPopularTracksWhereTrackRowHas5Columns.txt"));
+                    break;
+
+                case ResponseKeys.WithMostRecentTracks:
+                    document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostRecentTracksOnRMFFMInMay2013.txt"));
                     break;
 
                 case ResponseKeys.Empty:
@@ -453,7 +499,8 @@ namespace RadioChronicle.WebApi.Tests.Unit
             WithOneRadioGroupAndNoRadioStations,
             WithMostPopularTracks,
             WithMostPopularTracksWhereTrackRowHas3Columns,
-            WithMostPopularTracksWhereTrackRowHas5Columns
+            WithMostPopularTracksWhereTrackRowHas5Columns,
+            WithMostRecentTracks
         }
 
         [SetUp]
@@ -574,6 +621,27 @@ namespace RadioChronicle.WebApi.Tests.Unit
             _remoteRadioChronicleService.GetMostPopularTracks(radioStationId.Value, month.Value, year.Value);
 
             _requestHelperMock.VerifyAll();
+        }
+
+        [TestCase(null, Category = "Get most recent tracks", Description = "Radio station id is set.")]
+        [TestCase(0, Category = "Get most recent tracks", Description = "Radio station id is not set.")]
+        [TestCase(-1, Category = "Get most recent tracks", Description = "Radio station id negative.")]
+        [TestCase(1000, Category = "Get most recent tracks", Description = "Radio station id does not exist.")]
+        public void get_most_recent_tracks___response_contains_tracks___returns_10_most_recent_tracks_grouped_by_date_descending(int? radioStationId)
+        {
+            if (radioStationId.HasValue == false) radioStationId = _DefaultRadioStation.Id;
+
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.MostRecentTracksPage(_DefaultRadioStation.Id).Value)).Returns(_getFakeResponse(ResponseKeys.WithMostRecentTracks));
+
+            var result = _remoteRadioChronicleService.GetMostRecentTracks(radioStationId.Value);
+
+            var grouped =
+                result.GroupBy(t => t.PlayedFirstTime.ToShortDateString())
+                    .ToDictionary(k => DateTime.Parse(k.Key), v => v.ToList() as IEnumerable<Track>) as IDictionary<DateTime, IEnumerable<Track>>;
+
+            grouped.Keys.ShouldEqual(_ExpectedMostRecentTracksOnRMFFm.Keys);
+            grouped.Values.ShouldEqual(_ExpectedMostRecentTracksOnRMFFm.Values);
         }
     }
 }

@@ -6,5 +6,6 @@ namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
     {
         Url RadioStationsPage { get; }
         Url MostPopularTracksPage(int radioStationId, int month, int year);
+        Url MostRecentTracksPage(int radioStationId);
     }
 }

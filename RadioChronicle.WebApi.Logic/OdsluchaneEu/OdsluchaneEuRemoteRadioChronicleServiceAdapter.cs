@@ -22,29 +22,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             _argumentsValidator = argumentsValidator;
         }
 
-        public IEnumerable<RadioStationGroup> GetRadioStations()
-        {
-            var doc = _requestHelper.RequestURL(_urlRepository.RadioStationsPage.Value);
-
-            return _domParser.ParseDOMAndSelectRadioStationGroups(doc);
-        }
-
-        public IEnumerable<Track> GetMostPopularTracks(int radioStationId, int month, int year)
-        {
-            VerifyAllAndSetDefaults(ref radioStationId, ref month, ref year);
-
-            var doc = _requestHelper.RequestURL(_urlRepository.MostPopularTracksPage(radioStationId, month, year).Value);
-
-            return _domParser.ParseDOMAndSelectMostPopularTracks(doc).Take(10).ToList();
-        }
-
-        private void VerifyAllAndSetDefaults(ref int radioStationId, ref int month, ref int year)
-        {
-            if (!_argumentsValidator.IsRadioStationIdValid(GetRadioStations(), radioStationId)) radioStationId = DefaultRadioStation.Id;
-            if (!_argumentsValidator.IsMonthValid(month)) month = DefaultMonth;
-            if (!_argumentsValidator.IsYearValid(year)) year = DefaultYear;
-        }
-
         public int DefaultYear
         {
             get { return ApplicationTime.Current.Year; }
@@ -70,6 +47,43 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                     return new RadioStation() {Id = 0, IsDefault = false, Name = ""};
                 }
             }
+        }
+
+        public IEnumerable<RadioStationGroup> GetRadioStations()
+        {
+            var doc = _requestHelper.RequestURL(_urlRepository.RadioStationsPage.Value);
+
+            return _domParser.ParseDOMAndSelectRadioStationGroups(doc);
+        }
+
+        public IEnumerable<Track> GetMostPopularTracks(int radioStationId, int month, int year)
+        {
+            VerifyAllAndSetDefaults(ref radioStationId, ref month, ref year);
+
+            var doc = _requestHelper.RequestURL(_urlRepository.MostPopularTracksPage(radioStationId, month, year).Value);
+
+            return _domParser.ParseDOMAndSelectMostPopularTracks(doc).Take(10).ToList();
+        }
+
+        public IEnumerable<Track> GetMostRecentTracks(int radioStationId)
+        {
+            VerifyRadioStationIdAndSetDefault(ref radioStationId);
+
+            var doc = _requestHelper.RequestURL(_urlRepository.MostRecentTracksPage(radioStationId).Value);
+
+            return _domParser.ParseDOMAndSelectMostRecentTracks(doc).Take(10).ToList();
+        }
+
+        private void VerifyRadioStationIdAndSetDefault(ref int radioStationId)
+        {
+            if (!_argumentsValidator.IsRadioStationIdValid(GetRadioStations(), radioStationId)) radioStationId = DefaultRadioStation.Id;
+        }
+
+        private void VerifyAllAndSetDefaults(ref int radioStationId, ref int month, ref int year)
+        {
+            VerifyRadioStationIdAndSetDefault(ref radioStationId);
+            if (!_argumentsValidator.IsMonthValid(month)) month = DefaultMonth;
+            if (!_argumentsValidator.IsYearValid(year)) year = DefaultYear;
         }
     }
 }

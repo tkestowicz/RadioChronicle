@@ -77,6 +77,9 @@
     <Content Include="FakeResponses\ResponseWithMostPopularTracksWhereTrackRowHas3Columns.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="FakeResponses\ResponseWithMostRecentTracksOnRMFFMInMay2013.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="FakeResponses\ResponseWithOneGroupAndNoRadioStations.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
