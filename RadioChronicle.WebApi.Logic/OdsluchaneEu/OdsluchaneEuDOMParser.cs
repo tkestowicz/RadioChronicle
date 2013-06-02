@@ -22,6 +22,16 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return radioStationGroup.SelectNodes("option");
         }
 
+        private IEnumerable<HtmlNode> SelectListWithMostPopularTracks(HtmlDocument document)
+        {
+            var tableRows = document.DocumentNode.SelectNodes("//table[@class='wyniki']/tr");
+
+            if(tableRows == null) return new List<HtmlNode>();
+
+            // skip first element which is a result header
+            return tableRows.Skip(1);
+        }
+
         public IEnumerable<RadioStationGroup> ParseDOMAndSelectRadioStationGroups(HtmlDocument document)
         {
             var result = new List<RadioStationGroup>();
@@ -43,6 +53,27 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return result;
         }
 
+        private IEnumerable<RadioStation> ParseDOMAndSelectRadioStations(IEnumerable<HtmlNode> radioStations)
+        {
+            var result = new List<RadioStation>();
+
+            if (radioStations == null) return result;
+
+            foreach (var radioStation in radioStations)
+            {
+                var radioName = radioStation.Attributes.SingleOrDefault(a => a.Name == "label");
+                var radioId = radioStation.Attributes.SingleOrDefault(a => a.Name == "value");
+
+                result.Add(new RadioStation()
+                {
+                    Id = (radioId != null) ? int.Parse(radioId.Value) : 0,
+                    Name = (radioName != null) ? radioName.Value : ""
+                });
+            }
+
+            return result;
+        }
+
         public IEnumerable<Track> ParseDOMAndSelectMostPopularTracks(HtmlDocument document)
         {
             var result = new List<Track>();
@@ -52,7 +83,8 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             foreach (var mostPopularTrack in mostPopularTracks)
             {
-                result.Add(ParseDOMAndReturnMostPopularTrack(mostPopularTrack));
+                var track = ParseDOMAndReturnMostPopularTrack(mostPopularTrack);
+                if(track.Equals(Track.Empty) == false) result.Add(track);
             }
 
             return result;
@@ -88,37 +120,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 track.TimesPlayed = timesPlayed;
 
             return track;
-        }
-
-        private IEnumerable<HtmlNode> SelectListWithMostPopularTracks(HtmlDocument document)
-        {
-            var tableRows = document.DocumentNode.SelectNodes("//table[@class='wyniki']/tr");
-
-            if(tableRows == null) return new List<HtmlNode>();
-
-            // skip first element which is a result header
-            return tableRows.Skip(1);
-        }
-
-        private IEnumerable<RadioStation> ParseDOMAndSelectRadioStations(IEnumerable<HtmlNode> radioStations)
-        {
-            var result = new List<RadioStation>();
-
-            if (radioStations == null) return result;
-
-            foreach (var radioStation in radioStations)
-            {
-                var radioName = radioStation.Attributes.SingleOrDefault(a => a.Name == "label");
-                var radioId = radioStation.Attributes.SingleOrDefault(a => a.Name == "value");
-
-                result.Add(new RadioStation()
-                {
-                    Id = (radioId != null) ? int.Parse(radioId.Value) : 0,
-                    Name = (radioName != null) ? radioName.Value : ""
-                });
-            }
-
-            return result;
         }
     }
 }

@@ -11,7 +11,7 @@ using Should;
 
 namespace RadioChronicle.WebApi.Tests.Unit
 {
-    [TestFixture]
+    [TestFixture(Category = "OdsluchaneEU")]
     public class OdsluchaneEuAdapterTests
     {
 
@@ -397,6 +397,14 @@ namespace RadioChronicle.WebApi.Tests.Unit
                     document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostPopularTracksOnRMFFMInMay2013.txt"));
                     break;
 
+                case ResponseKeys.WithMostPopularTracksWhereTrackRowHas3Columns:
+                    document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostPopularTracksWhereTrackRowHas3Columns.txt"));
+                    break;
+
+                case ResponseKeys.WithMostPopularTracksWhereTrackRowHas5Columns:
+                    document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostPopularTracksWhereTrackRowHas5Columns.txt"));
+                    break;
+
                 case ResponseKeys.Empty:
                 default:
                     document.LoadHtml("");
@@ -436,12 +444,14 @@ namespace RadioChronicle.WebApi.Tests.Unit
             }
         }
 
-        private enum ResponseKeys
+        public enum ResponseKeys
         {
             Empty,
             WithRadioStations,
             WithOneRadioGroupAndNoRadioStations,
-            WithMostPopularTracks
+            WithMostPopularTracks,
+            WithMostPopularTracksWhereTrackRowHas3Columns,
+            WithMostPopularTracksWhereTrackRowHas5Columns
         }
 
         [SetUp]
@@ -519,15 +529,16 @@ namespace RadioChronicle.WebApi.Tests.Unit
             result.ShouldEqual(_ExpectedMostPopularTracksOnRMFFMRadioStationInMay2013);
         }
 
-        [Test]
-        [Category("Get most popular tracks")]
-        public void get_most_popular_tracks___response_is_empty___return_empty_list()
+        [TestCase(ResponseKeys.Empty, Category = "Get most popular tracks", Description = "Response is empty")]
+        [TestCase(ResponseKeys.WithMostPopularTracksWhereTrackRowHas3Columns, Category = "Get most popular tracks", Description = "Response has changed and track row has less columns")]
+        [TestCase(ResponseKeys.WithMostPopularTracksWhereTrackRowHas5Columns, Category = "Get most popular tracks", Description = "Response has changed and track row has more columns")]
+        public void get_most_popular_tracks___response_body_is_different_than_expected___return_empty_list(ResponseKeys responseKey)
         {
             var radioStation = _DefaultRadioStation;
             var month = _DefaultMonth;
             var year = _DefaultYear;
             _requestHelperMock.Setup(s => s.RequestURL(string.Format(_urlRepository.MostPopularTracksPage(radioStation.Id, month, year).Value)))
-                .Returns(_getFakeResponse(ResponseKeys.Empty));
+                .Returns(_getFakeResponse(responseKey));
 
             var result = _remoteRadioChronicleService.GetMostPopularTracks(radioStation, month, year);
 
