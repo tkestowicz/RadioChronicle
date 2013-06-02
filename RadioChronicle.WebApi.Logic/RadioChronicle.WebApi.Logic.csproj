@@ -51,8 +51,11 @@
     <Compile Include="Model\RadioStation.cs" />
     <Compile Include="Model\RadioStationGroup.cs" />
     <Compile Include="Model\TrackHistory.cs" />
+    <Compile Include="Infrastracture\Interfaces\IRemoteServiceArgumentsValidator.cs" />
+    <Compile Include="Infrastracture\ApplicationTime.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEuRemoteRadioChronicleServiceAdapter.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEuDOMParser.cs" />
+    <Compile Include="OdsluchaneEu\OdsluchaneEURemoteServiceArgumentsValidator.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEuUrlRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

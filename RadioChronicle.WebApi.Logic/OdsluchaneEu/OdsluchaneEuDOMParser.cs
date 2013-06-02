@@ -14,6 +14,8 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         private IEnumerable<HtmlNode> SelectListWithGroupedRadioStationsFromHTMLDocument(HtmlDocument document)
         {
+            if (document == null) return new List<HtmlNode>();
+
             return document.DocumentNode.SelectNodes("//select[@name='r']/optgroup");
         }
 
@@ -24,6 +26,8 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         private IEnumerable<HtmlNode> SelectListWithMostPopularTracks(HtmlDocument document)
         {
+            if(document == null) return new List<HtmlNode>();
+
             var tableRows = document.DocumentNode.SelectNodes("//table[@class='wyniki']/tr");
 
             if(tableRows == null) return new List<HtmlNode>();
@@ -61,13 +65,19 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             foreach (var radioStation in radioStations)
             {
+                if (!radioStation.Attributes.Any()) continue;
+
                 var radioName = radioStation.Attributes.SingleOrDefault(a => a.Name == "label");
                 var radioId = radioStation.Attributes.SingleOrDefault(a => a.Name == "value");
+
+                var isSelected = radioStation.Attributes.SingleOrDefault(a => a.Name == "selected");
+                    var isDefault = isSelected != null && isSelected.Value == "selected";
 
                 result.Add(new RadioStation()
                 {
                     Id = (radioId != null) ? int.Parse(radioId.Value) : 0,
-                    Name = (radioName != null) ? radioName.Value : ""
+                    Name = (radioName != null) ? radioName.Value : "",
+                    IsDefault = isDefault
                 });
             }
 

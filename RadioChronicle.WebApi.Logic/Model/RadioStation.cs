@@ -6,6 +6,8 @@ namespace RadioChronicle.WebApi.Logic.Model
 
         public string Name { get; set; }
 
+        public bool IsDefault { get; set; }
+
         #region Overrides of Object
 
         /// <summary>
@@ -21,7 +23,7 @@ namespace RadioChronicle.WebApi.Logic.Model
 
             var toEqual = obj as RadioStation;
 
-            return (toEqual.Id == Id && toEqual.Name == Name);
+            return (toEqual.Id == Id && toEqual.Name == Name && toEqual.IsDefault == IsDefault);
         }
 
         #region Overrides of Object

@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Autofac;
 using HtmlAgilityPack;
 using Moq;
 using NUnit.Framework;
+using RadioChronicle.WebApi.Logic.Infrastracture;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
 using RadioChronicle.WebApi.Logic.Model;
 using Should;
@@ -419,7 +421,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             get
             {
                 // represents current year
-                return 2013;
+                return ApplicationTime.Current.Year;
             }
         }
 
@@ -428,7 +430,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             get
             {
                 // represents May
-                return 5;
+                return ApplicationTime.Current.Month;
             }
         }
 
@@ -465,6 +467,9 @@ namespace RadioChronicle.WebApi.Tests.Unit
             _remoteRadioChronicleService = diContainer.Resolve<IRemoteRadioChronicleService>(
                                 new TypedParameter(typeof(IRequestHelper), _requestHelperMock.Object)
                         );
+
+            // Set current time to 1'st May of 2013 for test purposes
+            ApplicationTime._replaceCurrentTimeLogic(() => new DateTime(2013, 5, 1));
         }
 
         [Test]
@@ -518,13 +523,11 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [Category("Get most popular tracks")]
         public void get_most_popular_tracks___default_criteria_set_and_response_contains_most_popular_tracks__returns_top_10_tracks_ordered_by_played_times_descending()
         {
-            var radioStation = _DefaultRadioStation;
-            var month = _DefaultMonth;
-            var year = _DefaultYear;
-            _requestHelperMock.Setup(s => s.RequestURL(string.Format(_urlRepository.MostPopularTracksPage(radioStation.Id, month, year).Value)))
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
+            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.MostPopularTracksPage(_DefaultRadioStation.Id, _DefaultMonth, _DefaultYear).Value))
                 .Returns(_getFakeResponse(ResponseKeys.WithMostPopularTracks));
 
-            var result = _remoteRadioChronicleService.GetMostPopularTracks(radioStation, month, year);
+            var result = _remoteRadioChronicleService.GetMostPopularTracks(_DefaultRadioStation.Id, _DefaultMonth, _DefaultYear);
 
             result.ShouldEqual(_ExpectedMostPopularTracksOnRMFFMRadioStationInMay2013);
         }
@@ -540,11 +543,37 @@ namespace RadioChronicle.WebApi.Tests.Unit
             _requestHelperMock.Setup(s => s.RequestURL(string.Format(_urlRepository.MostPopularTracksPage(radioStation.Id, month, year).Value)))
                 .Returns(_getFakeResponse(responseKey));
 
-            var result = _remoteRadioChronicleService.GetMostPopularTracks(radioStation, month, year);
+            var result = _remoteRadioChronicleService.GetMostPopularTracks(radioStation.Id, month, year);
 
             const int expectedNumberOfItems = 0;
 
             result.Count().ShouldEqual(expectedNumberOfItems);
+        }
+
+        [TestCase(0, null, null, Category = "Get most popular tracks", Description = "Radio station id is not set.")]
+        [TestCase(-1, null, null, Category = "Get most popular tracks", Description = "Radio station id negative.")]
+        [TestCase(1000, null, null, Category = "Get most popular tracks", Description = "Radio station id does not exist.")]
+        [TestCase(null, -1, null, Category = "Get most popular tracks", Description = "Month is negative.")]
+        [TestCase(null, 0, null, Category = "Get most popular tracks", Description = "Month is out of range (left boundary).")]
+        [TestCase(null, 13, null, Category = "Get most popular tracks", Description = "Month is out of range (right boundary).")]
+        [TestCase(null, null, -1, Category = "Get most popular tracks", Description = "Year is negative.")]
+        [TestCase(null, null, 2008, Category = "Get most popular tracks", Description = "Year is out of range (left boundary).")]
+        [TestCase(null, null, 2020, Category = "Get most popular tracks", Description = "Year is out of range (right boundary).")]
+        [TestCase(0, 0, 0, Category = "Get most popular tracks", Description = "All parameters are not set correctly.")]
+        [TestCase(null, 0, 0, Category = "Get most popular tracks", Description = "Month and year are not set correctly.")]
+        [TestCase(0, null, 0, Category = "Get most popular tracks", Description = "Radio station and year are not set correctly.")]
+        public void get_most_popular_tracks___criteria_are_not_set___default_value_is_set(int? radioStationId, int? month, int? year)
+        {
+            if(radioStationId.HasValue == false) radioStationId = _DefaultRadioStation.Id;
+            if(month.HasValue == false) month = _DefaultMonth;
+            if(year.HasValue == false) year = _DefaultYear;
+
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.MostPopularTracksPage(_DefaultRadioStation.Id, _DefaultMonth, _DefaultYear).Value)).Verifiable();
+
+            _remoteRadioChronicleService.GetMostPopularTracks(radioStationId.Value, month.Value, year.Value);
+
+            _requestHelperMock.VerifyAll();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             builder.RegisterType<OdsluchaneEuDOMParser>().As<IDOMParser>();
             builder.RegisterType<OdsluchaneEuUrlRepository>().As<IUrlRepository>();
             builder.RegisterType<OdsluchaneEuRemoteRadioChronicleServiceAdapter>().As<IRemoteRadioChronicleService>();
+            builder.RegisterType<OdsluchaneEURemoteServiceArgumentsValidator>().As<IRemoteServiceArgumentsValidator>();
 
             return builder.Build();
         }
