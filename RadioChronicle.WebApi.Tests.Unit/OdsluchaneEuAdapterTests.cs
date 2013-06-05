@@ -445,12 +445,17 @@ namespace RadioChronicle.WebApi.Tests.Unit
                     document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostPopularTracksWhereTrackRowHas3Columns.txt"));
                     break;
 
+                case ResponseKeys.WithMostRecentTracksWhereTrackRowHas5Columns:
                 case ResponseKeys.WithMostPopularTracksWhereTrackRowHas5Columns:
                     document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostPopularTracksWhereTrackRowHas5Columns.txt"));
                     break;
 
                 case ResponseKeys.WithMostRecentTracks:
                     document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostRecentTracksOnRMFFMInMay2013.txt"));
+                    break;
+
+                case ResponseKeys.WithMostRecentTracksWhereTrackRowHas2Columns:
+                    document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostRecentTracksWhereTrackRowHas2Columns.txt"));
                     break;
 
                 case ResponseKeys.Empty:
@@ -500,7 +505,9 @@ namespace RadioChronicle.WebApi.Tests.Unit
             WithMostPopularTracks,
             WithMostPopularTracksWhereTrackRowHas3Columns,
             WithMostPopularTracksWhereTrackRowHas5Columns,
-            WithMostRecentTracks
+            WithMostRecentTracks,
+            WithMostRecentTracksWhereTrackRowHas2Columns,
+            WithMostRecentTracksWhereTrackRowHas5Columns,
         }
 
         [SetUp]
@@ -579,9 +586,9 @@ namespace RadioChronicle.WebApi.Tests.Unit
             result.ShouldEqual(_ExpectedMostPopularTracksOnRMFFMRadioStationInMay2013);
         }
 
-        [TestCase(ResponseKeys.Empty, Category = "Get most popular tracks", Description = "Response is empty")]
-        [TestCase(ResponseKeys.WithMostPopularTracksWhereTrackRowHas3Columns, Category = "Get most popular tracks", Description = "Response has changed and track row has less columns")]
-        [TestCase(ResponseKeys.WithMostPopularTracksWhereTrackRowHas5Columns, Category = "Get most popular tracks", Description = "Response has changed and track row has more columns")]
+        [TestCase(ResponseKeys.Empty, Category = "Get most popular tracks", Description = "Response is empty.")]
+        [TestCase(ResponseKeys.WithMostPopularTracksWhereTrackRowHas3Columns, Category = "Get most popular tracks", Description = "Response has changed and track row has less columns.")]
+        [TestCase(ResponseKeys.WithMostPopularTracksWhereTrackRowHas5Columns, Category = "Get most popular tracks", Description = "Response has changed and track row has more columns.")]
         public void get_most_popular_tracks___response_body_is_different_than_expected___return_empty_list(ResponseKeys responseKey)
         {
             var radioStation = _DefaultRadioStation;
@@ -642,6 +649,22 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
             grouped.Keys.ShouldEqual(_ExpectedMostRecentTracksOnRMFFm.Keys);
             grouped.Values.ShouldEqual(_ExpectedMostRecentTracksOnRMFFm.Values);
+        }
+
+        [TestCase(ResponseKeys.Empty, Category = "Get most recent tracks", Description = "Response is empty.")]
+        [TestCase(ResponseKeys.WithMostRecentTracksWhereTrackRowHas2Columns, Category = "Get most recent tracks", Description = "Response has changed and track row has less columns.")]
+        [TestCase(ResponseKeys.WithMostRecentTracksWhereTrackRowHas5Columns, Category = "Get most recent tracks", Description = "Response has changed and track row has more columns.")]
+        public void get_most_recent_track___response_is_different_than_expected___return_empty_list(ResponseKeys response)
+        {
+
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.MostRecentTracksPage(_DefaultRadioStation.Id).Value)).Returns(_getFakeResponse(response));
+
+            var result = _remoteRadioChronicleService.GetMostRecentTracks(_DefaultRadioStation.Id);
+
+            const int expectedNumberOfItems = 0;
+
+            result.Count().ShouldEqual(expectedNumberOfItems);
         }
     }
 }
