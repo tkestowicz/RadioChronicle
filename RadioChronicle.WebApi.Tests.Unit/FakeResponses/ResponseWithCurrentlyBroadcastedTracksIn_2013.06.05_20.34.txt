@@ -1,0 +1,430 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+<head>
+	<title>Sprawdź co było grane w radiu! :: odSluchane.eu - znajdź swój ulubiony utwór!</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<base href="http://www.odsluchane.eu/" />
+	<link rel="stylesheet" type="text/css" href="/style.css" />
+	<link rel="stylesheet" type="text/css" href="/calendar.css" />
+	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
+	<link rel="alternate" type="application/rss+xml" title="Ostatnio grane" href="/rss.php" />
+	<meta name="description" content="Znajdź tytuł piosenki granej w radiu o danej godzinie, co było grane, piosenki z radia." />
+	<meta name="keywords" content="ramowka, spis, radiowy, radio, historia, sluchanej, cowradiu, odsluchanej, muzyki, utworow, odsluchana, wradiu, posluchanej, muzyka, aktualnie, piosenki, radiu, tytul, sluchane, grane, utwory" />
+	<script type="text/javascript" src="calendar.js"></script>
+	
+	
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-5588635-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+	
+	<script type="text/javascript">
+	function cookie_info()
+		{
+
+			  document.cookie='cookies_ok=1; expires=15-Dec-2014 12:00:00 GMT; path=/';
+			  document.getElementById('cookie-info').style.display='none';
+
+		}
+	</script>
+	
+	
+</head>
+
+<body>
+
+
+	<div id="cookie-info" style="background: #FFF1A8; margin: 0 auto; padding: 10px 0; margin-bottom: 10px; width: 95%">
+	
+	<p style="margin: 0 auto; width: 95%; float: left;">Korzystanie z witryny odSluchane.eu oznacza zgodę na wykorzystywanie plików cookie, z których niektóre mogą być już zapisane w folderze przeglądarki.<br />
+	Więcej informacji można znaleźć w <a href="/polityka_prywatnosci">Polityce plików cookies.</a>
+	</p>
+	
+	<p style="margin-bottom: 0; padding: 0; margin: 0 5px 0 0; float: right; text-align: right; font-weight: bold; " onclick="cookie_info()"><a href="#">zamknij</a></p>
+	<br style="clear: both" />
+	
+	</div>
+
+
+
+<div id="wrap">
+
+	<div id="header">
+		<span>
+			<a href="/index.php"><img src="/images/logo_big.gif" width="399" height="165" alt="odSluchane - Strona główna"/></a>
+			<div style="float: right; padding: 10px 8px 0 0;">
+				<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FodSluchaneeu%2F121492407920871&amp;width=260&amp;colorscheme=dark&amp;show_faces=true&amp;stream=false&amp;header=false&amp;height=170" scrolling="no" frameborder="0"  allowTransparency="true"></iframe>
+			</div>
+		</span>
+		<div id="menu">
+			<ul id="nav">
+				<li><a href="/index.php">Strona główna</a></li>
+				<li ><a href="/szukaj.php">Wyszukiwarka utworów</a></li>
+				<li ><a href="top.php">Top lista</a></li>
+				<li ><a href="nowosci.php">Nowości</a></li>
+				<li ><a href="kontakt">Kontakt</a></li>
+			</ul>
+		
+		</div>
+		
+	
+	</div>
+		
+	<div id="main">
+	
+				
+						
+			<div style="text-align: center; margin-bottom: 10px;">		
+
+				<script type="text/javascript"><!--
+				google_ad_client = "ca-pub-5528627879593733";
+				google_ad_slot = "9932625400";
+				google_ad_width = 728;
+				google_ad_height = 90;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>
+			
+			</div>
+			
+					
+				
+		<div id="content">
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Witaj!</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">
+
+
+
+
+
+
+							<img class="intro_img" width="121" height="170" alt="Obrazek powitania" src="images/powitanie_img.png" />
+							<p class="intro">Czy zdarzyło Ci się kiedyś, że jadąc autobusem, samochodem lub po prostu będąc w jakimś centrum handlowym, usłyszałeś utwór, który utkwił Ci w pamięci, ale nie miałeś pojęcia jaki nosi tytuł?</p>
+
+								<p class="intro_2">Teraz, dzięki tej stronie, możesz poznać tytuł piosenki która tak utkwiła Ci w pamięci!
+								Wystarczy że znasz godzinę i nazwę radia w którym grany był utwór.
+								Jedyne co musisz zrobić to wpisać datę oraz godzinę do naszej wyszukiwarki, którą znajdziesz w nagłówku strony.
+							</p>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+						</div>
+										
+					</div>
+				</div>
+			</div>	
+
+			
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Informacje</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">			
+								
+				<p><img src="images/loga/czworka_logo.png" alt="Polskie Radio Czwórka - logo" /></p>	
+				<p class="news">W dniu dzisiejszym do naszej <a href="/szukaj.php" title="Co było grane w radiu">wyszukiwarki</a> zostało dodane <a href="/szukaj.php?r=49" title="Co było grane w czwórce">Polskie Radio Czwórka</a>.</p>
+				<p class="news_date">18 grudnia 2012r.</p>
+								
+								
+								
+								
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			
+			
+		</div>
+		
+		<div id="left">
+			<div class="in">
+				<div class="panel">
+					<h2 class="panelh">
+						<span>
+							<span>Aktualnie grane</span>
+						</span>
+					</h2>
+					<div class="panelbody">
+						<div class="panel_r">
+							<div class="panel_l">
+								<ul class="panel_aktualnie">
+																			<li>
+										Eska Rock
+										<ul>
+											<li><a href="/utwor/147842/kult_-_uklad_zamkniety">Kult - Układ Zamknięty</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Kult+-+Uk%C5%82ad+Zamkni%C4%99ty" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Kult+-+Uk%C5%82ad+Zamkni%C4%99ty/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Roxy FM
+										<ul>
+											<li><a href="/utwor/152588/loco_star_-_tv_head">Loco Star - Tv Head</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Loco+Star+-+Tv+Head" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Loco+Star+-+Tv+Head/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Radio PiN
+										<ul>
+											<li><a href="/utwor/11269/varano_-_swim_into_the_blue">Varano - Swim Into The Blue</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Varano+-+Swim+Into+The+Blue" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Varano+-+Swim+Into+The+Blue/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										MC Radio
+										<ul>
+											<li><a href="/utwor/23988/e_gorniak_m_szczesniak_-_dumka_na_dwa_serca">E.gorniak, M.szczesniak - Dumka Na Dwa Serca</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=E.gorniak%2C+M.szczesniak+-+Dumka+Na+Dwa+Serca" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/E.gorniak%2C+M.szczesniak+-+Dumka+Na+Dwa+Serca/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Radio Express
+										<ul>
+											<li><a href="/utwor/120323/solid_base_-_diamonds_are_forever">Solid Base - Diamonds Are Forever</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Solid+Base+-+Diamonds+Are+Forever" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Solid+Base+-+Diamonds+Are+Forever/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Blue FM (Poznań)
+										<ul>
+											<li><a href="/utwor/39513/macy_gray_-_beauty_in_the_world_radio_edit">Macy Gray - Beauty In The World [Radio Edit]</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Macy+Gray+-+Beauty+In+The+World+%5BRadio+Edit%5D" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Macy+Gray+-+Beauty+In+The+World+%5BRadio+Edit%5D/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Radio FaMa (Kielce)
+										<ul>
+											<li><a href="/utwor/158778/r_i_o_-_living_in_stereo">R.i.o. - Living In Stereo</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=R.i.o.+-+Living+In+Stereo" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/R.i.o.+-+Living+In+Stereo/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Radio GRA
+										<ul>
+											<li><a href="/utwor/12107/black_eyed_peas_-_i_gotta_feeling">Black Eyed Peas - I Gotta Feeling</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Black+Eyed+Peas+-+I+Gotta+Feeling" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Black+Eyed+Peas+-+I+Gotta+Feeling/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Muzyczne Radio
+										<ul>
+											<li><a href="/utwor/157765/bt_sound_-_shake_that_ass_solid_as_a_rock_radio_edit">Bt Sound - Shake That Ass (Solid As A Rock) (Radio Edit)</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Bt+Sound+-+Shake+That+Ass+%28Solid+As+A+Rock%29+%28Radio+Edit%29" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Bt+Sound+-+Shake+That+Ass+%28Solid+As+A+Rock%29+%28Radio+Edit%29/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																	</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel">
+					<h2 class="panelh">
+						<span>
+							<span>Posłuchaj stacji</span>
+						</span>
+					</h2>
+					<div class="panelbody">
+						<div class="panel_r">
+							<div class="panel_l">
+
+								<ul class="listens">
+									<li><a href="radio/rmf_fm" title="Posłuchaj radia RMF FM">RMF FM</a></li>
+									<li><a href="radio/radio_zet" title="Posłuchaj Radia ZET">Radio ZET</a></li>
+									<li><a href="radio/eska" title="Posłuchaj Radia ESKA">ESKA</a></li>
+									<li><a href="radio/rmf_maxxx" title="Posłuchaj radia RMF MAXXX">RMF MAXXX</a></li>
+									<li><a href="radio/eska_rock" title="Posłuchaj radia ESKA ROCK">ESKA ROCK</a></li>
+									<li><a href="radio/zlote_przeboje" title="Posłuchaj radia Złote Przeboje">Złote Przeboje</a></li>
+									<li><a href="radio/planeta_fm" title="Posłuchaj radia Planeta FM">Planeta FM</a></li>								
+									<li><a href="radio" title="Wszystkie radia">więcej...</a></li>								
+								
+								</ul>
+							
+
+							</div>
+						</div>
+					</div>
+				</div>					
+			</div>
+			
+		</div>
+	</div>
+	
+	<div id="right">
+		<div class="in">
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Szukaj na stronie</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">						
+
+							<form action="/wyszukaj.php" method="get">
+							  <div>
+								<input type="text" name="q" size="25" />
+								<input style="margin-top: 5px" type="submit" value="Szukaj" />
+							  </div>
+							</form>
+
+
+						
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Aktualnie grane</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">						
+							<ul class="panel_aktualnie">
+																	<li>
+									Radio ZET
+									<ul>
+										<li><a href="/utwor/3119/pet_shop_boys_-_domino_dancing">Pet Shop Boys - Domino Dancing</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Pet+Shop+Boys+-+Domino+Dancing" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Pet+Shop+Boys+-+Domino+Dancing/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									RMF FM
+									<ul>
+										<li><a href="/utwor/158752/sylwia_grzeszczak_-_pozyczony">Sylwia Grzeszczak - Pożyczony</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Sylwia+Grzeszczak+-+Po%C5%BCyczony" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Sylwia+Grzeszczak+-+Po%C5%BCyczony/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Radio Eska
+									<ul>
+										<li><a href="/utwor/145820/honey_-_nie_powiem_jak">Honey - Nie Powiem Jak</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Honey+-+Nie+Powiem+Jak" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Honey+-+Nie+Powiem+Jak/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									RMF MAXXX
+									<ul>
+										<li><a href="/utwor/145295/macklemore_ryan_lewis_-_can_t_hold_us">Macklemore / Ryan Lewis - Can&#039;t Hold Us</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Macklemore+%2F+Ryan+Lewis+-+Can%27t+Hold+Us" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Macklemore+++Ryan+Lewis+-+Can%27t+Hold+Us/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Antyradio
+									<ul>
+										<li><a href="/utwor/19227/alice_in_chains_-_would">Alice In Chains - Would?</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Alice+In+Chains+-+Would%3F" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Alice+In+Chains+-+Would%3F/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									RMF Classic
+									<ul>
+										<li><a href="/utwor/3164/georg-philipp_telemann_-_koncert_na_trabke_d-dur_2">Georg-Philipp Telemann - Koncert Na Trąbkę D-Dur (2)</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Georg-Philipp+Telemann+-+Koncert+Na+Tr%C4%85bk%C4%99+D-Dur+%282%29" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Georg-Philipp+Telemann+-+Koncert+Na+Tr%C4%85bk%C4%99+D-Dur+%282%29/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Planeta FM (Warszawa)
+									<ul>
+										<li><a href="/utwor/123653/chromatics_-_lady">Chromatics - Lady</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Chromatics+-+Lady" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Chromatics+-+Lady/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Radio Plus
+									<ul>
+										<li><a href="/utwor/3139/garou_-_gitan">Garou - Gitan</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Garou+-+Gitan" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Garou+-+Gitan/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Złote Przeboje
+									<ul>
+										<li><a href="/utwor/22770/bajm_-_piechota_do_lata">Bajm - Piechotą Do Lata</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Bajm+-+Piechot%C4%85+Do+Lata" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Bajm+-+Piechot%C4%85+Do+Lata/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+															</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	<div style="text-align: center">
+		<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-5528627879593733";
+
+		google_ad_slot = "0095598125";
+		google_ad_width = 200;
+		google_ad_height = 200;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+	</div>
+	
+	</div>	
+
+	<div id="footer">
+		<div id="footer_in">
+			<ul id="foo">
+				<li><a href="/index.php">Strona głowna</a></li>
+				<li><a href="polityka_prywatnosci">Polityka prywatności i cookies</a></li>
+								<li><a href="kontakt">Kontakt</a></li>
+			</ul>
+			
+						
+			<p><strong><a href="http://www.wartościfunkcjitrygonometrycznych.pl" title="Wartości sin, cos, tg, ctg">Wartości funkcji trygonometrycznych</a></strong></p>
+			
+			
+			<p>Copyright © 2008-2012 odSluchane. Wszelkie prawa zastrzeżone.</p>
+			
+			
+		</div>
+			
+	</div>
+
+</div>
+
+
+</body>
+</html>

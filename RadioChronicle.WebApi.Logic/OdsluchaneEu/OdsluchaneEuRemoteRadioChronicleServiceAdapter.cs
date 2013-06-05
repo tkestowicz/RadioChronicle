@@ -85,5 +85,13 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             if (!_argumentsValidator.IsMonthValid(month)) month = DefaultMonth;
             if (!_argumentsValidator.IsYearValid(year)) year = DefaultYear;
         }
+
+
+        public IDictionary<RadioStation, Track> GetCurrentlyBroadcastedTracks()
+        {
+            var doc = _requestHelper.RequestURL(_urlRepository.CurrentlyBroadcastedTrack.Value);
+
+            return _domParser.ParseDOMAndSelectCurrentlyBroadcastedTracks(doc).OrderBy(e => e.Key.Name).ToDictionary(k => k.Key, v => v.Value);
+        }
     }
 }

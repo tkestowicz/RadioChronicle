@@ -23,13 +23,13 @@ namespace RadioChronicle.WebApi.Logic.Model
                     Name = "",
                     RelativeUrlToTrackDetails = "",
                     TimesPlayed = 0,
+                    PlayedFirstTime = null,
                     TrackHistory = new List<TrackHistory>()
-
                 };
             }
         }
 
-        public DateTime PlayedFirstTime { get; set; }
+        public DateTime? PlayedFirstTime { get; set; }
 
         #region Overrides of Object
 

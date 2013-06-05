@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Web;
 using HtmlAgilityPack;
-using RadioChronicle.WebApi.Logic.Infrastracture;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
 using RadioChronicle.WebApi.Logic.Model;
 
@@ -37,6 +38,23 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             // skip first element which is a result header
             return tableRows.Skip(1);
+        }
+
+        private IEnumerable<HtmlNode> SelectCurrentlyBroadcastedTracks(HtmlDocument document)
+        {
+            if (document == null) return new List<HtmlNode>();
+
+            var items = document.DocumentNode.SelectNodes("//ul[@class='panel_aktualnie']/li");
+
+            if (items == null) return new List<HtmlNode>();
+
+            return items;
+        }
+
+        private string SelectGroupHeader(HtmlNode row)
+        {
+            var header = row.SelectSingleNode("td[@class='line']");
+            return (header == null)? "" : header.InnerText;
         }
 
         public IEnumerable<RadioStationGroup> ParseDOMAndSelectRadioStationGroups(HtmlDocument document)
@@ -125,11 +143,83 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return result;
         }
 
-        private bool TryParseShortDateFromString(string stringAsDate, out DateTime outputDateTime)
+        public IDictionary<RadioStation, Track> ParseDOMAndSelectCurrentlyBroadcastedTracks(HtmlDocument document)
         {
-            const string ShortDatePattern = "dd-MM-yyyy";
+            var result = new Dictionary<RadioStation, Track>();
 
-            return DateTime.TryParseExact(stringAsDate, ShortDatePattern, null, DateTimeStyles.None, out outputDateTime);
+            var retrievedTracks = SelectCurrentlyBroadcastedTracks(document);
+
+            foreach (var track in retrievedTracks)
+            {
+                var parsedRow = ParseDOMAndReturnCurrentlyBroadcastedTrack(track);
+
+                if (parsedRow.Value.Equals(Track.Empty) == false) result.Add(parsedRow.Key, parsedRow.Value);
+            }
+
+            return result;
+        }
+
+        private KeyValuePair<RadioStation, Track> ParseDOMAndReturnCurrentlyBroadcastedTrack(HtmlNode track)
+        {
+            const int radioNameElementIndex = 0;
+            const int trackInfoElementIndex = 1;
+
+            try
+            {
+                var key = new RadioStation()
+                {
+                    Id = 0,
+                    IsDefault = false,
+                    Name = track.ChildNodes[radioNameElementIndex].InnerText.Trim()
+                };
+
+                var value = Track.Empty;
+
+
+                
+                var trackInfo = track.ChildNodes[trackInfoElementIndex].ChildNodes[trackInfoElementIndex];
+
+                value.Name = HttpUtility.HtmlDecode(trackInfo.InnerText);
+                value.RelativeUrlToTrackDetails = trackInfo.ChildNodes.Single().Attributes["href"].Value;
+
+                return new KeyValuePair<RadioStation, Track>(key, value);
+            }
+            catch
+            {
+                return new KeyValuePair<RadioStation, Track>(null, Track.Empty);
+            }
+        }
+
+        private Track ParseDOMAndReturnMostPopularTrack(HtmlNode mostPopularTrack)
+        {
+            const int trackNameElement = 1;
+            const int trackTimesPlayedElement = 2;
+            const int cellsInRow = 4;
+
+            var track = Track.Empty;
+
+            var tableCells = mostPopularTrack.SelectNodes("td");
+
+            if (tableCells == null || tableCells.Count != cellsInRow) return track;
+
+            track.Name = HttpUtility.HtmlDecode(tableCells[trackNameElement].InnerText) ?? track.Name;
+
+            try
+            {
+                var trackUrlDetails =  tableCells[trackNameElement].ChildNodes.Single().Attributes["href"].Value;
+
+                track.RelativeUrlToTrackDetails = trackUrlDetails;
+            }
+            catch
+            {
+                
+            }
+
+            int timesPlayed;
+            if (int.TryParse(tableCells[trackTimesPlayedElement].InnerText, out timesPlayed))
+                track.TimesPlayed = timesPlayed;
+
+            return track;
         }
 
         private Track ParseDOMAndReturnMostRecentTrack(HtmlNode mostRecentTrack, DateTime dateWhenTrackWasBroadcastedFirstTime)
@@ -166,6 +256,13 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return track;
         }
 
+        private bool TryParseShortDateFromString(string stringAsDate, out DateTime outputDateTime)
+        {
+            const string ShortDatePattern = "dd-MM-yyyy";
+
+            return DateTime.TryParseExact(stringAsDate, ShortDatePattern, null, DateTimeStyles.None, out outputDateTime);
+        }
+
         private bool TryParseDateTimeFromString(string stringToParse, out DateTime outputDateTime)
         {
             //const string ShortDatePattern = "dd-MM-yyyy";
@@ -176,44 +273,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         private bool CheckIfRowIsAGroupHeader(HtmlNode row)
         {
             return string.IsNullOrEmpty(SelectGroupHeader(row)) == false;
-        }
-
-        private string SelectGroupHeader(HtmlNode row)
-        {
-            var header = row.SelectSingleNode("td[@class='line']");
-            return (header == null)? "" : header.InnerText;
-        }
-
-        private Track ParseDOMAndReturnMostPopularTrack(HtmlNode mostPopularTrack)
-        {
-            const int trackNameElement = 1;
-            const int trackTimesPlayedElement = 2;
-            const int cellsInRow = 4;
-
-            var track = Track.Empty;
-
-            var tableCells = mostPopularTrack.SelectNodes("td");
-
-            if (tableCells == null || tableCells.Count != cellsInRow) return track;
-
-            track.Name = tableCells[trackNameElement].InnerText ?? track.Name;
-
-            try
-            {
-                var trackUrlDetails =  tableCells[trackNameElement].ChildNodes.Single().Attributes["href"].Value;
-
-                track.RelativeUrlToTrackDetails = trackUrlDetails;
-            }
-            catch
-            {
-                
-            }
-
-            int timesPlayed;
-            if (int.TryParse(tableCells[trackTimesPlayedElement].InnerText, out timesPlayed))
-                track.TimesPlayed = timesPlayed;
-
-            return track;
         }
     }
 }

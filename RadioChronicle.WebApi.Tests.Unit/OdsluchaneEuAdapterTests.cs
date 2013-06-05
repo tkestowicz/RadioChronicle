@@ -424,6 +424,35 @@ namespace RadioChronicle.WebApi.Tests.Unit
             }
         }
 
+        public static IDictionary<RadioStation, Track> _ExpectedCurrentlyBroadcastedTracksOrderedByRadioStationAscending
+        {
+            get
+            {
+                return new Dictionary<RadioStation, Track>()
+                {
+                    { new RadioStation(){ Id = 0, Name = "Antyradio", IsDefault = false }, new Track(){Name = "Alice In Chains - Would?", RelativeUrlToTrackDetails = "/utwor/19227/alice_in_chains_-_would", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "Blue FM (Poznań)", IsDefault = false }, new Track(){Name = "Macy Gray - Beauty In The World [Radio Edit]", RelativeUrlToTrackDetails = "/utwor/39513/macy_gray_-_beauty_in_the_world_radio_edit", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "Eska Rock", IsDefault = false }, new Track(){Name = "Kult - Układ Zamknięty", RelativeUrlToTrackDetails = "/utwor/147842/kult_-_uklad_zamkniety", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "MC Radio", IsDefault = false }, new Track(){Name = "E.gorniak, M.szczesniak - Dumka Na Dwa Serca", RelativeUrlToTrackDetails = "/utwor/23988/e_gorniak_m_szczesniak_-_dumka_na_dwa_serca", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "Muzyczne Radio", IsDefault = false }, new Track(){Name = "Bt Sound - Shake That Ass (Solid As A Rock) (Radio Edit)", RelativeUrlToTrackDetails = "/utwor/157765/bt_sound_-_shake_that_ass_solid_as_a_rock_radio_edit", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "Planeta FM (Warszawa)", IsDefault = false }, new Track(){Name = "Chromatics - Lady", RelativeUrlToTrackDetails = "/utwor/123653/chromatics_-_lady", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "Radio Eska", IsDefault = false }, new Track(){Name = "Honey - Nie Powiem Jak", RelativeUrlToTrackDetails = "/utwor/145820/honey_-_nie_powiem_jak", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "Radio Express", IsDefault = false }, new Track(){Name = "Solid Base - Diamonds Are Forever", RelativeUrlToTrackDetails = "/utwor/120323/solid_base_-_diamonds_are_forever", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "Radio FaMa (Kielce)", IsDefault = false }, new Track(){Name = "R.i.o. - Living In Stereo", RelativeUrlToTrackDetails = "/utwor/158778/r_i_o_-_living_in_stereo", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "Radio GRA", IsDefault = false }, new Track(){Name = "Black Eyed Peas - I Gotta Feeling", RelativeUrlToTrackDetails = "/utwor/12107/black_eyed_peas_-_i_gotta_feeling", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },                    
+                    { new RadioStation(){ Id = 0, Name = "Radio PiN", IsDefault = false }, new Track(){Name = "Varano - Swim Into The Blue", RelativeUrlToTrackDetails = "/utwor/11269/varano_-_swim_into_the_blue", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "Radio Plus", IsDefault = false }, new Track(){Name = "Garou - Gitan", RelativeUrlToTrackDetails = "/utwor/3139/garou_-_gitan", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "Radio ZET", IsDefault = false }, new Track(){Name = "Pet Shop Boys - Domino Dancing", RelativeUrlToTrackDetails = "/utwor/3119/pet_shop_boys_-_domino_dancing", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "RMF Classic", IsDefault = false }, new Track(){Name = "Georg-Philipp Telemann - Koncert Na Trąbkę D-Dur (2)", RelativeUrlToTrackDetails = "/utwor/3164/georg-philipp_telemann_-_koncert_na_trabke_d-dur_2", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "RMF FM", IsDefault = false }, new Track(){Name = "Sylwia Grzeszczak - Pożyczony", RelativeUrlToTrackDetails = "/utwor/158752/sylwia_grzeszczak_-_pozyczony", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "RMF MAXXX", IsDefault = false }, new Track(){Name = "Macklemore / Ryan Lewis - Can't Hold Us", RelativeUrlToTrackDetails = "/utwor/145295/macklemore_ryan_lewis_-_can_t_hold_us", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "Roxy FM", IsDefault = false }, new Track(){Name = "Loco Star - Tv Head", RelativeUrlToTrackDetails = "/utwor/152588/loco_star_-_tv_head", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+                    { new RadioStation(){ Id = 0, Name = "Złote Przeboje", IsDefault = false }, new Track(){Name = "Bajm - Piechotą Do Lata", RelativeUrlToTrackDetails = "/utwor/22770/bajm_-_piechota_do_lata", PlayedFirstTime = null, TimesPlayed = 0, TrackHistory = new List<TrackHistory>()} },
+
+                };
+            }
+        }
+
         private HtmlDocument _getFakeResponse(ResponseKeys responseKey)
         {
             var document = new HtmlDocument();
@@ -456,6 +485,10 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
                 case ResponseKeys.WithMostRecentTracksWhereTrackRowHas2Columns:
                     document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostRecentTracksWhereTrackRowHas2Columns.txt"));
+                    break;
+
+                case ResponseKeys.WithCurrentlyBroadcastedTracks:
+                    document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithCurrentlyBroadcastedTracksIn_2013.06.05_20.34.txt"));
                     break;
 
                 case ResponseKeys.Empty:
@@ -508,6 +541,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             WithMostRecentTracks,
             WithMostRecentTracksWhereTrackRowHas2Columns,
             WithMostRecentTracksWhereTrackRowHas5Columns,
+            WithCurrentlyBroadcastedTracks
         }
 
         [SetUp]
@@ -644,7 +678,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             var result = _remoteRadioChronicleService.GetMostRecentTracks(radioStationId.Value);
 
             var grouped =
-                result.GroupBy(t => t.PlayedFirstTime.ToShortDateString())
+                result.GroupBy(t => t.PlayedFirstTime.Value.ToShortDateString())
                     .ToDictionary(k => DateTime.Parse(k.Key), v => v.ToList() as IEnumerable<Track>) as IDictionary<DateTime, IEnumerable<Track>>;
 
             grouped.Keys.ShouldEqual(_ExpectedMostRecentTracksOnRMFFm.Keys);
@@ -665,6 +699,17 @@ namespace RadioChronicle.WebApi.Tests.Unit
             const int expectedNumberOfItems = 0;
 
             result.Count().ShouldEqual(expectedNumberOfItems);
+        }
+
+        [Test]
+        [Category("Currently broadcasted")]
+        public void currently_broadcasted___response_contains_tracks___returns_currently_broadcasted_tracks_ordered_by_radio_station_ascending()
+        {
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.CurrentlyBroadcastedTrack.Value)).Returns(_getFakeResponse(ResponseKeys.WithCurrentlyBroadcastedTracks));
+
+            var result = _remoteRadioChronicleService.GetCurrentlyBroadcastedTracks();
+
+            result.ShouldEqual(_ExpectedCurrentlyBroadcastedTracksOrderedByRadioStationAscending);
         }
     }
 }
