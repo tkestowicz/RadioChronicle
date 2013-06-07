@@ -105,6 +105,11 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                     .ToList();
         }
 
+        public IEnumerable<Track> GetMostRecentTracks(int radioStationId)
+        {
+            return GetBroadcastHistory(radioStationId, ApplicationTime.Current, DefaultHourFrom, DefaultHourTo).Take(10).ToList();
+        }
+
         private void VerifyHourRangeAndSetDefault(ref int hourFrom, ref int hourTo)
         {
             if (!_argumentsValidator.IsHourValid(hourFrom)) hourFrom = DefaultHourFrom;

@@ -848,5 +848,23 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
             _requestHelperMock.VerifyAll();
         }
+
+        [Test]
+        [Category("Get most recent tracks")]
+        [Description("Happy path")]
+        public void get_most_recent_tracks___response_contains_tracks___returns_10_recent_tracks_ordered_by_date_descending()
+        {
+            ApplicationTime._replaceCurrentTimeLogic(() => new DateTime(_DefaultDay.Year, _DefaultDay.Month, _DefaultDay.Day, _DefaultHourTo, 0, 0));
+
+            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
+                .Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
+
+            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.BroadcastHistoryPage(_DefaultRadioStation.Id, _DefaultDay, _DefaultHourFrom, _DefaultHourTo).Value))
+                .Returns(_getFakeResponse(ResponseKeys.WithBroadcastHistory));
+
+            var result = _remoteRadioChronicleService.GetMostRecentTracks(_DefaultRadioStation.Id);
+
+            result.ShouldEqual(_ExpectedBrodcastHistoryIn_6_6_2013_from_9_to_11.Take(10).ToList());
+        }
     }
 }
