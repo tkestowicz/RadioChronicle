@@ -1,0 +1,321 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+<head>
+	<title>Sprawdź co było grane w radiu! :: odSluchane.eu - znajdź swój ulubiony utwór!</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<base href="http://www.odsluchane.eu/" />
+	<link rel="stylesheet" type="text/css" href="/style.css" />
+	<link rel="stylesheet" type="text/css" href="/calendar.css" />
+	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
+	<link rel="alternate" type="application/rss+xml" title="Ostatnio grane" href="/rss.php" />
+	<meta name="description" content="Znajdź tytuł piosenki granej w radiu o danej godzinie, co było grane, piosenki z radia." />
+	<meta name="keywords" content="ramowka, spis, radiowy, radio, historia, sluchanej, cowradiu, odsluchanej, muzyki, utworow, odsluchana, wradiu, posluchanej, muzyka, aktualnie, piosenki, radiu, tytul, sluchane, grane, utwory" />
+	<script type="text/javascript" src="calendar.js"></script>
+	
+	
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-5588635-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+	
+	<script type="text/javascript">
+	function cookie_info()
+		{
+
+			  document.cookie='cookies_ok=1; expires=15-Dec-2014 12:00:00 GMT; path=/';
+			  document.getElementById('cookie-info').style.display='none';
+
+		}
+	</script>
+	
+	
+</head>
+
+<body>
+
+
+	<div id="cookie-info" style="background: #FFF1A8; margin: 0 auto; padding: 10px 0; margin-bottom: 10px; width: 95%">
+	
+	<p style="margin: 0 auto; width: 95%; float: left;">Korzystanie z witryny odSluchane.eu oznacza zgodę na wykorzystywanie plików cookie, z których niektóre mogą być już zapisane w folderze przeglądarki.<br />
+	Więcej informacji można znaleźć w <a href="/polityka_prywatnosci">Polityce plików cookies.</a>
+	</p>
+	
+	<p style="margin-bottom: 0; padding: 0; margin: 0 5px 0 0; float: right; text-align: right; font-weight: bold; " onclick="cookie_info()"><a href="#">zamknij</a></p>
+	<br style="clear: both" />
+	
+	</div>
+
+
+
+<div id="wrap">
+
+	<div id="header">
+		<span>
+			<a href="/index.php"><img src="/images/logo_big.gif" width="399" height="165" alt="odSluchane - Strona główna"/></a>
+			<div style="float: right; padding: 10px 8px 0 0;">
+				<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FodSluchaneeu%2F121492407920871&amp;width=260&amp;colorscheme=dark&amp;show_faces=true&amp;stream=false&amp;header=false&amp;height=170" scrolling="no" frameborder="0"  allowTransparency="true"></iframe>
+			</div>
+		</span>
+		<div id="menu">
+			<ul id="nav">
+				<li><a href="/index.php">Strona główna</a></li>
+				<li ><a href="/szukaj.php">Wyszukiwarka utworów</a></li>
+				<li ><a href="top.php">Top lista</a></li>
+				<li ><a href="nowosci.php">Nowości</a></li>
+				<li ><a href="kontakt">Kontakt</a></li>
+			</ul>
+		
+		</div>
+		
+	
+	</div>
+		
+	<div id="main">
+	
+				
+						
+			<div style="text-align: center; margin-bottom: 10px;">		
+
+				<script type="text/javascript"><!--
+				google_ad_client = "ca-pub-5528627879593733";
+				google_ad_slot = "9932625400";
+				google_ad_width = 728;
+				google_ad_height = 90;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>
+			
+			</div>
+			
+					
+				
+		<div id="content">
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Witaj!</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">
+
+
+
+
+
+
+							<img class="intro_img" width="121" height="170" alt="Obrazek powitania" src="images/powitanie_img.png" />
+							<p class="intro">Czy zdarzyło Ci się kiedyś, że jadąc autobusem, samochodem lub po prostu będąc w jakimś centrum handlowym, usłyszałeś utwór, który utkwił Ci w pamięci, ale nie miałeś pojęcia jaki nosi tytuł?</p>
+
+								<p class="intro_2">Teraz, dzięki tej stronie, możesz poznać tytuł piosenki która tak utkwiła Ci w pamięci!
+								Wystarczy że znasz godzinę i nazwę radia w którym grany był utwór.
+								Jedyne co musisz zrobić to wpisać datę oraz godzinę do naszej wyszukiwarki, którą znajdziesz w nagłówku strony.
+							</p>
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+						</div>
+										
+					</div>
+				</div>
+			</div>	
+
+			
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Informacje</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">			
+								
+				<p><img src="images/loga/czworka_logo.png" alt="Polskie Radio Czwórka - logo" /></p>	
+				<p class="news">W dniu dzisiejszym do naszej <a href="/szukaj.php" title="Co było grane w radiu">wyszukiwarki</a> zostało dodane <a href="/szukaj.php?r=49" title="Co było grane w czwórce">Polskie Radio Czwórka</a>.</p>
+				<p class="news_date">18 grudnia 2012r.</p>
+								
+								
+								
+								
+								
+							</div>
+						</div>
+					</div>
+				</div>
+			
+			
+			
+		</div>
+		
+		<div id="left">
+			<div class="in">
+				<div class="panel">
+					<h2 class="panelh">
+						<span>
+							<span>Aktualnie grane</span>
+						</span>
+					</h2>
+					<div class="panelbody">
+						<div class="panel_r">
+							<div class="panel_l">
+								<ul class="panel_aktualnie">
+																			<li>
+										Eska Rock
+									</li>
+																			<li>
+										Roxy FM
+									</li>
+																			<li>
+										Radio PiN
+										<ul></ul>
+									</li>
+																			<li>
+										Radio Express
+										<ul>
+											<li></li>
+										</ul>
+									</li>
+																	</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel">
+					<h2 class="panelh">
+						<span>
+							<span>Posłuchaj stacji</span>
+						</span>
+					</h2>
+					<div class="panelbody">
+						<div class="panel_r">
+							<div class="panel_l">
+
+								<ul class="listens">
+									<li><a href="radio/rmf_fm" title="Posłuchaj radia RMF FM">RMF FM</a></li>
+									<li><a href="radio/radio_zet" title="Posłuchaj Radia ZET">Radio ZET</a></li>
+									<li><a href="radio/eska" title="Posłuchaj Radia ESKA">ESKA</a></li>
+									<li><a href="radio/rmf_maxxx" title="Posłuchaj radia RMF MAXXX">RMF MAXXX</a></li>
+									<li><a href="radio/eska_rock" title="Posłuchaj radia ESKA ROCK">ESKA ROCK</a></li>
+									<li><a href="radio/zlote_przeboje" title="Posłuchaj radia Złote Przeboje">Złote Przeboje</a></li>
+									<li><a href="radio/planeta_fm" title="Posłuchaj radia Planeta FM">Planeta FM</a></li>								
+									<li><a href="radio" title="Wszystkie radia">więcej...</a></li>								
+								
+								</ul>
+							
+
+							</div>
+						</div>
+					</div>
+				</div>					
+			</div>
+			
+		</div>
+	</div>
+	
+	<div id="right">
+		<div class="in">
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Szukaj na stronie</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">						
+
+							<form action="/wyszukaj.php" method="get">
+							  <div>
+								<input type="text" name="q" size="25" />
+								<input style="margin-top: 5px" type="submit" value="Szukaj" />
+							  </div>
+							</form>
+
+
+						
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Aktualnie grane</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">						
+							<ul class="panel_aktualnie">
+								
+															</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	<div style="text-align: center">
+		<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-5528627879593733";
+
+		google_ad_slot = "0095598125";
+		google_ad_width = 200;
+		google_ad_height = 200;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+	</div>
+	
+	</div>	
+
+	<div id="footer">
+		<div id="footer_in">
+			<ul id="foo">
+				<li><a href="/index.php">Strona głowna</a></li>
+				<li><a href="polityka_prywatnosci">Polityka prywatności i cookies</a></li>
+								<li><a href="kontakt">Kontakt</a></li>
+			</ul>
+			
+						
+			<p><strong><a href="http://www.wartościfunkcjitrygonometrycznych.pl" title="Wartości sin, cos, tg, ctg">Wartości funkcji trygonometrycznych</a></strong></p>
+			
+			
+			<p>Copyright © 2008-2012 odSluchane. Wszelkie prawa zastrzeżone.</p>
+			
+			
+		</div>
+			
+	</div>
+
+</div>
+
+
+</body>
+</html>

@@ -491,6 +491,10 @@ namespace RadioChronicle.WebApi.Tests.Unit
                     document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithCurrentlyBroadcastedTracksIn_2013.06.05_20.34.txt"));
                     break;
 
+                case ResponseKeys.NoneRadioStationIsBroadcasting:
+                    document.LoadHtml(File.ReadAllText("FakeResponses/ResponseNoneRadioStationIsBroadcasting.txt"));
+                    break;
+
                 case ResponseKeys.Empty:
                 default:
                     document.LoadHtml("");
@@ -541,7 +545,8 @@ namespace RadioChronicle.WebApi.Tests.Unit
             WithMostRecentTracks,
             WithMostRecentTracksWhereTrackRowHas2Columns,
             WithMostRecentTracksWhereTrackRowHas5Columns,
-            WithCurrentlyBroadcastedTracks
+            WithCurrentlyBroadcastedTracks,
+            NoneRadioStationIsBroadcasting
         }
 
         [SetUp]
@@ -713,6 +718,19 @@ namespace RadioChronicle.WebApi.Tests.Unit
             var result = _remoteRadioChronicleService.GetCurrentlyBroadcastedTracks();
 
             result.ShouldEqual(_ExpectedCurrentlyBroadcastedTracksOrderedByRadioStationAscending);
+        }
+
+        [TestCase(ResponseKeys.Empty, Category = "Currently broadcasted", Description = "Response is empty.")]
+        [TestCase(ResponseKeys.NoneRadioStationIsBroadcasting, Category = "Currently broadcasted", Description = "None radio station is broadcasting.")]
+        public void currently_broadcasted___response_is_different_than_expected___return_empty_list(ResponseKeys response)
+        {
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.CurrentlyBroadcastedTrack.Value)).Returns(_getFakeResponse(response));
+
+            var result = _remoteRadioChronicleService.GetCurrentlyBroadcastedTracks();
+
+            const int expectedNumberOfRecords = 0;
+
+            result.Count.ShouldEqual(expectedNumberOfRecords);
         }
     }
 }
