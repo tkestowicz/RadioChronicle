@@ -562,6 +562,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
         [Test]
         [Category("Get radio stations")]
+        [Description("Happy path")]
         public void get_radio_stations___response_contains_radio_stations___list_of_radio_stations_grouped_by_radio_family_is_returned()
         {
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
@@ -609,6 +610,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
         [Test]
         [Category("Get most popular tracks")]
+        [Description("Happy path")]
         public void get_most_popular_tracks___default_criteria_set_and_response_contains_most_popular_tracks__returns_top_10_tracks_ordered_by_played_times_descending()
         {
             _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
@@ -703,6 +705,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
         [Test]
         [Category("Currently broadcasted")]
+        [Description("Happy path")]
         public void currently_broadcasted___response_contains_tracks___returns_currently_broadcasted_tracks_ordered_by_radio_station_ascending()
         {
             _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.CurrentlyBroadcastedTrack.Value)).Returns(_getFakeResponse(ResponseKeys.WithCurrentlyBroadcastedTracks));
