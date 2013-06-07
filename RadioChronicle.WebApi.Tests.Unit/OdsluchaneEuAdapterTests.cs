@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using Autofac;
 using HtmlAgilityPack;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using RadioChronicle.WebApi.Logic.Infrastracture;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
 using RadioChronicle.WebApi.Logic.Model;
@@ -17,7 +19,6 @@ namespace RadioChronicle.WebApi.Tests.Unit
     [TestFixture(Category = "OdsluchaneEU")]
     public class OdsluchaneEuAdapterTests
     {
-
         private Mock<IRequestHelper> _requestHelperMock;
         private IRemoteRadioChronicleService _remoteRadioChronicleService;
 
@@ -594,6 +595,15 @@ namespace RadioChronicle.WebApi.Tests.Unit
             }
         }
 
+        private static DateTime _DefaultDay
+        {
+            get { return new DateTime(2013, 6, 6); }
+        }
+
+        private const int _DefaultHourFrom = 9;
+
+        private const int _DefaultHourTo = 11;
+
         public enum ResponseKeys
         {
             Empty,
@@ -802,19 +812,41 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [Description("Happy path")]
         public void broadcast_history___response_contains_tracks___returns_all_broadcasted_tracks_in_specified_range_ordered_by_date_and_time_ascending()
         {
-            var defaultDay = new DateTime(2013, 6, 6);
-            const int defaultTimeFrom = 9;
-            const int defaultTimeTo = 13;
+            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
+                .Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
+
+            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.BroadcastHistoryPage(_DefaultRadioStation.Id, _DefaultDay, _DefaultHourFrom, _DefaultHourTo).Value))
+                .Returns(_getFakeResponse(ResponseKeys.WithBroadcastHistory));
+
+            var result = _remoteRadioChronicleService.GetBroadcastHistory(_DefaultRadioStation.Id, _DefaultDay, _DefaultHourFrom, _DefaultHourTo);
+
+            result.ShouldEqual(_ExpectedBrodcastHistoryIn_6_6_2013_from_9_to_11);
+        }
+
+        [TestCase(1000, null, null, Category = "Broadcast history", Description = "Radio station id does not exist.")]
+        [TestCase(-1, null, null, Category = "Broadcast history", Description = "Radio station id is negative.")]
+        [TestCase(-1, -1, null, Category = "Broadcast history", Description = "Radio station id and start hour are negative.")]
+        [TestCase(-1, -1, -1, Category = "Broadcast history", Description = "Radio station id, start and end hour are negative.")]
+        [TestCase(null, -1, -1, Category = "Broadcast history", Description = "Radio station id is set, start hour is grater than end hour.")]
+        [TestCase(null, 24, null, Category = "Broadcast history", Description = "Radio station id and end time are set, start hour is out of range.")]
+        [TestCase(null, null, 50, Category = "Broadcast history", Description = "Radio station id and start time are set, end hour is out of range.")]
+        public void broadcast_history___criteria_have_incorrect_values__default_value_is(int? radioStationId, int? hourFrom, int? hourTo)
+        {
+            ApplicationTime._replaceCurrentTimeLogic(() => new DateTime(_DefaultDay.Year, _DefaultDay.Month, _DefaultDay.Day, _DefaultHourTo, 0, 0));
+
+            if (radioStationId.HasValue == false) radioStationId = _DefaultRadioStation.Id;
+            if (hourFrom.HasValue == false) hourFrom = _DefaultHourFrom;
+            if (hourTo.HasValue == false) hourTo = _DefaultHourTo;
 
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
                 .Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
 
-            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.BroadcastHistoryPage(_DefaultRadioStation.Id, defaultDay, defaultTimeFrom, defaultTimeTo).Value))
+            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.BroadcastHistoryPage(_DefaultRadioStation.Id, _DefaultDay, _DefaultHourFrom, _DefaultHourTo).Value))
                 .Returns(_getFakeResponse(ResponseKeys.WithBroadcastHistory));
 
-            var result = _remoteRadioChronicleService.GetBroadcastHistory(_DefaultRadioStation.Id, defaultDay, defaultTimeFrom, defaultTimeTo);
+            _remoteRadioChronicleService.GetBroadcastHistory(radioStationId.Value, _DefaultDay, hourFrom.Value, hourTo.Value);
 
-            result.ShouldEqual(_ExpectedBrodcastHistoryIn_6_6_2013_from_9_to_11);
+            _requestHelperMock.VerifyAll();
         }
     }
 }

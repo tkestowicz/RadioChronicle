@@ -36,7 +36,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         public Url BroadcastHistoryPage(int radioStationId, DateTime day, int timeFrom, int timeTo)
         {
-            return new Url(string.Format(_BroadcastHistoryPagePattern, radioStationId, day, timeFrom, timeTo));
+            return new Url(string.Format(_BroadcastHistoryPagePattern, radioStationId, day.ToString("dd-MM-yyyy"), timeFrom, timeTo));
         }
 
         #endregion

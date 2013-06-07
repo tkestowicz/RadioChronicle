@@ -14,6 +14,6 @@ namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
         IEnumerable<Track> GetMostPopularTracks(int radioStationId, int month, int year);
         IEnumerable<Track> GetNewestTracks(int radioStationId);
         IDictionary<RadioStation, Track> GetCurrentlyBroadcastedTracks();
-        IEnumerable<Track> GetBroadcastHistory(int radioStation, DateTime day, int timeFrom, int timeTo);
+        IEnumerable<Track> GetBroadcastHistory(int radioStation, DateTime day, int hourFrom, int hourTo);
     }
 }

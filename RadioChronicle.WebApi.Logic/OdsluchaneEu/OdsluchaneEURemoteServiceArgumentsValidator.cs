@@ -37,6 +37,16 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return year >= YearSinceOdsluchaneEuWorks && year <= ApplicationTime.Current.Year;
         }
 
+        public bool IsHourValid(int hour)
+        {
+            return hour >= 0 && hour <= 23;
+        }
+
+        public bool IsRangeValid(int from, int to)
+        {
+            return from <= to;
+        }
+
         #endregion
     }
 }
