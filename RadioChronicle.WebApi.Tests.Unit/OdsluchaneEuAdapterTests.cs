@@ -20,6 +20,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
         private Mock<IRequestHelper> _requestHelperMock;
         private IRemoteRadioChronicleService _remoteRadioChronicleService;
+
         private IUrlRepository _urlRepository;
 
         private static IEnumerable<Track> _ExpectedMostPopularTracksOnRMFFMRadioStationInMay2013
@@ -453,6 +454,54 @@ namespace RadioChronicle.WebApi.Tests.Unit
             }
         }
 
+        public static IEnumerable<Track> _ExpectedBrodcastHistoryIn_6_6_2013_from_9_to_11
+        {
+            get
+            {
+                const int day = 6;
+                const int month = 6;
+                const int year = 2013;
+
+                return new List<Track>()
+                {
+                    new Track(){ Name = "Connells - 74-75", RelativeUrlToTrackDetails = "/utwor/1678/connells_-_74-75", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 9, 6, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Lutricia Mcneal - You Showed Me", RelativeUrlToTrackDetails = "/utwor/3377/lutricia_mcneal_-_you_showed_me", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 9, 9, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Justin Timberlake - Mirrors", RelativeUrlToTrackDetails = "/utwor/141039/justin_timberlake_-_mirrors", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 9, 13, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Joan Jett / Blackhearts - I Love Rock 'n' Roll", RelativeUrlToTrackDetails = "/utwor/17742/joan_jett_blackhearts_-_i_love_rock_n_roll", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 9, 21, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Labrinth / Emeli Sande - Beneath Your Beautiful", RelativeUrlToTrackDetails = "/utwor/123152/labrinth_emeli_sande_-_beneath_your_beautiful", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 9, 24, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Liquido - Narcotic", RelativeUrlToTrackDetails = "/utwor/1577/liquido_-_narcotic", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 9, 28, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Adele - Rolling In The Deep", RelativeUrlToTrackDetails = "/utwor/68278/adele_-_rolling_in_the_deep", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 9, 36, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Killer - Liar", RelativeUrlToTrackDetails = "/utwor/1986/killer_-_liar", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 9, 40, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Enej - Symetryczno-Liryczna", RelativeUrlToTrackDetails = "/utwor/123003/enej_-_symetryczno-liryczna", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 9, 44, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Red Hot Chili Peppers - Californication", RelativeUrlToTrackDetails = "/utwor/5998/red_hot_chili_peppers_-_californication", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 9, 51, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Passenger - Let Her Go", RelativeUrlToTrackDetails = "/utwor/123001/passenger_-_let_her_go", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 9, 55, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Eros Ramazzotti - Cose Della Vita", RelativeUrlToTrackDetails = "/utwor/135/eros_ramazzotti_-_cose_della_vita", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 10, 5, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Oddział Zamknięty - Obudź Się", RelativeUrlToTrackDetails = "/utwor/955/oddzial_zamkniety_-_obudz_sie", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 10, 9, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Bastille - Pompeii", RelativeUrlToTrackDetails = "/utwor/136911/bastille_-_pompeii", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 10, 13, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Eric Clapton - Tears In Heaven", RelativeUrlToTrackDetails = "/utwor/6338/eric_clapton_-_tears_in_heaven", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 10, 22, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Loreen - Euphoria", RelativeUrlToTrackDetails = "/utwor/109178/loreen_-_euphoria", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 10, 27, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Katy Perry - I Kissed A Girl", RelativeUrlToTrackDetails = "/utwor/1249/katy_perry_-_i_kissed_a_girl", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 10, 29, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Lumineers - Ho Hey", RelativeUrlToTrackDetails = "/utwor/124687/lumineers_-_ho_hey", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 10, 37, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Eurythmics - Sweet Dreams (Are Made Of This)", RelativeUrlToTrackDetails = "/utwor/436/eurythmics_-_sweet_dreams_are_made_of_this", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 10, 39, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Avril Lavigne - Here's To Never Growing Up", RelativeUrlToTrackDetails = "/utwor/148512/avril_lavigne_-_here_s_to_never_growing_up", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 10, 43, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Lady Pank - Mniej Niż Zero", RelativeUrlToTrackDetails = "/utwor/523/lady_pank_-_mniej_niz_zero", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 10, 51, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Calvin Harris / Ellie Goulding - I Need Your Love", RelativeUrlToTrackDetails = "/utwor/143045/calvin_harris_ellie_goulding_-_i_need_your_love", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 10, 55, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Madness - Our House", RelativeUrlToTrackDetails = "/utwor/2372/madness_-_our_house", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 11, 4, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Elektryczne Gitary - Koniec", RelativeUrlToTrackDetails = "/utwor/926/elektryczne_gitary_-_koniec", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 11, 7, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Lana Del Rey - Dark Paradise", RelativeUrlToTrackDetails = "/utwor/115431/lana_del_rey_-_dark_paradise", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 11, 10, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Joe Cocker - Summer In The City", RelativeUrlToTrackDetails = "/utwor/1147/joe_cocker_-_summer_in_the_city", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 11, 18, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Wiz Khalifa / Snoop Dogg / Bruno Mars - Young, Wild And Free", RelativeUrlToTrackDetails = "/utwor/104383/wiz_khalifa_snoop_dogg_bruno_mars_-_young_wild_and_free", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 11, 22, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Phil Collins - You Can't Hurry Love", RelativeUrlToTrackDetails = "/utwor/3095/phil_collins_-_you_can_t_hurry_love", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 11, 25, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Yugopolis - Ostatnia Nocka", RelativeUrlToTrackDetails = "/utwor/100073/yugopolis_-_ostatnia_nocka", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 11, 33, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Seal - Love's Divine", RelativeUrlToTrackDetails = "/utwor/274/seal_-_love_s_divine", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 11, 37, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Naughty Boy / Sam Smith - La La La", RelativeUrlToTrackDetails = "/utwor/146755/naughty_boy_sam_smith_-_la_la_la", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 11, 40, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Golden Life - 24.11.94", RelativeUrlToTrackDetails = "/utwor/737/golden_life_-_24_11_94", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 11, 48, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Onerepublic - If I Lose Myself", RelativeUrlToTrackDetails = "/utwor/133888/onerepublic_-_if_i_lose_myself", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 11, 52, 0), RadioStation = null }}, TimesPlayed = 0},
+                    new Track(){ Name = "Bon Jovi - It's My Life", RelativeUrlToTrackDetails = "/utwor/1423/bon_jovi_-_it_s_my_life", PlayedFirstTime = null, TrackHistory = new List<TrackHistory>(){ new TrackHistory(){ Broadcasted = new DateTime(year, month, day, 11, 55, 0), RadioStation = null }}, TimesPlayed = 0}
+                }; 
+            }
+    }
+
         private HtmlDocument _getFakeResponse(ResponseKeys responseKey)
         {
             var document = new HtmlDocument();
@@ -500,6 +549,10 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
                 case ResponseKeys.NoneRadioStationIsBroadcasting:
                     document.LoadHtml(File.ReadAllText("FakeResponses/ResponseNoneRadioStationIsBroadcasting.txt"));
+                    break;
+
+                case ResponseKeys.WithBroadcastHistory:
+                    document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithBroadcastHistoryInRMFFM_06.06.2013_9_11.txt"));
                     break;
 
                 case ResponseKeys.Empty:
@@ -556,7 +609,8 @@ namespace RadioChronicle.WebApi.Tests.Unit
             NoneRadioStationIsBroadcasting,
             WithNewestTracks,
             WithNewestTracksWhereTrackRowHas2Columns,
-            WithNewestTracksWhereTrackRowHas5Columns
+            WithNewestTracksWhereTrackRowHas5Columns,
+            WithBroadcastHistory
         }
 
         [SetUp]
@@ -741,6 +795,26 @@ namespace RadioChronicle.WebApi.Tests.Unit
             const int expectedNumberOfRecords = 0;
 
             result.Count.ShouldEqual(expectedNumberOfRecords);
+        }
+
+        [Test]
+        [Category("Broadcast history")]
+        [Description("Happy path")]
+        public void broadcast_history___response_contains_tracks___returns_all_broadcasted_tracks_in_specified_range_ordered_by_date_and_time_ascending()
+        {
+            var defaultDay = new DateTime(2013, 6, 6);
+            const int defaultTimeFrom = 9;
+            const int defaultTimeTo = 13;
+
+            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
+                .Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
+
+            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.BroadcastHistoryPage(_DefaultRadioStation.Id, defaultDay, defaultTimeFrom, defaultTimeTo).Value))
+                .Returns(_getFakeResponse(ResponseKeys.WithBroadcastHistory));
+
+            var result = _remoteRadioChronicleService.GetBroadcastHistory(_DefaultRadioStation.Id, defaultDay, defaultTimeFrom, defaultTimeTo);
+
+            result.ShouldEqual(_ExpectedBrodcastHistoryIn_6_6_2013_from_9_to_11);
         }
     }
 }

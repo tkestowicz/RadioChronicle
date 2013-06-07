@@ -86,12 +86,21 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             if (!_argumentsValidator.IsYearValid(year)) year = DefaultYear;
         }
 
-
         public IDictionary<RadioStation, Track> GetCurrentlyBroadcastedTracks()
         {
             var doc = _requestHelper.RequestURL(_urlRepository.CurrentlyBroadcastedTrack.Value);
 
             return _domParser.ParseDOMAndSelectCurrentlyBroadcastedTracks(doc).OrderBy(e => e.Key.Name).ToDictionary(k => k.Key, v => v.Value);
+        }
+
+        public IEnumerable<Track> GetBroadcastHistory(int radioStation, DateTime day, int timeFrom, int timeTo)
+        {
+            var doc =
+                _requestHelper.RequestURL(_urlRepository.BroadcastHistoryPage(radioStation, day, timeFrom, timeTo).Value);
+
+            return
+                _domParser.ParseDOMAndSelectBroadcastHistory(doc)
+                    .ToList();
         }
     }
 }

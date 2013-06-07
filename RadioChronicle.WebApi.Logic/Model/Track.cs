@@ -61,6 +61,9 @@ namespace RadioChronicle.WebApi.Logic.Model
         protected bool Equals(IEnumerable<TrackHistory> otherHistory)
         {
             var colEqual = otherHistory.Count() == TrackHistory.Count();
+
+            if(colEqual == false) return false;
+
             for (int i = 0; i < TrackHistory.Count(); i++)
             {
                 colEqual = TrackHistory.ElementAt(i).Equals(otherHistory.ElementAt(i));
