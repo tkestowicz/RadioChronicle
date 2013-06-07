@@ -1518,7 +1518,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             result.ShouldEqual(_ExpectedMostPopularTracksOnRMFFMRadioStationInMay2013);
         }
 
-        [TestCase(null, Category = "Get newest tracks", Description = "Radio station id is set.")]
+        [TestCase(null, Category = "Get newest tracks", Description = "Happy path.")]
         [TestCase(0, Category = "Get newest tracks", Description = "Radio station id is not set.")]
         [TestCase(-1, Category = "Get newest tracks", Description = "Radio station id negative.")]
         [TestCase(1000, Category = "Get newest tracks", Description = "Radio station id does not exist.")]
@@ -1542,7 +1542,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [TestCase(ResponseKeys.Empty, Category = "Get newest tracks", Description = "Response is empty.")]
         [TestCase(ResponseKeys.WithNewestTracksWhereTrackRowHas2Columns, Category = "Get newest tracks", Description = "Response has changed and track row has less columns.")]
         [TestCase(ResponseKeys.WithNewestTracksWhereTrackRowHas5Columns, Category = "Get newest tracks", Description = "Response has changed and track row has more columns.")]
-        public void get_newest_track___response_is_different_than_expected___return_empty_list(ResponseKeys response)
+        public void get_newest_tracks___response_is_different_than_expected___returns_empty_list(ResponseKeys response)
         {
 
             _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
@@ -1624,6 +1624,22 @@ namespace RadioChronicle.WebApi.Tests.Unit
             var result = _remoteRadioChronicleService.GetMostRecentTracks(radioStationId.Value);
 
             result.ShouldEqual(_ExpectedBrodcastHistoryIn_6_6_2013_from_9_to_11.Take(10).ToList());
+        }
+
+        [TestCase(ResponseKeys.Empty, Category = "Get most recent tracks", Description = "Response is empty.")]
+        [TestCase(ResponseKeys.WithMostRecentTracksWhereTrackRowHas2Columns, Category = "Get most recent tracks", Description = "Response has changed and track row has less columns.")]
+        [TestCase(ResponseKeys.WithMostRecentTracksWhereTrackRowHas5Columns, Category = "Get most recent tracks", Description = "Response has changed and track row has more columns.")]
+        public void get_most_recent_tracks___response_is_different_than_expected___returns_empty_list(ResponseKeys response)
+        {
+
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.NewestTracksPage(_DefaultRadioStation.Id).Value)).Returns(_getFakeResponse(response));
+
+            var result = _remoteRadioChronicleService.GetMostRecentTracks(_DefaultRadioStation.Id);
+
+            const int expectedNumberOfItems = 0;
+
+            result.Count().ShouldEqual(expectedNumberOfItems);
         }
     }
 }
