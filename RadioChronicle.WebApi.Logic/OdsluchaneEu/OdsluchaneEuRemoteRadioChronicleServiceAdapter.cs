@@ -65,7 +65,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return _domParser.ParseDOMAndSelectMostPopularTracks(doc).Take(10).ToList();
         }
 
-        public IEnumerable<Track> GetMostRecentTracks(int radioStationId)
+        public IEnumerable<Track> GetNewestTracks(int radioStationId)
         {
             VerifyRadioStationIdAndSetDefault(ref radioStationId);
 

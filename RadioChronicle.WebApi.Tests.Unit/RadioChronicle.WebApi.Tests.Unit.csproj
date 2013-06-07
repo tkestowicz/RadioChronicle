@@ -77,16 +77,16 @@
     <Content Include="FakeResponses\ResponseWithCurrentlyBroadcastedTracksIn_2013.06.05_20.34.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FakeResponses\ResponseWithMostRecentTracksWhereTrackRowHas2Columns.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="FakeResponses\ResponseWithMostPopularTracksWhereTrackRowHas5Columns.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="FakeResponses\ResponseWithMostPopularTracksWhereTrackRowHas3Columns.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FakeResponses\ResponseWithMostRecentTracksOnRMFFMInMay2013.txt">
+    <Content Include="FakeResponses\ResponseWithMostRecentTracksWhereTrackRowHas2Columns.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FakeResponses\ResponseWithNewestTracksOnRMFFMInMay2013.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="FakeResponses\ResponseWithOneGroupAndNoRadioStations.txt">

@@ -383,7 +383,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             }
         }
 
-        private static IDictionary<DateTime, IEnumerable<Track>> _ExpectedMostRecentTracksOnRMFFm
+        private static IDictionary<DateTime, IEnumerable<Track>> _ExpectedNewestTracksOnRMFFm
         {
             get
             {
@@ -474,6 +474,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
                     document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostPopularTracksWhereTrackRowHas3Columns.txt"));
                     break;
 
+                case ResponseKeys.WithNewestTracksWhereTrackRowHas5Columns:
                 case ResponseKeys.WithMostRecentTracksWhereTrackRowHas5Columns:
                 case ResponseKeys.WithMostPopularTracksWhereTrackRowHas5Columns:
                     document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostPopularTracksWhereTrackRowHas5Columns.txt"));
@@ -483,6 +484,12 @@ namespace RadioChronicle.WebApi.Tests.Unit
                     document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostRecentTracksOnRMFFMInMay2013.txt"));
                     break;
 
+                case ResponseKeys.WithNewestTracks:
+                    document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithNewestTracksOnRMFFMInMay2013.txt"));
+                    break;
+
+
+                case ResponseKeys.WithNewestTracksWhereTrackRowHas2Columns:
                 case ResponseKeys.WithMostRecentTracksWhereTrackRowHas2Columns:
                     document.LoadHtml(File.ReadAllText("FakeResponses/ResponseWithMostRecentTracksWhereTrackRowHas2Columns.txt"));
                     break;
@@ -546,7 +553,10 @@ namespace RadioChronicle.WebApi.Tests.Unit
             WithMostRecentTracksWhereTrackRowHas2Columns,
             WithMostRecentTracksWhereTrackRowHas5Columns,
             WithCurrentlyBroadcastedTracks,
-            NoneRadioStationIsBroadcasting
+            NoneRadioStationIsBroadcasting,
+            WithNewestTracks,
+            WithNewestTracksWhereTrackRowHas2Columns,
+            WithNewestTracksWhereTrackRowHas5Columns
         }
 
         [SetUp]
@@ -671,37 +681,37 @@ namespace RadioChronicle.WebApi.Tests.Unit
             _requestHelperMock.VerifyAll();
         }
 
-        [TestCase(null, Category = "Get most recent tracks", Description = "Radio station id is set.")]
-        [TestCase(0, Category = "Get most recent tracks", Description = "Radio station id is not set.")]
-        [TestCase(-1, Category = "Get most recent tracks", Description = "Radio station id negative.")]
-        [TestCase(1000, Category = "Get most recent tracks", Description = "Radio station id does not exist.")]
-        public void get_most_recent_tracks___response_contains_tracks___returns_10_most_recent_tracks_grouped_by_date_descending(int? radioStationId)
+        [TestCase(null, Category = "Get newest tracks", Description = "Radio station id is set.")]
+        [TestCase(0, Category = "Get newest tracks", Description = "Radio station id is not set.")]
+        [TestCase(-1, Category = "Get newest tracks", Description = "Radio station id negative.")]
+        [TestCase(1000, Category = "Get newest tracks", Description = "Radio station id does not exist.")]
+        public void get_newest_tracks___response_contains_tracks___returns_10_newest_tracks_grouped_by_date_descending(int? radioStationId)
         {
             if (radioStationId.HasValue == false) radioStationId = _DefaultRadioStation.Id;
 
             _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.MostRecentTracksPage(_DefaultRadioStation.Id).Value)).Returns(_getFakeResponse(ResponseKeys.WithMostRecentTracks));
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.MostRecentTracksPage(_DefaultRadioStation.Id).Value)).Returns(_getFakeResponse(ResponseKeys.WithNewestTracks));
 
-            var result = _remoteRadioChronicleService.GetMostRecentTracks(radioStationId.Value);
+            var result = _remoteRadioChronicleService.GetNewestTracks(radioStationId.Value);
 
             var grouped =
                 result.GroupBy(t => t.PlayedFirstTime.Value.ToShortDateString())
                     .ToDictionary(k => DateTime.Parse(k.Key), v => v.ToList() as IEnumerable<Track>) as IDictionary<DateTime, IEnumerable<Track>>;
 
-            grouped.Keys.ShouldEqual(_ExpectedMostRecentTracksOnRMFFm.Keys);
-            grouped.Values.ShouldEqual(_ExpectedMostRecentTracksOnRMFFm.Values);
+            grouped.Keys.ShouldEqual(_ExpectedNewestTracksOnRMFFm.Keys);
+            grouped.Values.ShouldEqual(_ExpectedNewestTracksOnRMFFm.Values);
         }
 
-        [TestCase(ResponseKeys.Empty, Category = "Get most recent tracks", Description = "Response is empty.")]
-        [TestCase(ResponseKeys.WithMostRecentTracksWhereTrackRowHas2Columns, Category = "Get most recent tracks", Description = "Response has changed and track row has less columns.")]
-        [TestCase(ResponseKeys.WithMostRecentTracksWhereTrackRowHas5Columns, Category = "Get most recent tracks", Description = "Response has changed and track row has more columns.")]
-        public void get_most_recent_track___response_is_different_than_expected___return_empty_list(ResponseKeys response)
+        [TestCase(ResponseKeys.Empty, Category = "Get newest tracks", Description = "Response is empty.")]
+        [TestCase(ResponseKeys.WithNewestTracksWhereTrackRowHas2Columns, Category = "Get newest tracks", Description = "Response has changed and track row has less columns.")]
+        [TestCase(ResponseKeys.WithNewestTracksWhereTrackRowHas5Columns, Category = "Get newest tracks", Description = "Response has changed and track row has more columns.")]
+        public void get_newest_track___response_is_different_than_expected___return_empty_list(ResponseKeys response)
         {
 
             _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
             _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.MostRecentTracksPage(_DefaultRadioStation.Id).Value)).Returns(_getFakeResponse(response));
 
-            var result = _remoteRadioChronicleService.GetMostRecentTracks(_DefaultRadioStation.Id);
+            var result = _remoteRadioChronicleService.GetNewestTracks(_DefaultRadioStation.Id);
 
             const int expectedNumberOfItems = 0;
 

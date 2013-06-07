@@ -12,7 +12,7 @@ namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
 
         IEnumerable<RadioStationGroup> GetRadioStations();
         IEnumerable<Track> GetMostPopularTracks(int radioStationId, int month, int year);
-        IEnumerable<Track> GetMostRecentTracks(int radioStationId);
+        IEnumerable<Track> GetNewestTracks(int radioStationId);
         IDictionary<RadioStation, Track> GetCurrentlyBroadcastedTracks();
     }
 }
