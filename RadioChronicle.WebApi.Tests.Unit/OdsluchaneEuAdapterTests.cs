@@ -1473,20 +1473,6 @@ namespace RadioChronicle.WebApi.Tests.Unit
             result.ShouldEqual(expectedCollection);
         }
 
-        [Test]
-        [Category("Get most popular tracks")]
-        [Description("Happy path")]
-        public void get_most_popular_tracks___default_criteria_set_and_response_contains_most_popular_tracks__returns_top_10_tracks_ordered_by_played_times_descending()
-        {
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
-            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.MostPopularTracksPage(_DefaultRadioStation.Id, _DefaultMonth, _DefaultYear).Value))
-                .Returns(_getFakeResponse(ResponseKeys.WithMostPopularTracks));
-
-            var result = _remoteRadioChronicleService.GetMostPopularTracks(_DefaultRadioStation.Id, _DefaultMonth, _DefaultYear);
-
-            result.ShouldEqual(_ExpectedMostPopularTracksOnRMFFMRadioStationInMay2013);
-        }
-
         [TestCase(ResponseKeys.Empty, Category = "Get most popular tracks", Description = "Response is empty.")]
         [TestCase(ResponseKeys.WithMostPopularTracksWhereTrackRowHas3Columns, Category = "Get most popular tracks", Description = "Response has changed and track row has less columns.")]
         [TestCase(ResponseKeys.WithMostPopularTracksWhereTrackRowHas5Columns, Category = "Get most popular tracks", Description = "Response has changed and track row has more columns.")]
@@ -1505,6 +1491,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             result.Count().ShouldEqual(expectedNumberOfItems);
         }
 
+        [TestCase(null, null, null, Category = "Get most popular tracks", Description = "Happy path.")]
         [TestCase(0, null, null, Category = "Get most popular tracks", Description = "Radio station id is not set.")]
         [TestCase(-1, null, null, Category = "Get most popular tracks", Description = "Radio station id negative.")]
         [TestCase(1000, null, null, Category = "Get most popular tracks", Description = "Radio station id does not exist.")]
@@ -1517,18 +1504,19 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [TestCase(0, 0, 0, Category = "Get most popular tracks", Description = "All parameters are not set correctly.")]
         [TestCase(null, 0, 0, Category = "Get most popular tracks", Description = "Month and year are not set correctly.")]
         [TestCase(0, null, 0, Category = "Get most popular tracks", Description = "Radio station and year are not set correctly.")]
-        public void get_most_popular_tracks___criteria_are_not_set___default_value_is_set(int? radioStationId, int? month, int? year)
+        public void get_most_popular_tracks___criteria_are_not_set___default_value_is_set_and_returns_top_10_tracks_ordered_by_played_times_descending(int? radioStationId, int? month, int? year)
         {
             if(radioStationId.HasValue == false) radioStationId = _DefaultRadioStation.Id;
             if(month.HasValue == false) month = _DefaultMonth;
             if(year.HasValue == false) year = _DefaultYear;
 
             _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.MostPopularTracksPage(_DefaultRadioStation.Id, _DefaultMonth, _DefaultYear).Value)).Verifiable();
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.MostPopularTracksPage(_DefaultRadioStation.Id, _DefaultMonth, _DefaultYear).Value))
+                                    .Returns(_getFakeResponse(ResponseKeys.WithMostPopularTracks));
 
-            _remoteRadioChronicleService.GetMostPopularTracks(radioStationId.Value, month.Value, year.Value);
+            var result = _remoteRadioChronicleService.GetMostPopularTracks(radioStationId.Value, month.Value, year.Value);
 
-            _requestHelperMock.VerifyAll();
+            result.ShouldEqual(_ExpectedMostPopularTracksOnRMFFMRadioStationInMay2013);
         }
 
         [TestCase(null, Category = "Get newest tracks", Description = "Radio station id is set.")]
