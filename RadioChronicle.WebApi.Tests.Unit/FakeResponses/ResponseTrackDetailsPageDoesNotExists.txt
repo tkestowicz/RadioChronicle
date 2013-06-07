@@ -1,0 +1,371 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+<head>
+	<title> :: Informacje o piosence :: odSluchane.eu - znajdź swój ulubiony utwór!</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<base href="http://www.odsluchane.eu/" />
+	<link rel="stylesheet" type="text/css" href="/style.css" />
+	<link rel="stylesheet" type="text/css" href="/calendar.css" />
+	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
+	<link rel="alternate" type="application/rss+xml" title="Ostatnio grane" href="/rss.php" />
+	<meta name="description" content="Znajdź tytuł piosenki granej w radiu o danej godzinie, co było grane, piosenki z radia." />
+	<meta name="keywords" content="ramowka, spis, radiowy, radio, historia, sluchanej, cowradiu, odsluchanej, muzyki, utworow, odsluchana, wradiu, posluchanej, muzyka, aktualnie, piosenki, radiu, tytul, sluchane, grane, utwory" />
+	<script type="text/javascript" src="calendar.js"></script>
+	
+	
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-5588635-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+	
+	<script type="text/javascript">
+	function cookie_info()
+		{
+
+			  document.cookie='cookies_ok=1; expires=15-Dec-2014 12:00:00 GMT; path=/';
+			  document.getElementById('cookie-info').style.display='none';
+
+		}
+	</script>
+	
+	
+</head>
+
+<body>
+
+
+<div id="wrap">
+
+	<div id="header">
+		<span>
+			<a href="/index.php"><img src="/images/logo_big.gif" width="399" height="165" alt="odSluchane - Strona główna"/></a>
+			<div style="float: right; padding: 10px 8px 0 0;">
+				<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FodSluchaneeu%2F121492407920871&amp;width=260&amp;colorscheme=dark&amp;show_faces=true&amp;stream=false&amp;header=false&amp;height=170" scrolling="no" frameborder="0"  allowTransparency="true"></iframe>
+			</div>
+		</span>
+		<div id="menu">
+			<ul id="nav">
+				<li><a href="/index.php">Strona główna</a></li>
+				<li ><a href="/szukaj.php">Wyszukiwarka utworów</a></li>
+				<li ><a href="top.php">Top lista</a></li>
+				<li ><a href="nowosci.php">Nowości</a></li>
+				<li ><a href="kontakt">Kontakt</a></li>
+			</ul>
+		
+		</div>
+		
+	
+	</div>
+	
+	<div id="main">
+	
+				
+						
+			<div style="text-align: center; margin-bottom: 10px;">		
+
+				<script type="text/javascript"><!--
+				google_ad_client = "pub-5528627879593733";
+				google_ad_slot = "4476050169";
+				google_ad_width = 728;
+				google_ad_height = 90;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>		
+			
+			</div>
+
+					
+				
+		<div id="content">
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Informacje o utworze</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">
+
+
+
+	Brak wyników.
+	
+							
+						</div>
+					</div>
+				</div>
+			</div>	
+
+		</div>
+		
+		<div id="left">
+			<div class="in">
+				<div class="panel">
+					<h2 class="panelh">
+						<span>
+							<span>Aktualnie grane</span>
+						</span>
+					</h2>
+					<div class="panelbody">
+						<div class="panel_r">
+							<div class="panel_l">
+								<ul class="panel_aktualnie">
+																			<li>
+										Eska Rock
+										<ul>
+											<li><a href="/utwor/2862/coma_-_leszek_zukowski">Coma - Leszek Żukowski</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Coma+-+Leszek+%C5%BBukowski" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Coma+-+Leszek+%C5%BBukowski/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Roxy FM
+										<ul>
+											<li><a href="/utwor/16889/foo_fighters_-_the_pretender">Foo Fighters - The Pretender</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Foo+Fighters+-+The+Pretender" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Foo+Fighters+-+The+Pretender/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Radio PiN
+										<ul>
+											<li><a href="/utwor/120772/15_minut_projekt_-_najdluzszy_chillout_w_mi">15 Minut Projekt - Najdluzszy Chillout W Mi</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=15+Minut+Projekt+-+Najdluzszy+Chillout+W+Mi" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/15+Minut+Projekt+-+Najdluzszy+Chillout+W+Mi/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										MC Radio
+										<ul>
+											<li><a href="/utwor/62864/perfect_-_raz_po_raz_strasza_nas">Perfect - Raz Po Raz (Strasza Nas)</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Perfect+-+Raz+Po+Raz+%28Strasza+Nas%29" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Perfect+-+Raz+Po+Raz+%28Strasza+Nas%29/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Radio Express
+										<ul>
+											<li><a href="/utwor/17930/beata_-_siedze_i_mysle">Beata - Siedze I Mysle</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Beata+-+Siedze+I+Mysle" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Beata+-+Siedze+I+Mysle/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Blue FM (Poznań)
+										<ul>
+											<li><a href="/utwor/61372/gabriella_cilmi_-_superhot">Gabriella Cilmi - Superhot</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Gabriella+Cilmi+-+Superhot" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Gabriella+Cilmi+-+Superhot/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Radio FaMa (Kielce)
+										<ul>
+											<li><a href="/utwor/106322/lukasz_zagrobelny_-_ja_tu_zostaje">Lukasz Zagrobelny - Ja Tu Zostaje</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Lukasz+Zagrobelny+-+Ja+Tu+Zostaje" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Lukasz+Zagrobelny+-+Ja+Tu+Zostaje/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Radio GRA
+										<ul>
+											<li><a href="/utwor/18146/ewelina_flinta_lukasz_zagrobelny_-_nie_klam_ze_kochasz_mnie">Ewelina Flinta &amp; Lukasz Zagrobelny - Nie Klam Ze Kochasz Mnie</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Ewelina+Flinta+%26+Lukasz+Zagrobelny+-+Nie+Klam+Ze+Kochasz+Mnie" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Ewelina+Flinta+%26+Lukasz+Zagrobelny+-+Nie+Klam+Ze+Kochasz+Mnie/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Muzyczne Radio
+										<ul>
+											<li><a href="/utwor/70504/aly_fila_-_future_sound_of_egypt">Aly &amp; Fila - Future Sound Of Egypt</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Aly+%26+Fila+-+Future+Sound+Of+Egypt" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Aly+%26+Fila+-+Future+Sound+Of+Egypt/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																	</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel">
+					<h2 class="panelh">
+						<span>
+							<span>Posłuchaj stacji</span>
+						</span>
+					</h2>
+					<div class="panelbody">
+						<div class="panel_r">
+							<div class="panel_l">
+
+								<ul class="listens">
+									<li><a href="radio/rmf_fm" title="Posłuchaj radia RMF FM">RMF FM</a></li>
+									<li><a href="radio/radio_zet" title="Posłuchaj Radia ZET">Radio ZET</a></li>
+									<li><a href="radio/eska" title="Posłuchaj Radia ESKA">ESKA</a></li>
+									<li><a href="radio/rmf_maxxx" title="Posłuchaj radia RMF MAXXX">RMF MAXXX</a></li>
+									<li><a href="radio/eska_rock" title="Posłuchaj radia ESKA ROCK">ESKA ROCK</a></li>
+									<li><a href="radio/zlote_przeboje" title="Posłuchaj radia Złote Przeboje">Złote Przeboje</a></li>
+									<li><a href="radio/planeta_fm" title="Posłuchaj radia Planeta FM">Planeta FM</a></li>								
+									<li><a href="radio" title="Wszystkie radia">więcej...</a></li>								
+								
+								</ul>
+							
+
+							</div>
+						</div>
+					</div>
+				</div>					
+			</div>
+			
+		</div>
+	</div>
+	
+	<div id="right">
+		<div class="in">
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Szukaj na stronie</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">						
+
+							<form action="/wyszukaj.php" method="get">
+							  <div>
+								<input type="text" name="q" size="25" />
+								<input style="margin-top: 5px" type="submit" value="Szukaj" />
+							  </div>
+							</form>
+
+
+						
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Aktualnie grane</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">						
+							<ul class="panel_aktualnie">
+																	<li>
+									Radio ZET
+									<ul>
+										<li><a href="/utwor/1712/lutricia_mcneal_-_perfect_love">Lutricia Mcneal - Perfect Love</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Lutricia+Mcneal+-+Perfect+Love" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Lutricia+Mcneal+-+Perfect+Love/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									RMF FM
+									<ul>
+										<li><a href="/utwor/112506/imany_-_you_will_never_know">Imany - You Will Never Know</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Imany+-+You+Will+Never+Know" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Imany+-+You+Will+Never+Know/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Radio Eska
+									<ul>
+										<li><a href="/utwor/78345/puoteck_-_puoteck_set">Puoteck - Puoteck Set</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Puoteck+-+Puoteck+Set" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Puoteck+-+Puoteck+Set/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									RMF MAXXX
+									<ul>
+										<li><a href="/utwor/156496/red_lips_-_to_co_nam_bylo">Red Lips - To Co Nam Było</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Red+Lips+-+To+Co+Nam+By%C5%82o" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Red+Lips+-+To+Co+Nam+By%C5%82o/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Antyradio
+									<ul>
+										<li><a href="/utwor/6918/republika_-_zapytaj_czy_cie_kocham">Republika - Zapytaj Czy Cie Kocham</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Republika+-+Zapytaj+Czy+Cie+Kocham" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Republika+-+Zapytaj+Czy+Cie+Kocham/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									RMF Classic
+									<ul>
+										<li><a href="/utwor/2670/leo_delibes_-_coppelia_walc">Leo Delibes - Coppelia (Walc)</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Leo+Delibes+-+Coppelia+%28Walc%29" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Leo+Delibes+-+Coppelia+%28Walc%29/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Planeta FM (Warszawa)
+									<ul>
+										<li><a href="/utwor/157688/republika_-_01_white_noise_feat_alunageo">Republika - 01 White Noise (Feat. Alunageo</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Republika+-+01+White+Noise+%28Feat.+Alunageo" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Republika+-+01+White+Noise+%28Feat.+Alunageo/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Radio Plus
+									<ul>
+										<li><a href="/utwor/3139/garou_-_gitan">Garou - Gitan</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Garou+-+Gitan" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Garou+-+Gitan/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Złote Przeboje
+									<ul>
+										<li><a href="/utwor/34372/ini_kamoze_-_here_comes_the_hotstepper">Ini Kamoze - Here Comes The Hotstepper</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Ini+Kamoze+-+Here+Comes+The+Hotstepper" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Ini+Kamoze+-+Here+Comes+The+Hotstepper/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+															</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	<div style="text-align: center">
+		<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-5528627879593733";
+
+		google_ad_slot = "0095598125";
+		google_ad_width = 200;
+		google_ad_height = 200;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+	</div>
+	
+	</div>	
+
+	<div id="footer">
+		<div id="footer_in">
+			<ul id="foo">
+				<li><a href="/index.php">Strona głowna</a></li>
+				<li><a href="polityka_prywatnosci">Polityka prywatności i cookies</a></li>
+								<li><a href="kontakt">Kontakt</a></li>
+			</ul>
+			
+						
+			<p><strong><a href="http://www.wartościfunkcjitrygonometrycznych.pl" title="Wartości sin, cos, tg, ctg">Wartości funkcji trygonometrycznych</a></strong></p>
+			
+			
+			<p>Copyright © 2008-2012 odSluchane. Wszelkie prawa zastrzeżone.</p>
+			
+			
+		</div>
+			
+	</div>
+
+</div>
+
+
+</body>
+</html>

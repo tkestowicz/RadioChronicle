@@ -42,7 +42,11 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         public Url TrackDetailsPage(string relativeUrlToTrackDetails)
         {
-            return new Url(string.Format(_TrackDetailsPage, relativeUrlToTrackDetails.StartsWith("/") ? relativeUrlToTrackDetails.Substring(1) : relativeUrlToTrackDetails));
+            return new Url(
+                string.Format(_TrackDetailsPage, 
+                            string.IsNullOrEmpty(relativeUrlToTrackDetails) == false && relativeUrlToTrackDetails.StartsWith("/") ? 
+                                        relativeUrlToTrackDetails.Substring(1) : relativeUrlToTrackDetails
+                    ));
         }
 
         #endregion

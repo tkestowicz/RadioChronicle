@@ -1324,6 +1324,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
                 case ResponseKeys.WithNewestTracksWhereTrackRowHas5Columns:
                 case ResponseKeys.WithMostRecentTracksWhereTrackRowHas5Columns:
                 case ResponseKeys.WithMostPopularTracksWhereTrackRowHas5Columns:
+                case ResponseKeys.WithTrackHistoryWhereHistoryRowHas5Columns:
                     document.LoadHtml(
                         File.ReadAllText("FakeResponses/ResponseWithMostPopularTracksWhereTrackRowHas5Columns.txt"));
                     break;
@@ -1361,6 +1362,12 @@ namespace RadioChronicle.WebApi.Tests.Unit
                     document.LoadHtml(
                         File.ReadAllText("FakeResponses/ResponseWithTrackHistory.txt"));
                     break;
+
+                case ResponseKeys.TrackDetailsPageDoesNotExists:
+                    document.LoadHtml(
+                        File.ReadAllText("FakeResponses/ResponseTrackDetailsPageDoesNotExists.txt"));
+                    break;
+
 
                 case ResponseKeys.Empty:
                 default:
@@ -1414,10 +1421,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
         private const int _DefaultHourTo = 11;
        
-        private static string _DefaultRelativeUrlToTrackDetails
-        {
-            get { return "/utwor/157092/alice_russel_-_let_go_breakdown"; }
-        }
+        public const string DefaultRelativeUrlToTrackDetails = "/utwor/157092/alice_russel_-_let_go_breakdown";
 
         public enum ResponseKeys
         {
@@ -1436,7 +1440,9 @@ namespace RadioChronicle.WebApi.Tests.Unit
             WithNewestTracksWhereTrackRowHas2Columns,
             WithNewestTracksWhereTrackRowHas5Columns,
             WithBroadcastHistory,
-            WithTrackHistory
+            WithTrackHistory,
+            TrackDetailsPageDoesNotExists,
+            WithTrackHistoryWhereHistoryRowHas5Columns
         }
 
         #endregion
@@ -1674,19 +1680,34 @@ namespace RadioChronicle.WebApi.Tests.Unit
             result.Count().ShouldEqual(expectedNumberOfItems);
         }
 
-        [TestCase(null, Category = "Get track history", Description = "Happy path.")]
-        public void get_track_history___response_contains_history___returns_all_broadcasts_of_the_track_ordered_by_date_descending(string relativeUrlToTrackDetails)
+        [Test]
+        [Category("Get track history")]
+        [Description("Happy path.")]
+        public void get_track_history___response_contains_history___returns_all_broadcasts_of_the_track_ordered_by_date_descending()
         {
-            if (string.IsNullOrEmpty(relativeUrlToTrackDetails))
-                relativeUrlToTrackDetails = _DefaultRelativeUrlToTrackDetails;
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.TrackDetailsPage(DefaultRelativeUrlToTrackDetails).Value)).Returns(_getFakeResponse(ResponseKeys.WithTrackHistory));
 
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.TrackDetailsPage(relativeUrlToTrackDetails).Value)).Returns(_getFakeResponse(ResponseKeys.WithTrackHistory));
-
-            var result = _remoteRadioChronicleService.GetTrackHistory(relativeUrlToTrackDetails);
+            var result = _remoteRadioChronicleService.GetTrackHistory(DefaultRelativeUrlToTrackDetails);
 
             var takeOnlyAFewFirstRecords = _ExpectedTrackHistory.Count();
 
             result.Take(takeOnlyAFewFirstRecords).ToList().ShouldEqual(_ExpectedTrackHistory);
+        }
+
+        [TestCase(ResponseKeys.TrackDetailsPageDoesNotExists, null, Category = "Get track history", Description = "Relative url is null.")]
+        [TestCase(ResponseKeys.TrackDetailsPageDoesNotExists, "this_is_not_existing_relative_url", Category = "Get track history", Description = "Relative url is wrong.")]
+        [TestCase(ResponseKeys.Empty, DefaultRelativeUrlToTrackDetails, Category = "Get track history", Description = "Relative url is correct but response is empty.")]
+        [TestCase(ResponseKeys.WithTrackHistoryWhereHistoryRowHas5Columns, DefaultRelativeUrlToTrackDetails, Category = "Get track history", Description = "Relative url is correct but response has more columns than expected.")]
+        public void get_track_history___response_is_different_than_expected___returns_empty_list(ResponseKeys response, string relativeUrlToTrackDetails)
+        {
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.TrackDetailsPage(relativeUrlToTrackDetails).Value))
+                                            .Returns(_getFakeResponse(response));
+
+            var result = _remoteRadioChronicleService.GetTrackHistory(relativeUrlToTrackDetails);
+
+            const int expectedNumberOfElements = 0;
+
+            result.Count().ShouldEqual(expectedNumberOfElements);
         }
     }
 }
