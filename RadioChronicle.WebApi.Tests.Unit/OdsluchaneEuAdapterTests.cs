@@ -1593,22 +1593,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             result.Count.ShouldEqual(expectedNumberOfRecords);
         }
 
-        [Test]
-        [Category("Broadcast history")]
-        [Description("Happy path")]
-        public void broadcast_history___response_contains_tracks___returns_all_broadcasted_tracks_in_specified_range_ordered_by_date_and_time_ascending()
-        {
-            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
-                .Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
-
-            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.BroadcastHistoryPage(_DefaultRadioStation.Id, _DefaultDay, _DefaultHourFrom, _DefaultHourTo).Value))
-                .Returns(_getFakeResponse(ResponseKeys.WithBroadcastHistory));
-
-            var result = _remoteRadioChronicleService.GetBroadcastHistory(_DefaultRadioStation.Id, _DefaultDay, _DefaultHourFrom, _DefaultHourTo);
-
-            result.ShouldEqual(_ExpectedBrodcastHistoryIn_6_6_2013_from_9_to_11);
-        }
-
+        [TestCase(null, null, null, Category = "Broadcast history", Description = "Happy path.")]
         [TestCase(1000, null, null, Category = "Broadcast history", Description = "Radio station id does not exist.")]
         [TestCase(-1, null, null, Category = "Broadcast history", Description = "Radio station id is negative.")]
         [TestCase(-1, -1, null, Category = "Broadcast history", Description = "Radio station id and start hour are negative.")]
@@ -1630,9 +1615,9 @@ namespace RadioChronicle.WebApi.Tests.Unit
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.BroadcastHistoryPage(_DefaultRadioStation.Id, _DefaultDay, _DefaultHourFrom, _DefaultHourTo).Value))
                 .Returns(_getFakeResponse(ResponseKeys.WithBroadcastHistory));
 
-            _remoteRadioChronicleService.GetBroadcastHistory(radioStationId.Value, _DefaultDay, hourFrom.Value, hourTo.Value);
+            var result = _remoteRadioChronicleService.GetBroadcastHistory(radioStationId.Value, _DefaultDay, hourFrom.Value, hourTo.Value);
 
-            _requestHelperMock.VerifyAll();
+            result.ShouldEqual(_ExpectedBrodcastHistoryIn_6_6_2013_from_9_to_11);
         }
 
         [TestCase(null, Category = "Get most recent tracks", Description = "Happy path")]
