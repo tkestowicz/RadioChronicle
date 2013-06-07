@@ -1428,7 +1428,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [Test]
         [Category("Get radio stations")]
         [Description("Happy path")]
-        public void get_radio_stations___response_contains_radio_stations___list_of_radio_stations_grouped_by_radio_family_is_returned()
+        public void get_radio_stations___response_contains_radio_stations___returns_list_of_radio_stations_grouped_by_radio_family()
         {
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
                 .Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
@@ -1438,9 +1438,8 @@ namespace RadioChronicle.WebApi.Tests.Unit
             result.ShouldEqual(_ExpectedRadioStationGroups);
         }
 
-        [Test]
-        [Category("Get radio stations")]
-        public void get_radio_stations___response_is_empty___list_of_radio_stations_should_be_empty()
+        [TestCase(ResponseKeys.Empty, Category ="Get radio stations", Description = "Response is empty.")]
+        public void get_radio_stations___response_is_different_than_expected___returns_empty_list(ResponseKeys response)
         {
             _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
                 .Returns(_getFakeResponse(ResponseKeys.Empty));
@@ -1476,7 +1475,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [TestCase(ResponseKeys.Empty, Category = "Get most popular tracks", Description = "Response is empty.")]
         [TestCase(ResponseKeys.WithMostPopularTracksWhereTrackRowHas3Columns, Category = "Get most popular tracks", Description = "Response has changed and track row has less columns.")]
         [TestCase(ResponseKeys.WithMostPopularTracksWhereTrackRowHas5Columns, Category = "Get most popular tracks", Description = "Response has changed and track row has more columns.")]
-        public void get_most_popular_tracks___response_body_is_different_than_expected___return_empty_list(ResponseKeys responseKey)
+        public void get_most_popular_tracks___response_is_different_than_expected___return_empty_list(ResponseKeys responseKey)
         {
             var radioStation = _DefaultRadioStation;
             var month = _DefaultMonth;
@@ -1504,7 +1503,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [TestCase(0, 0, 0, Category = "Get most popular tracks", Description = "All parameters are not set correctly.")]
         [TestCase(null, 0, 0, Category = "Get most popular tracks", Description = "Month and year are not set correctly.")]
         [TestCase(0, null, 0, Category = "Get most popular tracks", Description = "Radio station and year are not set correctly.")]
-        public void get_most_popular_tracks___criteria_are_not_set___default_value_is_set_and_returns_top_10_tracks_ordered_by_played_times_descending(int? radioStationId, int? month, int? year)
+        public void get_most_popular_tracks___response_contains_tracks__returns_top_10_tracks_ordered_by_played_times_descending(int? radioStationId, int? month, int? year)
         {
             if(radioStationId.HasValue == false) radioStationId = _DefaultRadioStation.Id;
             if(month.HasValue == false) month = _DefaultMonth;
@@ -1570,7 +1569,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
         [TestCase(ResponseKeys.Empty, Category = "Currently broadcasted", Description = "Response is empty.")]
         [TestCase(ResponseKeys.NoneRadioStationIsBroadcasting, Category = "Currently broadcasted", Description = "None radio station is broadcasting.")]
-        public void currently_broadcasted___response_is_different_than_expected___return_empty_list(ResponseKeys response)
+        public void currently_broadcasted___response_is_different_than_expected___returns_empty_list(ResponseKeys response)
         {
             _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.CurrentlyBroadcastedTrack.Value)).Returns(_getFakeResponse(response));
 
@@ -1589,7 +1588,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [TestCase(null, -1, -1, Category = "Broadcast history", Description = "Radio station id is set, start hour is grater than end hour.")]
         [TestCase(null, 24, null, Category = "Broadcast history", Description = "Radio station id and end time are set, start hour is out of range.")]
         [TestCase(null, null, 50, Category = "Broadcast history", Description = "Radio station id and start time are set, end hour is out of range.")]
-        public void broadcast_history___criteria_have_incorrect_values__default_value_is(int? radioStationId, int? hourFrom, int? hourTo)
+        public void broadcast_history___response_contains_tracks__returns_all_broadcasted_tracks_ordered_by_broadcast_date_descending(int? radioStationId, int? hourFrom, int? hourTo)
         {
             ApplicationTime._replaceCurrentTimeLogic(() => new DateTime(_DefaultDay.Year, _DefaultDay.Month, _DefaultDay.Day, _DefaultHourTo, 0, 0));
 
