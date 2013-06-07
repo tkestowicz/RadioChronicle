@@ -11,6 +11,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         private const string _MostPopularTracksPagePattern = "http://www.odsluchane.eu/top.php?r={0}&m={1}&y={2}";
         private const string _NewestTracksPagePattern = "http://www.odsluchane.eu/nowosci.php?r={0}";
         private const string _BroadcastHistoryPagePattern = "http://www.odsluchane.eu/szukaj.php=r={0}&date={1}&time_from={2}&time_to={3}";
+        private const string _TrackDetailsPage = "http://www.odsluchane.eu/{0}";
 
         #region Implementation of IUrlRepository
 
@@ -37,6 +38,11 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         public Url BroadcastHistoryPage(int radioStationId, DateTime day, int timeFrom, int timeTo)
         {
             return new Url(string.Format(_BroadcastHistoryPagePattern, radioStationId, day.ToString("dd-MM-yyyy"), timeFrom, timeTo));
+        }
+
+        public Url TrackDetailsPage(string relativeUrlToTrackDetails)
+        {
+            return new Url(string.Format(_TrackDetailsPage, relativeUrlToTrackDetails.StartsWith("/") ? relativeUrlToTrackDetails.Substring(1) : relativeUrlToTrackDetails));
         }
 
         #endregion

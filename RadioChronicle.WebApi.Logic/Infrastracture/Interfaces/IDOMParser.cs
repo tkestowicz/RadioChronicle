@@ -12,5 +12,6 @@ namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
         IEnumerable<Track> ParseDOMAndSelectNewestTracks(HtmlDocument document);
         IDictionary<RadioStation, Track> ParseDOMAndSelectCurrentlyBroadcastedTracks(HtmlDocument document);
         IEnumerable<Track> ParseDOMAndSelectBroadcastHistory(HtmlDocument document);
+        IEnumerable<TrackHistory> ParseDOMAndSelectTrackHistory(HtmlDocument document);
     }
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
 <head>
-	<title>Sprawdź co było grane w radiu! :: odSluchane.eu - znajdź swój ulubiony utwór!</title>
+	<title>Alice Russel - Let Go (Breakdown) :: Informacje o piosence :: odSluchane.eu - znajdź swój ulubiony utwór!</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<base href="http://www.odsluchane.eu/" />
 	<link rel="stylesheet" type="text/css" href="/style.css" />
@@ -44,19 +44,6 @@
 <body>
 
 
-	<div id="cookie-info" style="background: #FFF1A8; margin: 0 auto; padding: 10px 0; margin-bottom: 10px; width: 95%">
-	
-	<p style="margin: 0 auto; width: 95%; float: left;">Korzystanie z witryny odSluchane.eu oznacza zgodę na wykorzystywanie plików cookie, z których niektóre mogą być już zapisane w folderze przeglądarki.<br />
-	Więcej informacji można znaleźć w <a href="/polityka_prywatnosci">Polityce plików cookies.</a>
-	</p>
-	
-	<p style="margin-bottom: 0; padding: 0; margin: 0 5px 0 0; float: right; text-align: right; font-weight: bold; " onclick="cookie_info()"><a href="#">zamknij</a></p>
-	<br style="clear: both" />
-	
-	</div>
-
-
-
 <div id="wrap">
 
 	<div id="header">
@@ -79,7 +66,7 @@
 		
 	
 	</div>
-		
+	
 	<div id="main">
 	
 				
@@ -87,25 +74,25 @@
 			<div style="text-align: center; margin-bottom: 10px;">		
 
 				<script type="text/javascript"><!--
-				google_ad_client = "ca-pub-5528627879593733";
-				google_ad_slot = "9932625400";
+				google_ad_client = "pub-5528627879593733";
+				google_ad_slot = "4476050169";
 				google_ad_width = 728;
 				google_ad_height = 90;
 				//-->
 				</script>
 				<script type="text/javascript"
 				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-				</script>
+				</script>		
 			
 			</div>
-			
+
 					
 				
 		<div id="content">
 			<div class="panel">
 				<h2 class="panelh">
 					<span>
-						<span>Witaj!</span>
+						<span>Informacje o utworze</span>
 					</span>
 				</h2>
 				<div class="panelbody">
@@ -115,59 +102,175 @@
 
 
 
+<h2>Alice Russel - Let Go (Breakdown) <a class="yt" href="http://www.youtube.com/results?search_query=Alice+Russel+-+Let+Go+%28Breakdown%29" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Alice+Russel+-+Let+Go+%28Breakdown%29/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a><a class="facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.odsluchane.eu%2Futwor%2F157092%2Falice_russel_-_let_go_breakdown&t=Alice+Russel+-+Let+Go+%28Breakdown%29" rel="nofollow"><img src="/images/facebook.png" width="16" height="16" alt="Facebook!" title="Podziel się!" /></a></h2>
+
+<div style="text-align: center">
+	<script type="text/javascript"><!--
+	google_ad_client = "pub-5528627879593733";
+	google_ad_slot = "0830506187";
+	google_ad_width = 468;
+	google_ad_height = 60;
+	//-->
+	</script>
+	<script type="text/javascript"
+	src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+	</script>
+</div>
+
+<table class="wyniki" summary="Wyniki wyszukiwania">
+	<tr><th scope="col">Data / Godzina</th><th scope="col">Radio</th></tr>
+	
+		
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">07-06-2013</td></tr>	
+		
+			
+		<tr><td>17:45</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>13:28</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">06-06-2013</td></tr>	
+		
+			
+		<tr><td>19:36</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>10:41</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">05-06-2013</td></tr>	
+		
+			
+		<tr><td>07:16</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">04-06-2013</td></tr>	
+		
+			
+		<tr><td>18:33</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>09:07</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">03-06-2013</td></tr>	
+		
+			
+		<tr><td>13:43</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>06:54</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">01-06-2013</td></tr>	
+		
+			
+		<tr><td>12:04</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">31-05-2013</td></tr>	
+		
+			
+		<tr><td>17:28</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>10:52</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">30-05-2013</td></tr>	
+		
+			
+		<tr><td>19:46</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>12:55</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">29-05-2013</td></tr>	
+		
+			
+		<tr><td>17:40</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>09:41</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">28-05-2013</td></tr>	
+		
+			
+		<tr><td>15:44</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>07:44</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
 
 
-							<img class="intro_img" width="121" height="170" alt="Obrazek powitania" src="images/powitanie_img.png" />
-							<p class="intro">Czy zdarzyło Ci się kiedyś, że jadąc autobusem, samochodem lub po prostu będąc w jakimś centrum handlowym, usłyszałeś utwór, który utkwił Ci w pamięci, ale nie miałeś pojęcia jaki nosi tytuł?</p>
-
-								<p class="intro_2">Teraz, dzięki tej stronie, możesz poznać tytuł piosenki która tak utkwiła Ci w pamięci!
-								Wystarczy że znasz godzinę i nazwę radia w którym grany był utwór.
-								Jedyne co musisz zrobić to wpisać datę oraz godzinę do naszej wyszukiwarki, którą znajdziesz w nagłówku strony.
-							</p>
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
-							
+</table>
+	
 							
 						</div>
-										
 					</div>
 				</div>
 			</div>	
 
-			
-			<div class="panel">
-				<h2 class="panelh">
-					<span>
-						<span>Informacje</span>
-					</span>
-				</h2>
-				<div class="panelbody">
-					<div class="panel_r">
-						<div class="panel_l">			
-								
-				<p><img src="images/loga/czworka_logo.png" alt="Polskie Radio Czwórka - logo" /></p>	
-				<p class="news">W dniu dzisiejszym do naszej <a href="/szukaj.php" title="Co było grane w radiu">wyszukiwarki</a> zostało dodane <a href="/szukaj.php?r=49" title="Co było grane w czwórce">Polskie Radio Czwórka</a>.</p>
-				<p class="news_date">18 grudnia 2012r.</p>
-								
-								
-								
-								
-								
-							</div>
-						</div>
-					</div>
-				</div>
-			
-			
-			
 		</div>
 		
 		<div id="left">
@@ -182,23 +285,7 @@
 						<div class="panel_r">
 							<div class="panel_l">
 								<ul class="panel_aktualnie">
-																			<li>
-										Eska Rock
-									</li>
-																			<li>
-										Roxy FM
-									</li>
-																			<li>
-										Radio PiN
-										<ul></ul>
-									</li>
-																			<li>
-										Radio Express
-										<ul>
-											<li></li>
-										</ul>
-									</li>
-																	</ul>
+										
 							</div>
 						</div>
 					</div>
@@ -271,7 +358,21 @@
 					<div class="panel_r">
 						<div class="panel_l">						
 							<ul class="panel_aktualnie">
-								
+																	<li>
+									Radio ZET
+									<ul>
+										</ul>
+								</li>
+																	<li>
+									RMF FM
+									
+								</li>
+																	<li>
+									Radio Eska
+									<ul>
+										<li></li>
+										</ul>
+								</li>
 															</ul>
 						</div>
 					</div>

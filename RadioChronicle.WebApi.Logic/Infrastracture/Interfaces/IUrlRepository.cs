@@ -10,5 +10,6 @@ namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
         Url MostPopularTracksPage(int radioStationId, int month, int year);
         Url NewestTracksPage(int radioStationId);
         Url BroadcastHistoryPage(int radioStationId, DateTime day, int timeFrom, int timeTo);
+        Url TrackDetailsPage(string relativeUrlToTrackDetails);
     }
 }

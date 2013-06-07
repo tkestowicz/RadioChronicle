@@ -17,6 +17,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
     public class OdsluchaneEuAdapterTests
     {
         private Mock<IRequestHelper> _requestHelperMock;
+
         private IRemoteRadioChronicleService _remoteRadioChronicleService;
 
         private IUrlRepository _urlRepository;
@@ -1278,6 +1279,26 @@ namespace RadioChronicle.WebApi.Tests.Unit
             }
         }
 
+        public static IEnumerable<TrackHistory> _ExpectedTrackHistory
+        {
+            get
+            {
+                return new List<TrackHistory>() 
+                {
+                    new TrackHistory(){ Broadcasted = new DateTime(2013, 6, 7, 17, 45, 0), RadioStation = new RadioStation(){ Name = "Radio PiN", Id  = 0, IsDefault = false }},
+                    new TrackHistory(){ Broadcasted = new DateTime(2013, 6, 7, 13, 28, 0), RadioStation = new RadioStation(){ Name = "Radio PiN", Id  = 0, IsDefault = false }},
+                    new TrackHistory(){ Broadcasted = new DateTime(2013, 6, 6, 19, 36, 0), RadioStation = new RadioStation(){ Name = "RMF FM", Id  = 0, IsDefault = false }},
+                    new TrackHistory(){ Broadcasted = new DateTime(2013, 6, 6, 10, 41, 0), RadioStation = new RadioStation(){ Name = "Radio PiN", Id  = 0, IsDefault = false }},
+                    new TrackHistory(){ Broadcasted = new DateTime(2013, 6, 5, 7, 16, 0), RadioStation = new RadioStation(){ Name = "Radio PiN", Id  = 0, IsDefault = false }},
+                    new TrackHistory(){ Broadcasted = new DateTime(2013, 6, 4, 18, 33, 0), RadioStation = new RadioStation(){ Name = "Eska Rock", Id  = 0, IsDefault = false }},
+                    new TrackHistory(){ Broadcasted = new DateTime(2013, 6, 4, 9, 7, 0), RadioStation = new RadioStation(){ Name = "Radio PiN", Id  = 0, IsDefault = false }},
+                    new TrackHistory(){ Broadcasted = new DateTime(2013, 6, 3, 13, 43, 0), RadioStation = new RadioStation(){ Name = "Radio ZET", Id  = 0, IsDefault = false }},
+                    new TrackHistory(){ Broadcasted = new DateTime(2013, 6, 3, 6, 54, 0), RadioStation = new RadioStation(){ Name = "Radio PiN", Id  = 0, IsDefault = false }},
+                    new TrackHistory(){ Broadcasted = new DateTime(2013, 6, 1, 12, 4, 0), RadioStation = new RadioStation(){ Name = "Radio ZET", Id  = 0, IsDefault = false }},
+                };
+            }
+        }
+
         private HtmlDocument _getFakeResponse(ResponseKeys responseKey)
         {
             var document = new HtmlDocument();
@@ -1336,6 +1357,11 @@ namespace RadioChronicle.WebApi.Tests.Unit
                         File.ReadAllText("FakeResponses/ResponseWithBroadcastHistoryInRMFFM_06.06.2013_9_11.txt"));
                     break;
 
+                case ResponseKeys.WithTrackHistory:
+                    document.LoadHtml(
+                        File.ReadAllText("FakeResponses/ResponseWithTrackHistory.txt"));
+                    break;
+
                 case ResponseKeys.Empty:
                 default:
                     document.LoadHtml("");
@@ -1387,6 +1413,11 @@ namespace RadioChronicle.WebApi.Tests.Unit
         private const int _DefaultHourFrom = 9;
 
         private const int _DefaultHourTo = 11;
+       
+        private static string _DefaultRelativeUrlToTrackDetails
+        {
+            get { return "/utwor/157092/alice_russel_-_let_go_breakdown"; }
+        }
 
         public enum ResponseKeys
         {
@@ -1404,7 +1435,8 @@ namespace RadioChronicle.WebApi.Tests.Unit
             WithNewestTracks,
             WithNewestTracksWhereTrackRowHas2Columns,
             WithNewestTracksWhereTrackRowHas5Columns,
-            WithBroadcastHistory
+            WithBroadcastHistory,
+            WithTrackHistory
         }
 
         #endregion
@@ -1640,6 +1672,21 @@ namespace RadioChronicle.WebApi.Tests.Unit
             const int expectedNumberOfItems = 0;
 
             result.Count().ShouldEqual(expectedNumberOfItems);
+        }
+
+        [TestCase(null, Category = "Get track history", Description = "Happy path.")]
+        public void get_track_history___response_contains_history___returns_all_broadcasts_of_the_track_ordered_by_date_descending(string relativeUrlToTrackDetails)
+        {
+            if (string.IsNullOrEmpty(relativeUrlToTrackDetails))
+                relativeUrlToTrackDetails = _DefaultRelativeUrlToTrackDetails;
+
+            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.TrackDetailsPage(relativeUrlToTrackDetails).Value)).Returns(_getFakeResponse(ResponseKeys.WithTrackHistory));
+
+            var result = _remoteRadioChronicleService.GetTrackHistory(relativeUrlToTrackDetails);
+
+            var takeOnlyAFewFirstRecords = _ExpectedTrackHistory.Count();
+
+            result.Take(takeOnlyAFewFirstRecords).ToList().ShouldEqual(_ExpectedTrackHistory);
         }
     }
 }

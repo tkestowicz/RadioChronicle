@@ -110,6 +110,13 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return GetBroadcastHistory(radioStationId, ApplicationTime.Current, DefaultHourFrom, DefaultHourTo).Take(10).ToList();
         }
 
+        public IEnumerable<TrackHistory> GetTrackHistory(string relativeUrlToTrackDetails)
+        {
+            var doc = _requestHelper.RequestURL(_urlRepository.TrackDetailsPage(relativeUrlToTrackDetails).Value);
+
+            return _domParser.ParseDOMAndSelectTrackHistory(doc);
+        }
+
         private void VerifyHourRangeAndSetDefault(ref int hourFrom, ref int hourTo)
         {
             if (!_argumentsValidator.IsHourValid(hourFrom)) hourFrom = DefaultHourFrom;

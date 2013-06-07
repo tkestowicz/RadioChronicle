@@ -1,0 +1,533 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+<head>
+	<title>Alice Russel - Let Go (Breakdown) :: Informacje o piosence :: odSluchane.eu - znajdź swój ulubiony utwór!</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<base href="http://www.odsluchane.eu/" />
+	<link rel="stylesheet" type="text/css" href="/style.css" />
+	<link rel="stylesheet" type="text/css" href="/calendar.css" />
+	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
+	<link rel="alternate" type="application/rss+xml" title="Ostatnio grane" href="/rss.php" />
+	<meta name="description" content="Znajdź tytuł piosenki granej w radiu o danej godzinie, co było grane, piosenki z radia." />
+	<meta name="keywords" content="ramowka, spis, radiowy, radio, historia, sluchanej, cowradiu, odsluchanej, muzyki, utworow, odsluchana, wradiu, posluchanej, muzyka, aktualnie, piosenki, radiu, tytul, sluchane, grane, utwory" />
+	<script type="text/javascript" src="calendar.js"></script>
+	
+	
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-5588635-1']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+	
+	<script type="text/javascript">
+	function cookie_info()
+		{
+
+			  document.cookie='cookies_ok=1; expires=15-Dec-2014 12:00:00 GMT; path=/';
+			  document.getElementById('cookie-info').style.display='none';
+
+		}
+	</script>
+	
+	
+</head>
+
+<body>
+
+
+<div id="wrap">
+
+	<div id="header">
+		<span>
+			<a href="/index.php"><img src="/images/logo_big.gif" width="399" height="165" alt="odSluchane - Strona główna"/></a>
+			<div style="float: right; padding: 10px 8px 0 0;">
+				<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FodSluchaneeu%2F121492407920871&amp;width=260&amp;colorscheme=dark&amp;show_faces=true&amp;stream=false&amp;header=false&amp;height=170" scrolling="no" frameborder="0"  allowTransparency="true"></iframe>
+			</div>
+		</span>
+		<div id="menu">
+			<ul id="nav">
+				<li><a href="/index.php">Strona główna</a></li>
+				<li ><a href="/szukaj.php">Wyszukiwarka utworów</a></li>
+				<li ><a href="top.php">Top lista</a></li>
+				<li ><a href="nowosci.php">Nowości</a></li>
+				<li ><a href="kontakt">Kontakt</a></li>
+			</ul>
+		
+		</div>
+		
+	
+	</div>
+	
+	<div id="main">
+	
+				
+						
+			<div style="text-align: center; margin-bottom: 10px;">		
+
+				<script type="text/javascript"><!--
+				google_ad_client = "pub-5528627879593733";
+				google_ad_slot = "4476050169";
+				google_ad_width = 728;
+				google_ad_height = 90;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>		
+			
+			</div>
+
+					
+				
+		<div id="content">
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Informacje o utworze</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">
+
+
+
+
+<h2>Alice Russel - Let Go (Breakdown) <a class="yt" href="http://www.youtube.com/results?search_query=Alice+Russel+-+Let+Go+%28Breakdown%29" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Alice+Russel+-+Let+Go+%28Breakdown%29/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a><a class="facebook" href="http://www.facebook.com/sharer.php?u=http%3A%2F%2Fwww.odsluchane.eu%2Futwor%2F157092%2Falice_russel_-_let_go_breakdown&t=Alice+Russel+-+Let+Go+%28Breakdown%29" rel="nofollow"><img src="/images/facebook.png" width="16" height="16" alt="Facebook!" title="Podziel się!" /></a></h2>
+
+<div style="text-align: center">
+	<script type="text/javascript"><!--
+	google_ad_client = "pub-5528627879593733";
+	google_ad_slot = "0830506187";
+	google_ad_width = 468;
+	google_ad_height = 60;
+	//-->
+	</script>
+	<script type="text/javascript"
+	src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+	</script>
+</div>
+
+<table class="wyniki" summary="Wyniki wyszukiwania">
+	<tr><th scope="col">Data / Godzina</th><th scope="col">Radio</th></tr>
+	
+		
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">07-06-2013</td></tr>	
+		
+			
+		<tr><td>17:45</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>13:28</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">06-06-2013</td></tr>	
+		
+			
+		<tr><td>19:36</td><td>RMF FM</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>10:41</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">05-06-2013</td></tr>	
+		
+			
+		<tr><td>07:16</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">04-06-2013</td></tr>	
+		
+			
+		<tr><td>18:33</td><td>Eska Rock</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>09:07</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">03-06-2013</td></tr>	
+		
+			
+		<tr><td>13:43</td><td>Radio ZET</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>06:54</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">01-06-2013</td></tr>	
+		
+			
+		<tr><td>12:04</td><td>Radio ZET</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">31-05-2013</td></tr>	
+		
+			
+		<tr><td>17:28</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>10:52</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">30-05-2013</td></tr>	
+		
+			
+		<tr><td>19:46</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>12:55</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">29-05-2013</td></tr>	
+		
+			
+		<tr><td>17:40</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>09:41</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+				
+			<tr><td class="line" style="text-align: left;" colspan="2">28-05-2013</td></tr>	
+		
+			
+		<tr><td>15:44</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+			
+		<tr><td>07:44</td><td>Radio PiN</td></tr>
+		
+			
+	
+		
+
+
+</table>
+	
+							
+						</div>
+					</div>
+				</div>
+			</div>	
+
+		</div>
+		
+		<div id="left">
+			<div class="in">
+				<div class="panel">
+					<h2 class="panelh">
+						<span>
+							<span>Aktualnie grane</span>
+						</span>
+					</h2>
+					<div class="panelbody">
+						<div class="panel_r">
+							<div class="panel_l">
+								<ul class="panel_aktualnie">
+																			<li>
+										Eska Rock
+										<ul>
+											<li><a href="/utwor/133923/the_tea_street_band_-_disco_light">The Tea Street Band - Disco Light</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=The+Tea+Street+Band+-+Disco+Light" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/The+Tea+Street+Band+-+Disco+Light/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Roxy FM
+										<ul>
+											<li><a href="/utwor/16889/foo_fighters_-_the_pretender">Foo Fighters - The Pretender</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Foo+Fighters+-+The+Pretender" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Foo+Fighters+-+The+Pretender/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Radio PiN
+										<ul>
+											<li><a href="/utwor/122246/o_va_voi_ben_hassan_-_d_ror_yikra">O!va Voi/ben Hassan - D&#039;ror Yikra</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=O%21va+Voi%2Fben+Hassan+-+D%27ror+Yikra" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/O%21va+Voi+ben+Hassan+-+D%27ror+Yikra/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										MC Radio
+										<ul>
+											<li><a href="/utwor/40394/double_-_captain_of_her_heart">Double - Captain Of Her Heart</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Double+-+Captain+Of+Her+Heart" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Double+-+Captain+Of+Her+Heart/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Radio Express
+										<ul>
+											<li><a href="/utwor/100986/play_mix_-_puste_koperty">Play &amp; Mix - Puste Koperty</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Play+%26+Mix+-+Puste+Koperty" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Play+%26+Mix+-+Puste+Koperty/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Blue FM (Poznań)
+										<ul>
+											<li><a href="/utwor/24967/two_of_us_-_my_inner_voices">Two Of Us - My Inner Voices</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Two+Of+Us+-+My+Inner+Voices" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Two+Of+Us+-+My+Inner+Voices/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Radio FaMa (Kielce)
+										<ul>
+											<li><a href="/utwor/106322/lukasz_zagrobelny_-_ja_tu_zostaje">Lukasz Zagrobelny - Ja Tu Zostaje</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Lukasz+Zagrobelny+-+Ja+Tu+Zostaje" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Lukasz+Zagrobelny+-+Ja+Tu+Zostaje/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Radio GRA
+										<ul>
+											<li><a href="/utwor/119903/calvin_harris_feat_ellie_goulding_-_i_need_your_love">Calvin Harris Feat. Ellie Goulding - I Need Your Love</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=Calvin+Harris+Feat.+Ellie+Goulding+-+I+Need+Your+Love" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Calvin+Harris+Feat.+Ellie+Goulding+-+I+Need+Your+Love/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																			<li>
+										Muzyczne Radio
+										<ul>
+											<li><a href="/utwor/83289/c-bool_jo_-_don_t_waste_the_time_radio_edit">C-Bool &amp; Jo - Don&#039;t Waste The Time (Radio Edit)</a></li>
+											<li><a class="yt" href="http://www.youtube.com/results?search_query=C-Bool+%26+Jo+-+Don%27t+Waste+The+Time+%28Radio+Edit%29" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/C-Bool+%26+Jo+-+Don%27t+Waste+The+Time+%28Radio+Edit%29/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+										</ul>
+									</li>
+																	</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="panel">
+					<h2 class="panelh">
+						<span>
+							<span>Posłuchaj stacji</span>
+						</span>
+					</h2>
+					<div class="panelbody">
+						<div class="panel_r">
+							<div class="panel_l">
+
+								<ul class="listens">
+									<li><a href="radio/rmf_fm" title="Posłuchaj radia RMF FM">RMF FM</a></li>
+									<li><a href="radio/radio_zet" title="Posłuchaj Radia ZET">Radio ZET</a></li>
+									<li><a href="radio/eska" title="Posłuchaj Radia ESKA">ESKA</a></li>
+									<li><a href="radio/rmf_maxxx" title="Posłuchaj radia RMF MAXXX">RMF MAXXX</a></li>
+									<li><a href="radio/eska_rock" title="Posłuchaj radia ESKA ROCK">ESKA ROCK</a></li>
+									<li><a href="radio/zlote_przeboje" title="Posłuchaj radia Złote Przeboje">Złote Przeboje</a></li>
+									<li><a href="radio/planeta_fm" title="Posłuchaj radia Planeta FM">Planeta FM</a></li>								
+									<li><a href="radio" title="Wszystkie radia">więcej...</a></li>								
+								
+								</ul>
+							
+
+							</div>
+						</div>
+					</div>
+				</div>					
+			</div>
+			
+		</div>
+	</div>
+	
+	<div id="right">
+		<div class="in">
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Szukaj na stronie</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">						
+
+							<form action="/wyszukaj.php" method="get">
+							  <div>
+								<input type="text" name="q" size="25" />
+								<input style="margin-top: 5px" type="submit" value="Szukaj" />
+							  </div>
+							</form>
+
+
+						
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel">
+				<h2 class="panelh">
+					<span>
+						<span>Aktualnie grane</span>
+					</span>
+				</h2>
+				<div class="panelbody">
+					<div class="panel_r">
+						<div class="panel_l">						
+							<ul class="panel_aktualnie">
+																	<li>
+									Radio ZET
+									<ul>
+										<li><a href="/utwor/21119/lady_gaga_-_bad_romance">Lady Gaga - Bad Romance</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Lady+Gaga+-+Bad+Romance" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Lady+Gaga+-+Bad+Romance/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									RMF FM
+									<ul>
+										<li><a href="/utwor/145295/macklemore_ryan_lewis_-_can_t_hold_us">Macklemore / Ryan Lewis - Can&#039;t Hold Us</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Macklemore+%2F+Ryan+Lewis+-+Can%27t+Hold+Us" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Macklemore+++Ryan+Lewis+-+Can%27t+Hold+Us/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Radio Eska
+									<ul>
+										<li><a href="/utwor/124264/lemon_-_napraw">Lemon - Napraw</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Lemon+-+Napraw" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Lemon+-+Napraw/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									RMF MAXXX
+									<ul>
+										<li><a href="/utwor/146755/naughty_boy_sam_smith_-_la_la_la">Naughty Boy / Sam Smith - La La La</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Naughty+Boy+%2F+Sam+Smith+-+La+La+La" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Naughty+Boy+++Sam+Smith+-+La+La+La/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Antyradio
+									<ul>
+										<li><a href="/utwor/54770/beatles_the_03_letit_-_the_long_and_winding_road">Beatles, The &#039;03 Letit - The Long And Winding Road</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Beatles%2C+The+%2703+Letit+-+The+Long+And+Winding+Road" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Beatles%2C+The+%2703+Letit+-+The+Long+And+Winding+Road/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									RMF Classic
+									<ul>
+										<li><a href="/utwor/3159/yann_tiersen_-_les_jours_tristes">Yann Tiersen - Les Jours Tristes</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Yann+Tiersen+-+Les+Jours+Tristes" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Yann+Tiersen+-+Les+Jours+Tristes/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Planeta FM (Warszawa)
+									<ul>
+										<li><a href="/utwor/159149/beatles_the_03_letit_-_01_white_noise_feat_alunageo">Beatles, The &#039;03 Letit - 01 White Noise (Feat. Alunageo</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Beatles%2C+The+%2703+Letit+-+01+White+Noise+%28Feat.+Alunageo" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Beatles%2C+The+%2703+Letit+-+01+White+Noise+%28Feat.+Alunageo/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Radio Plus
+									<ul>
+										<li><a href="/utwor/3139/garou_-_gitan">Garou - Gitan</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Garou+-+Gitan" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Garou+-+Gitan/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+																	<li>
+									Złote Przeboje
+									<ul>
+										<li><a href="/utwor/29311/bellini_-_samba_de_janeiro">Bellini - Samba De Janeiro</a></li>
+										<li><a class="yt" href="http://www.youtube.com/results?search_query=Bellini+-+Samba+De+Janeiro" rel="nofollow"><img src="/images/youtube.png" width="16" height="16" alt="YouTube" title="Odsłuchaj w serwisie YouTube" /></a><a class="wrzuta" href="http://www.wrzuta.pl/szukaj/audio/Bellini+-+Samba+De+Janeiro/1" rel="nofollow"><img src="/images/wrzuta.png" width="16" height="16" alt="Wrzuta" title="Odsłuchaj w serwisie Wrzuta" /></a></li>
+									</ul>
+								</li>
+															</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	<div style="text-align: center">
+		<script type="text/javascript"><!--
+		google_ad_client = "ca-pub-5528627879593733";
+
+		google_ad_slot = "0095598125";
+		google_ad_width = 200;
+		google_ad_height = 200;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+	</div>
+	
+	</div>	
+
+	<div id="footer">
+		<div id="footer_in">
+			<ul id="foo">
+				<li><a href="/index.php">Strona głowna</a></li>
+				<li><a href="polityka_prywatnosci">Polityka prywatności i cookies</a></li>
+								<li><a href="kontakt">Kontakt</a></li>
+			</ul>
+			
+						
+			<p><strong><a href="http://www.wartościfunkcjitrygonometrycznych.pl" title="Wartości sin, cos, tg, ctg">Wartości funkcji trygonometrycznych</a></strong></p>
+			
+			
+			<p>Copyright © 2008-2012 odSluchane. Wszelkie prawa zastrzeżone.</p>
+			
+			
+		</div>
+			
+	</div>
+
+</div>
+
+
+</body>
+</html>

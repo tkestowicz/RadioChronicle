@@ -80,6 +80,18 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return items.Attributes["value"].Value;
         }
 
+        private IEnumerable<HtmlNode> SelectTrackHistory(HtmlDocument document)
+        {
+            if (document == null) return new List<HtmlNode>();
+
+            var tableRows = document.DocumentNode.SelectNodes("//table[@class='wyniki']/tr");
+
+            if (tableRows == null) return new List<HtmlNode>();
+
+            // skip first element which is a result header
+            return tableRows.Skip(1);
+        }
+
         public IEnumerable<RadioStationGroup> ParseDOMAndSelectRadioStationGroups(HtmlDocument document)
         {
             var result = new List<RadioStationGroup>();
@@ -95,33 +107,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 {
                     GroupName = radioStationGroup.Attributes[0].Value,
                     RadioStations = radioStations
-                });
-            }
-
-            return result;
-        }
-
-        private IEnumerable<RadioStation> ParseDOMAndSelectRadioStations(IEnumerable<HtmlNode> radioStations)
-        {
-            var result = new List<RadioStation>();
-
-            if (radioStations == null) return result;
-
-            foreach (var radioStation in radioStations)
-            {
-                if (!radioStation.Attributes.Any()) continue;
-
-                var radioName = radioStation.Attributes.SingleOrDefault(a => a.Name == "label");
-                var radioId = radioStation.Attributes.SingleOrDefault(a => a.Name == "value");
-
-                var isSelected = radioStation.Attributes.SingleOrDefault(a => a.Name == "selected");
-                    var isDefault = isSelected != null && isSelected.Value == "selected";
-
-                result.Add(new RadioStation()
-                {
-                    Id = (radioId != null) ? int.Parse(radioId.Value) : 0,
-                    Name = (radioName != null) ? radioName.Value : "",
-                    IsDefault = isDefault
                 });
             }
 
@@ -197,6 +182,83 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 var track = ParseDOMAndReturnTrackFromSearchResults(retrievedRow, trackWasBroadcasted);
 
                 if(track.Equals(Track.Empty) == false) result.Add(track);
+            }
+
+            return result;
+        }
+
+        public IEnumerable<TrackHistory> ParseDOMAndSelectTrackHistory(HtmlDocument document)
+        {
+            var result = new List<TrackHistory>();
+
+            var retrievedTrackHistory = SelectTrackHistory(document);
+            
+            var currentGroup = new DateTime();
+            foreach (var retrievedRow in retrievedTrackHistory)
+            {
+                if (CheckIfRowIsAGroupHeader(retrievedRow) && TryParseShortDateFromString(SelectGroupHeader(retrievedRow), out currentGroup))
+                        continue;
+
+                var trackHistory = ParseDOMAndReturnTrackHistory(retrievedRow, currentGroup);
+
+                if(new TrackHistory().Equals(trackHistory) == false) result.Add(trackHistory);
+            }
+
+            return result;
+        }
+
+        private TrackHistory ParseDOMAndReturnTrackHistory(HtmlNode retrievedRow, DateTime dateWhenTrackWasBroadcasted)
+        {
+            const int trackBroadcastedTimeElement = 0;
+            const int radioStationElement = 1;
+            const int cellsInRow = 2;
+
+            try
+            {
+                var trackHistory = new TrackHistory();
+
+                var tableCells = retrievedRow.SelectNodes("td");
+
+                if (tableCells == null || tableCells.Count != cellsInRow) return trackHistory;
+
+                trackHistory.RadioStation = new RadioStation() { Name = tableCells[radioStationElement].InnerText };
+
+                DateTime broadcastedDateTime;
+                var stringToParse = string.Format("{0} {1}", dateWhenTrackWasBroadcasted.ToShortDateString(),
+                    tableCells[trackBroadcastedTimeElement].InnerText);
+                if (TryParseDateTimeFromString(stringToParse, out broadcastedDateTime))
+                    trackHistory.Broadcasted = broadcastedDateTime;
+
+                return trackHistory;
+            }
+            catch
+            {
+                return new TrackHistory();
+            }
+        }
+
+        private IEnumerable<RadioStation> ParseDOMAndSelectRadioStations(IEnumerable<HtmlNode> radioStations)
+        {
+            var result = new List<RadioStation>();
+
+            if (radioStations == null) return result;
+
+            foreach (var radioStation in radioStations)
+            {
+                if (!radioStation.Attributes.Any()) continue;
+
+                var radioName = radioStation.Attributes.SingleOrDefault(a => a.Name == "label");
+                var radioId = radioStation.Attributes.SingleOrDefault(a => a.Name == "value");
+
+                var isSelected = radioStation.Attributes.SingleOrDefault(a => a.Name == "selected");
+                var isDefault = isSelected != null && isSelected.Value == "selected";
+
+                result.Add(new RadioStation()
+                {
+                    Id = (radioId != null) ? int.Parse(radioId.Value) : 0,
+                    Name = (radioName != null) ? radioName.Value : "",
+                    IsDefault = isDefault
+                });
             }
 
             return result;
