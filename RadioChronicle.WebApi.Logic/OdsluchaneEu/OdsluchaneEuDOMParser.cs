@@ -299,7 +299,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return track;
         }
 
-        private Track ParseDOMAndReturnNewestTrack(HtmlNode mostRecentTrack, DateTime? dateWhenTrackWasBroadcastedFirstTime = null)
+        private Track ParseDOMAndReturnNewestTrack(HtmlNode newestTrack, DateTime? dateWhenTrackWasBroadcastedFirstTime = null)
         {
             const int trackPlayedFirstTimeElement = 0;
             const int trackNameElement = 1;
@@ -309,7 +309,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             {
                 var track = Track.Empty;
 
-                var tableCells = mostRecentTrack.SelectNodes("td");
+                var tableCells = newestTrack.SelectNodes("td");
 
                 if (tableCells == null || tableCells.Count != cellsInRow) return track;
 

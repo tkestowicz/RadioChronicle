@@ -80,7 +80,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         {
             VerifyRadioStationIdAndSetDefault(ref radioStationId);
 
-            var doc = _requestHelper.RequestURL(_urlRepository.MostRecentTracksPage(radioStationId).Value);
+            var doc = _requestHelper.RequestURL(_urlRepository.NewestTracksPage(radioStationId).Value);
 
             return _domParser.ParseDOMAndSelectNewestTracks(doc).Take(10).ToList();
         }
