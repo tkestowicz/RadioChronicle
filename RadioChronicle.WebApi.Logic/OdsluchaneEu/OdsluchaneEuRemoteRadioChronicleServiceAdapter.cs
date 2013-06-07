@@ -71,7 +71,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             var doc = _requestHelper.RequestURL(_urlRepository.MostRecentTracksPage(radioStationId).Value);
 
-            return _domParser.ParseDOMAndSelectMostRecentTracks(doc).Take(10).ToList();
+            return _domParser.ParseDOMAndSelectNewestTracks(doc).Take(10).ToList();
         }
 
         private void VerifyRadioStationIdAndSetDefault(ref int radioStationId)

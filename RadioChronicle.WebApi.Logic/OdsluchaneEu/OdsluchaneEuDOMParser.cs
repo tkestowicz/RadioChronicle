@@ -144,7 +144,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return result;
         }
 
-        public IEnumerable<Track> ParseDOMAndSelectMostRecentTracks(HtmlDocument document)
+        public IEnumerable<Track> ParseDOMAndSelectNewestTracks(HtmlDocument document)
         {
             var result = new List<Track>();
 
@@ -157,7 +157,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                         continue;
                 
 
-                var track = ParseDOMAndReturnMostRecentTrack(resultRow, currentGroup);
+                var track = ParseDOMAndReturnNewestTrack(resultRow, currentGroup);
 
                 if(track.Equals(Track.Empty) == false) result.Add(track);
 
@@ -299,7 +299,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return track;
         }
 
-        private Track ParseDOMAndReturnMostRecentTrack(HtmlNode mostRecentTrack, DateTime? dateWhenTrackWasBroadcastedFirstTime = null)
+        private Track ParseDOMAndReturnNewestTrack(HtmlNode mostRecentTrack, DateTime? dateWhenTrackWasBroadcastedFirstTime = null)
         {
             const int trackPlayedFirstTimeElement = 0;
             const int trackNameElement = 1;
