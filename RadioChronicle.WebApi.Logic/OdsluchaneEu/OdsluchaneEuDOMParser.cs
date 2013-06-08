@@ -12,97 +12,24 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 {
     public class OdsluchaneEuDOMParser : IDOMParser
     {
-        public OdsluchaneEuDOMParser()
+        private readonly IDOMSelector _domSelector;
+
+        public OdsluchaneEuDOMParser(IDOMSelector domSelector)
         {
-        }
-
-        private IEnumerable<HtmlNode> SelectListWithGroupedRadioStationsFromHTMLDocument(HtmlDocument document)
-        {
-            if (document == null) return new List<HtmlNode>();
-
-            return document.DocumentNode.SelectNodes("//select[@name='r']/optgroup");
-        }
-
-        private IEnumerable<HtmlNode> SelectListWithRadioStationsFromHtmlGroup(HtmlNode radioStationGroup)
-        {
-            return radioStationGroup.SelectNodes("option");
-        }
-
-        private IEnumerable<HtmlNode> SelectResultsListWithTracks(HtmlDocument document)
-        {
-            if(document == null) return new List<HtmlNode>();
-
-            var tableRows = document.DocumentNode.SelectNodes("//table[@class='wyniki']/tr");
-
-            if(tableRows == null) return new List<HtmlNode>();
-
-            // skip first element which is a result header
-            return tableRows.Skip(1);
-        }
-
-        private IEnumerable<HtmlNode> SelectCurrentlyBroadcastedTracks(HtmlDocument document)
-        {
-            if (document == null) return new List<HtmlNode>();
-
-            var items = document.DocumentNode.SelectNodes("//ul[@class='panel_aktualnie']/li");
-
-            if (items == null) return new List<HtmlNode>();
-
-            return items;
-        }
-
-        private string SelectGroupHeader(HtmlNode row)
-        {
-            var header = row.SelectSingleNode("td[@class='line']");
-            return (header == null)? "" : header.InnerText;
-        }
-
-        private IEnumerable<HtmlNode> SelectBroadcastHistoryTracks(HtmlDocument document)
-        {
-            if(document == null) return new List<HtmlNode>();
-
-            var items = document.DocumentNode.SelectNodes("//table[@class='wyniki']/tr");
-
-            if(items == null) return new List<HtmlNode>();
-
-            // skip first element which is a result header
-            return items.Skip(1);
-        }
-
-        private string SelectSelectedDate(HtmlDocument document)
-        {
-            if(document == null) return string.Empty;
-
-            var items = document.DocumentNode.SelectSingleNode("//input[@name='date']");
-
-            if (items == null) return string.Empty;
-
-            return items.Attributes["value"].Value;
-        }
-
-        private IEnumerable<HtmlNode> SelectTrackHistory(HtmlDocument document)
-        {
-            if (document == null) return new List<HtmlNode>();
-
-            var tableRows = document.DocumentNode.SelectNodes("//table[@class='wyniki']/tr");
-
-            if (tableRows == null) return new List<HtmlNode>();
-
-            // skip first element which is a result header
-            return tableRows.Skip(1);
+            _domSelector = domSelector;
         }
 
         public IEnumerable<RadioStationGroup> ParseDOMAndSelectRadioStationGroups(HtmlDocument document)
         {
             var result = new List<RadioStationGroup>();
 
-            var radioStationGroups = SelectListWithGroupedRadioStationsFromHTMLDocument(document);
+            var radioStationGroups = _domSelector.SelectRadioStationGroups(document);
 
             if (radioStationGroups == null) return result;
 
             foreach (var radioStationGroup in radioStationGroups)
             {
-                var radioStations = ParseDOMAndSelectRadioStations(SelectListWithRadioStationsFromHtmlGroup(radioStationGroup));
+                var radioStations = ParseDOMAndSelectRadioStations(_domSelector.SelectRadioStations(radioStationGroup));
                 result.Add(new RadioStationGroup()
                 {
                     GroupName = radioStationGroup.Attributes[0].Value,
@@ -116,7 +43,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         public IEnumerable<Track> ParseDOMAndSelectMostPopularTracks(HtmlDocument document)
         {
             var result = new List<Track>();
-            var mostPopularTracks = SelectResultsListWithTracks(document);
+            var mostPopularTracks = _domSelector.SelectSearchResults(document);
 
             if(mostPopularTracks == null) return result;
 
@@ -133,12 +60,12 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         {
             var result = new List<Track>();
 
-            var results = SelectResultsListWithTracks(document);
+            var results = _domSelector.SelectSearchResults(document);
 
             var currentGroup = new DateTime();
             foreach (var resultRow in results)
             {
-                if (CheckIfRowIsAGroupHeader(resultRow) && TryParseShortDateFromString(SelectGroupHeader(resultRow), out currentGroup))
+                if (CheckIfRowIsAGroupHeader(resultRow) && TryParseShortDateFromString(_domSelector.SelectGroupHeader(resultRow), out currentGroup))
                         continue;
                 
 
@@ -155,7 +82,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         {
             var result = new Dictionary<RadioStation, Track>();
 
-            var retrievedTracks = SelectCurrentlyBroadcastedTracks(document);
+            var retrievedTracks = _domSelector.SelectCurrentlyBroadcastedTracks(document);
 
             foreach (var track in retrievedTracks)
             {
@@ -171,9 +98,9 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         {
             var result = new List<Track>();
 
-            var retrievedBroadcastHistory = SelectBroadcastHistoryTracks(document);
+            var retrievedBroadcastHistory = _domSelector.SelectSearchResults(document);
 
-            var trackWasBroadcasted = SelectSelectedDate(document);
+            var trackWasBroadcasted = _domSelector.SelectSelectedDate(document);
             foreach (var retrievedRow in retrievedBroadcastHistory)
             {
                 if (CheckIfRowIsAGroupHeader(retrievedRow))
@@ -191,12 +118,12 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         {
             var result = new List<TrackHistory>();
 
-            var retrievedTrackHistory = SelectTrackHistory(document);
+            var retrievedTrackHistory = _domSelector.SelectSearchResults(document);
             
             var currentGroup = new DateTime();
             foreach (var retrievedRow in retrievedTrackHistory)
             {
-                if (CheckIfRowIsAGroupHeader(retrievedRow) && TryParseShortDateFromString(SelectGroupHeader(retrievedRow), out currentGroup))
+                if (CheckIfRowIsAGroupHeader(retrievedRow) && TryParseShortDateFromString(_domSelector.SelectGroupHeader(retrievedRow), out currentGroup))
                         continue;
 
                 var trackHistory = ParseDOMAndReturnTrackHistory(retrievedRow, currentGroup);
@@ -414,7 +341,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         private bool CheckIfRowIsAGroupHeader(HtmlNode row)
         {
-            return string.IsNullOrEmpty(SelectGroupHeader(row)) == false;
+            return string.IsNullOrEmpty(_domSelector.SelectGroupHeader(row)) == false;
         }
     }
 }

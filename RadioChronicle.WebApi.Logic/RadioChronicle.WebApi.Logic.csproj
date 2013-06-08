@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -47,6 +48,7 @@
     <Compile Include="Infrastracture\Interfaces\IRemoteRadioChronicleService.cs" />
     <Compile Include="Infrastracture\Interfaces\IRequestHelper.cs" />
     <Compile Include="Infrastracture\Interfaces\IUrlRepository.cs" />
+    <Compile Include="Infrastracture\Interfaces\OdsluchaneEuDOMParser.cs" />
     <Compile Include="Model\Track.cs" />
     <Compile Include="Infrastracture\ServerRequestHelper.cs" />
     <Compile Include="Model\RadioStation.cs" />
@@ -54,6 +56,7 @@
     <Compile Include="Model\TrackHistory.cs" />
     <Compile Include="Infrastracture\Interfaces\IRemoteServiceArgumentsValidator.cs" />
     <Compile Include="Infrastracture\ApplicationTime.cs" />
+    <Compile Include="OdsluchaneEu\OdsluchaneEuDOMSelector.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEuRemoteRadioChronicleServiceAdapter.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEuDOMParser.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEURemoteServiceArgumentsValidator.cs" />
