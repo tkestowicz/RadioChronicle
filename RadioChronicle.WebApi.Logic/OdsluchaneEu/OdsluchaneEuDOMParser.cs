@@ -25,11 +25,11 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             var radioStationGroups = _domSelector.SelectRadioStationGroups(document);
 
-            if (radioStationGroups == null) return result;
+            if (radioStationGroups == null) return new List<RadioStationGroup>();
 
             foreach (var radioStationGroup in radioStationGroups)
             {
-                var radioStations = ParseDOMAndSelectRadioStations(_domSelector.SelectRadioStations(radioStationGroup));
+                var radioStations = _ParseDOMAndSelectRadioStations(_domSelector.SelectRadioStations(radioStationGroup));
                 result.Add(new RadioStationGroup()
                 {
                     GroupName = radioStationGroup.Attributes[0].Value,
@@ -49,7 +49,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             foreach (var mostPopularTrack in mostPopularTracks)
             {
-                var track = ParseDOMAndReturnMostPopularTrack(mostPopularTrack);
+                var track = _ParseDOMAndReturnMostPopularTrack(mostPopularTrack);
                 if(track.Equals(Track.Empty) == false) result.Add(track);
             }
 
@@ -62,14 +62,17 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             var results = _domSelector.SelectSearchResults(document);
 
-            var currentGroup = new DateTime();
+            var currentGroup = string.Empty;
             foreach (var resultRow in results)
             {
-                if (CheckIfRowIsAGroupHeader(resultRow) && TryParseShortDateFromString(_domSelector.SelectGroupHeader(resultRow), out currentGroup))
-                        continue;
+                if (_CheckIfRowIsAGroupHeader(resultRow))
+                {
+                    currentGroup = _domSelector.SelectGroupHeader(resultRow);
+                    continue;
+                }
                 
 
-                var track = ParseDOMAndReturnNewestTrack(resultRow, currentGroup);
+                var track = _ParseDOMAndReturnTrackFromSearchResults(resultRow, currentGroup);
 
                 if(track.Equals(Track.Empty) == false) result.Add(track);
 
@@ -86,7 +89,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             foreach (var track in retrievedTracks)
             {
-                var parsedRow = ParseDOMAndReturnCurrentlyBroadcastedTrack(track);
+                var parsedRow = _ParseDOMAndReturnCurrentlyBroadcastedTrack(track);
 
                 if (parsedRow.Value.Equals(Track.Empty) == false) result.Add(parsedRow.Key, parsedRow.Value);
             }
@@ -103,10 +106,10 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             var trackWasBroadcasted = _domSelector.SelectSelectedDate(document);
             foreach (var retrievedRow in retrievedBroadcastHistory)
             {
-                if (CheckIfRowIsAGroupHeader(retrievedRow))
+                if (_CheckIfRowIsAGroupHeader(retrievedRow))
                     continue;
 
-                var track = ParseDOMAndReturnTrackFromSearchResults(retrievedRow, trackWasBroadcasted);
+                var track = _ParseDOMAndReturnTrackFromSearchResults(retrievedRow, trackWasBroadcasted);
 
                 if(track.Equals(Track.Empty) == false) result.Add(track);
             }
@@ -123,10 +126,10 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             var currentGroup = new DateTime();
             foreach (var retrievedRow in retrievedTrackHistory)
             {
-                if (CheckIfRowIsAGroupHeader(retrievedRow) && TryParseShortDateFromString(_domSelector.SelectGroupHeader(retrievedRow), out currentGroup))
+                if (_CheckIfRowIsAGroupHeader(retrievedRow) && TryParseShortDateFromString(_domSelector.SelectGroupHeader(retrievedRow), out currentGroup))
                         continue;
 
-                var trackHistory = ParseDOMAndReturnTrackHistory(retrievedRow, currentGroup);
+                var trackHistory = _ParseDOMAndReturnTrackHistory(retrievedRow, currentGroup);
 
                 if(new TrackHistory().Equals(trackHistory) == false) result.Add(trackHistory);
             }
@@ -134,7 +137,8 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return result;
         }
 
-        private TrackHistory ParseDOMAndReturnTrackHistory(HtmlNode retrievedRow, DateTime dateWhenTrackWasBroadcasted)
+
+        private TrackHistory _ParseDOMAndReturnTrackHistory(HtmlNode retrievedRow, DateTime dateWhenTrackWasBroadcasted)
         {
             const int trackBroadcastedTimeElement = 0;
             const int radioStationElement = 1;
@@ -153,7 +157,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 DateTime broadcastedDateTime;
                 var stringToParse = string.Format("{0} {1}", dateWhenTrackWasBroadcasted.ToShortDateString(),
                     tableCells[trackBroadcastedTimeElement].InnerText);
-                if (TryParseDateTimeFromString(stringToParse, out broadcastedDateTime))
+                if (TryParseDateTimeFromString(stringToParse, out broadcastedDateTime, "yyyy-MM-dd HH:mm"))
                     trackHistory.Broadcasted = broadcastedDateTime;
 
                 return trackHistory;
@@ -164,7 +168,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             }
         }
 
-        private IEnumerable<RadioStation> ParseDOMAndSelectRadioStations(IEnumerable<HtmlNode> radioStations)
+        private IEnumerable<RadioStation> _ParseDOMAndSelectRadioStations(IEnumerable<HtmlNode> radioStations)
         {
             var result = new List<RadioStation>();
 
@@ -191,7 +195,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return result;
         }
 
-        private Track ParseDOMAndReturnTrackFromSearchResults(HtmlNode resultRow, string dateWhenTrackWasBroadcasted)
+        private Track _ParseDOMAndReturnTrackFromSearchResults(HtmlNode resultRow, string dateWhenTrackWasBroadcasted)
         {
             const int trackBroadcastedTimeElement = 0;
             const int trackNameElement = 1;
@@ -214,8 +218,12 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 DateTime broadcastedDateTime;
                 var stringToParse = string.Format("{0} {1}", dateWhenTrackWasBroadcasted,
                     tableCells[trackBroadcastedTimeElement].InnerText);
-                if (TryParseDateTimeFromString(stringToParse, out broadcastedDateTime))
+
+                if (TryParseDateTimeFromString(stringToParse, out broadcastedDateTime, "dd-MM-yyyy HH:mm"))
+                {
                     track.TrackHistory = new List<TrackHistory>{ new TrackHistory(){ Broadcasted = broadcastedDateTime} };
+                    track.PlayedFirstTime = broadcastedDateTime;
+                }
 
                 return track;
             }
@@ -225,7 +233,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             }
         }
 
-        private KeyValuePair<RadioStation, Track> ParseDOMAndReturnCurrentlyBroadcastedTrack(HtmlNode track)
+        private KeyValuePair<RadioStation, Track> _ParseDOMAndReturnCurrentlyBroadcastedTrack(HtmlNode track)
         {
             const int radioNameElementIndex = 0;
             const int trackInfoElementIndex = 1;
@@ -256,7 +264,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             }
         }
 
-        private Track ParseDOMAndReturnMostPopularTrack(HtmlNode mostPopularTrack)
+        private Track _ParseDOMAndReturnMostPopularTrack(HtmlNode mostPopularTrack)
         {
             const int trackNameElement = 1;
             const int trackTimesPlayedElement = 2;
@@ -288,43 +296,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return track;
         }
 
-        private Track ParseDOMAndReturnNewestTrack(HtmlNode newestTrack, DateTime? dateWhenTrackWasBroadcastedFirstTime = null)
-        {
-            const int trackPlayedFirstTimeElement = 0;
-            const int trackNameElement = 1;
-            const int cellsInRow = 3;
-            
-            try
-            {
-                var track = Track.Empty;
-
-                var tableCells = newestTrack.SelectNodes("td");
-
-                if (tableCells == null || tableCells.Count != cellsInRow) return track;
-
-                track.Name = HttpUtility.HtmlDecode(tableCells[trackNameElement].InnerText) ?? track.Name;
-
-                var trackUrlDetails = tableCells[trackNameElement].ChildNodes.Single().Attributes["href"].Value;
-
-                track.RelativeUrlToTrackDetails = trackUrlDetails;
-
-                if (dateWhenTrackWasBroadcastedFirstTime.HasValue)
-                {
-                    DateTime playedFirstTime;
-                    var stringToParse = string.Format("{0} {1}", dateWhenTrackWasBroadcastedFirstTime.Value.ToShortDateString(),
-                        tableCells[trackPlayedFirstTimeElement].InnerText);
-                    if (TryParseDateTimeFromString(stringToParse, out playedFirstTime))
-                        track.PlayedFirstTime = playedFirstTime;
-                }
-
-                return track;
-            }
-            catch
-            {
-                return Track.Empty;
-            }
-        }
-
         private bool TryParseShortDateFromString(string stringAsDate, out DateTime outputDateTime)
         {
             const string ShortDatePattern = "dd-MM-yyyy";
@@ -332,14 +303,12 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return DateTime.TryParseExact(stringAsDate, ShortDatePattern, null, DateTimeStyles.None, out outputDateTime);
         }
 
-        private bool TryParseDateTimeFromString(string stringToParse, out DateTime outputDateTime)
+        private bool TryParseDateTimeFromString(string stringToParse, out DateTime outputDateTime, string dateTimePattern)
         {
-            //const string ShortDatePattern = "dd-MM-yyyy";
-
-            return DateTime.TryParse(stringToParse, out outputDateTime);
+            return DateTime.TryParseExact(stringToParse, dateTimePattern, null, DateTimeStyles.None, out outputDateTime);
         }
 
-        private bool CheckIfRowIsAGroupHeader(HtmlNode row)
+        private bool _CheckIfRowIsAGroupHeader(HtmlNode row)
         {
             return string.IsNullOrEmpty(_domSelector.SelectGroupHeader(row)) == false;
         }
