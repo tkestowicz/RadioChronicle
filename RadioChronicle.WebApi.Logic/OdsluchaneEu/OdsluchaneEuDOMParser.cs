@@ -106,6 +106,71 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             }
         }
 
+        internal class RadioStationParser : IDOMParser<RadioStation, ICollection<HtmlNode>>
+        {
+            private readonly RadioStation _parsedRadioStation = new RadioStation();
+            private const int _IndexOfRadioStationElement = 0;
+
+
+            #region Implementation of IDOMParser<out RadioStation,in ICollection<HtmlNode>>
+
+            public RadioStation Parse(ICollection<HtmlNode> input)
+            {
+                try
+                {
+                    _ParseName(input.ElementAt(_IndexOfRadioStationElement));
+                }
+                catch
+                {
+                }
+
+                return _parsedRadioStation;
+            }
+
+            public RadioStation Parse(ICollection<HtmlAttribute> input)
+            {
+                try
+                {
+                    _ParseId(input);
+                    _ParseName(input);
+                    _ParseIsDefault(input);
+                }
+                catch
+                {
+                }
+
+                return _parsedRadioStation;
+            }
+
+            #endregion
+
+            private void _ParseId(IEnumerable<HtmlAttribute> attributes)
+            {
+                var radioId = attributes.SingleOrDefault(a => a.Name == "value");
+
+                if (radioId != null) _parsedRadioStation.Id = int.Parse(radioId.Value);
+            }
+
+            private void _ParseIsDefault(IEnumerable<HtmlAttribute> attributes)
+            {
+                var isSelected = attributes.SingleOrDefault(a => a.Name == "selected");
+
+                _parsedRadioStation.IsDefault = isSelected != null && isSelected.Value == "selected";
+            }
+
+            private void _ParseName(IEnumerable<HtmlAttribute> attributes)
+            {
+                var radioName = attributes.SingleOrDefault(a => a.Name == "label");
+
+                if(radioName != null) _parsedRadioStation.Name = radioName.Value;
+            }
+
+            private void _ParseName(HtmlNode cell)
+            {
+                _parsedRadioStation.Name = cell.InnerText.Trim();
+            }
+        } 
+
         private readonly IDOMSelector _domSelector;
 
         public OdsluchaneEuDOMParser(IDOMSelector domSelector)
@@ -263,18 +328,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             {
                 if (!radioStation.Attributes.Any()) continue;
 
-                var radioName = radioStation.Attributes.SingleOrDefault(a => a.Name == "label");
-                var radioId = radioStation.Attributes.SingleOrDefault(a => a.Name == "value");
-
-                var isSelected = radioStation.Attributes.SingleOrDefault(a => a.Name == "selected");
-                var isDefault = isSelected != null && isSelected.Value == "selected";
-
-                result.Add(new RadioStation()
-                {
-                    Id = (radioId != null) ? int.Parse(radioId.Value) : 0,
-                    Name = (radioName != null) ? radioName.Value : "",
-                    IsDefault = isDefault
-                });
+                result.Add(new RadioStationParser().Parse(radioStation.Attributes));
             }
 
             return result;
@@ -307,17 +361,11 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         private KeyValuePair<RadioStation, Track> _ParseDOMAndReturnCurrentlyBroadcastedTrack(HtmlNode track)
         {
-            const int radioNameElementIndex = 0;
             const int trackInfoElementIndex = 1;
 
             try
             {
-                var key = new RadioStation()
-                {
-                    Id = 0,
-                    IsDefault = false,
-                    Name = track.ChildNodes[radioNameElementIndex].InnerText.Trim()
-                };
+                var key = new RadioStationParser().Parse(track.ChildNodes);
 
                 var value = new TrackParser().Parse(track.ChildNodes[trackInfoElementIndex].ChildNodes);
 
