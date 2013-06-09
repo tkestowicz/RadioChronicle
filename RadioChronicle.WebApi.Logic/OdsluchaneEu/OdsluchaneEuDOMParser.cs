@@ -13,13 +13,13 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
     public class OdsluchaneEuDOMParser : IDOMParser
     {
 
-        internal interface IDOMParser<out TReturned, in TType> where TReturned : class
+        internal interface ISpecifiedDOMParser<out TReturned, in TType> where TReturned : class
                                                         where TType : class
         {
             TReturned Parse(TType input);
         }
 
-        internal class TrackParser : IDOMParser<Track, ICollection<HtmlNode>>
+        internal class TrackParser : ISpecifiedDOMParser<Track, ICollection<HtmlNode>>
         {
             private const int _IndexOfTrackNameElement = 1;
             private const int _IndexOfTrackRelativeUrlElement = _IndexOfTrackNameElement;
@@ -28,7 +28,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             private readonly Track _parsedTrack = Track.Empty;
 
-            #region Implementation of IDOMParser<Track,HtmlNode>
+            #region Implementation of ISpecifiedDOMParser<Track,HtmlNode>
 
             public Track Parse(ICollection<HtmlNode> input)
             {     
@@ -65,7 +65,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             }
         }
 
-        internal class TrackHistoryParser: IDOMParser<TrackHistory, ICollection<HtmlNode>>
+        internal class TrackHistoryParser: ISpecifiedDOMParser<TrackHistory, ICollection<HtmlNode>>
         {
             private readonly DateTime _dateWhenTrackWasBroadcasted;
             private readonly TrackHistory _parsedTrackHistory = new TrackHistory();
@@ -78,7 +78,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 _dateWhenTrackWasBroadcasted = dateWhenTrackWasBroadcasted;
             }
 
-            #region Implementation of IDOMParser<out TrackHistory,in ICollection<HtmlNode>>
+            #region Implementation of ISpecifiedDOMParser<out TrackHistory,in ICollection<HtmlNode>>
 
             public TrackHistory Parse(ICollection<HtmlNode> input)
             {
@@ -106,13 +106,13 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             }
         }
 
-        internal class RadioStationParser : IDOMParser<RadioStation, ICollection<HtmlNode>>
+        internal class RadioStationParser : ISpecifiedDOMParser<RadioStation, ICollection<HtmlNode>>
         {
             private readonly RadioStation _parsedRadioStation = new RadioStation();
             private const int _IndexOfRadioStationElement = 0;
 
 
-            #region Implementation of IDOMParser<out RadioStation,in ICollection<HtmlNode>>
+            #region Implementation of ISpecifiedDOMParser<out RadioStation,in ICollection<HtmlNode>>
 
             public RadioStation Parse(ICollection<HtmlNode> input)
             {
@@ -171,6 +171,60 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             }
         } 
 
+        internal class RadioStationGroupParser : ISpecifiedDOMParser<RadioStationGroup, HtmlNode>
+        {
+            private const int _IndexOfRadioGroupNameElement = 0;
+
+            private readonly IDOMSelector _domSelector;
+
+            private readonly RadioStationGroup _parsedRadioStationGroup = new RadioStationGroup();
+
+            public RadioStationGroupParser(IDOMSelector domSelector)
+            {
+                _domSelector = domSelector;
+            }
+
+            #region Implementation of ISpecifiedDOMParser<out RadioStationGroup,in IEnumerable<HtmlNode>>
+
+            public RadioStationGroup Parse(HtmlNode input)
+            {
+                try
+                {
+                    _ParseGroupName(input.Attributes.ElementAt(_IndexOfRadioGroupNameElement));
+                    _ParseRadioStations(_domSelector.SelectRadioStations(input));
+                }
+                catch
+                {
+                }
+
+                return _parsedRadioStationGroup;
+            }
+
+            #endregion
+
+            private void _ParseRadioStations(IEnumerable<HtmlNode> rows)
+            {
+                var result = new List<RadioStation>();
+
+                if (rows != null)
+                {
+                    foreach (var radioStation in rows)
+                    {
+                        if (!radioStation.Attributes.Any()) continue;
+
+                        result.Add(new RadioStationParser().Parse(radioStation.Attributes));
+                    }
+                }
+
+                _parsedRadioStationGroup.RadioStations = result;
+            }
+
+            private void _ParseGroupName(HtmlAttribute attribute)
+            {
+                _parsedRadioStationGroup.Name = attribute.Value;
+            }
+        }
+
         private readonly IDOMSelector _domSelector;
 
         public OdsluchaneEuDOMParser(IDOMSelector domSelector)
@@ -188,12 +242,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             foreach (var radioStationGroup in radioStationGroups)
             {
-                var radioStations = _ParseDOMAndSelectRadioStations(_domSelector.SelectRadioStations(radioStationGroup));
-                result.Add(new RadioStationGroup()
-                {
-                    Name = radioStationGroup.Attributes[0].Value,
-                    RadioStations = radioStations
-                });
+                result.Add(new RadioStationGroupParser(_domSelector).Parse(radioStationGroup));
             }
 
             return result;
