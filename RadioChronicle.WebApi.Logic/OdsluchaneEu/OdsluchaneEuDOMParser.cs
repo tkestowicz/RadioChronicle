@@ -12,6 +12,57 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 {
     public class OdsluchaneEuDOMParser : IDOMParser
     {
+
+        internal interface IDOMParser<out TReturned, in TType> where TReturned : class
+                                                        where TType : class
+        {
+            TReturned Parse(TType input);
+        }
+
+        internal class TrackParser : IDOMParser<Track, ICollection<HtmlNode>>
+        {
+            const int _IndexOfTrackNameElement = 1;
+            const int _IndexOfTrackRelativeUrlElement = _IndexOfTrackNameElement;
+
+            #region Implementation of IDOMParser<Track,HtmlNode>
+
+            public Track Parse(ICollection<HtmlNode> input)
+            {
+                try
+                {
+                    var track = Track.Empty;
+
+                    track.Name = _ParseName(input.ElementAt(_IndexOfTrackNameElement));
+                    track.RelativeUrlToTrackDetails = _ParseRelativeUrl(input.ElementAt(_IndexOfTrackRelativeUrlElement));
+
+                    return track;
+                }
+                catch
+                {
+                    return Track.Empty;   
+                }
+            }
+
+            #endregion
+
+            private string _ParseName(HtmlNode cell)
+            {
+                return HttpUtility.HtmlDecode(cell.InnerText) ?? string.Empty;
+            }
+
+            private string _ParseRelativeUrl(HtmlNode cell)
+            {
+                try
+                {
+                    return cell.ChildNodes.Single().Attributes["href"].Value;
+                }
+                catch
+                {
+                    return string.Empty;
+                }
+            }
+        }
+
         private readonly IDOMSelector _domSelector;
 
         public OdsluchaneEuDOMParser(IDOMSelector domSelector)
@@ -137,7 +188,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return result;
         }
 
-
         private TrackHistory _ParseDOMAndReturnTrackHistory(HtmlNode retrievedRow, DateTime dateWhenTrackWasBroadcasted)
         {
             const int trackBroadcastedTimeElement = 0;
@@ -198,7 +248,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         private Track _ParseDOMAndReturnTrackFromSearchResults(HtmlNode resultRow, string dateWhenTrackWasBroadcasted)
         {
             const int trackBroadcastedTimeElement = 0;
-            const int trackNameElement = 1;
             const int cellsInRow = 3;
 
             try
@@ -209,11 +258,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
                 if (tableCells == null || tableCells.Count != cellsInRow) return track;
 
-                track.Name = HttpUtility.HtmlDecode(tableCells[trackNameElement].InnerText) ?? track.Name;
-
-                var trackUrlDetails = tableCells[trackNameElement].ChildNodes.Single().Attributes["href"].Value;
-
-                track.RelativeUrlToTrackDetails = trackUrlDetails;
+                track = new TrackParser().Parse(tableCells);
 
                 DateTime broadcastedDateTime;
                 var stringToParse = string.Format("{0} {1}", dateWhenTrackWasBroadcasted,
@@ -249,12 +294,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
                 var value = Track.Empty;
 
-
-                
-                var trackInfo = track.ChildNodes[trackInfoElementIndex].ChildNodes[trackInfoElementIndex];
-
-                value.Name = HttpUtility.HtmlDecode(trackInfo.InnerText);
-                value.RelativeUrlToTrackDetails = trackInfo.ChildNodes.Single().Attributes["href"].Value;
+                value = new TrackParser().Parse(track.ChildNodes[trackInfoElementIndex].ChildNodes);
 
                 return new KeyValuePair<RadioStation, Track>(key, value);
             }
@@ -266,7 +306,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         private Track _ParseDOMAndReturnMostPopularTrack(HtmlNode mostPopularTrack)
         {
-            const int trackNameElement = 1;
             const int trackTimesPlayedElement = 2;
             const int cellsInRow = 4;
 
@@ -276,18 +315,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             if (tableCells == null || tableCells.Count != cellsInRow) return track;
 
-            track.Name = HttpUtility.HtmlDecode(tableCells[trackNameElement].InnerText) ?? track.Name;
-
-            try
-            {
-                var trackUrlDetails =  tableCells[trackNameElement].ChildNodes.Single().Attributes["href"].Value;
-
-                track.RelativeUrlToTrackDetails = trackUrlDetails;
-            }
-            catch
-            {
-                
-            }
+            track = new TrackParser().Parse(tableCells);
 
             int timesPlayed;
             if (int.TryParse(tableCells[trackTimesPlayedElement].InnerText, out timesPlayed))
