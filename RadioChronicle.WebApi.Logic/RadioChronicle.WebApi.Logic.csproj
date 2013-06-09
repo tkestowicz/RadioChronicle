@@ -48,7 +48,7 @@
     <Compile Include="Infrastracture\Interfaces\IRemoteRadioChronicleService.cs" />
     <Compile Include="Infrastracture\Interfaces\IRequestHelper.cs" />
     <Compile Include="Infrastracture\Interfaces\IUrlRepository.cs" />
-    <Compile Include="Infrastracture\Interfaces\OdsluchaneEuDOMParser.cs" />
+    <Compile Include="Infrastracture\Interfaces\IDOMSelector.cs" />
     <Compile Include="Model\Track.cs" />
     <Compile Include="Infrastracture\ServerRequestHelper.cs" />
     <Compile Include="Model\RadioStation.cs" />
