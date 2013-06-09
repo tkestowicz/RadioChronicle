@@ -20,12 +20,16 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         {
             if (document == null) return _EmptyListOfNodes;
 
-            return document.DocumentNode.SelectNodes("//select[@name='r']/optgroup");
+            var items = document.DocumentNode.SelectNodes("//select[@name='r']/optgroup");
+
+            return items ?? _EmptyListOfNodes;
         }
 
         public IEnumerable<HtmlNode> SelectRadioStations(HtmlNode radioStationGroup)
         {
-            return radioStationGroup.SelectNodes("option");
+            if (radioStationGroup == null) return _EmptyListOfNodes;
+
+            return radioStationGroup.SelectNodes("option") ?? _EmptyListOfNodes;
         }
 
         public IEnumerable<HtmlNode> SelectSearchResults(HtmlDocument document)
@@ -34,10 +38,8 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             var tableRows = document.DocumentNode.SelectNodes("//table[@class='wyniki']/tr");
 
-            if (tableRows == null) return _EmptyListOfNodes;
-
             // skip first element which is a result header
-            return tableRows.Skip(1);
+            return tableRows == null ? _EmptyListOfNodes : tableRows.Skip(1);
         }
 
         public IEnumerable<HtmlNode> SelectCurrentlyBroadcastedTracks(HtmlDocument document)
@@ -46,15 +48,22 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             var items = document.DocumentNode.SelectNodes("//ul[@class='panel_aktualnie']/li");
 
-            if (items == null) return _EmptyListOfNodes;
+            return items ?? _EmptyListOfNodes;
+        }
 
-            return items;
+        public IEnumerable<HtmlNode> SelectTableCells(HtmlNode tableRow)
+        {
+            if (tableRow == null) return _EmptyListOfNodes;
+
+            var cells = tableRow.SelectNodes("td");
+
+            return cells ?? _EmptyListOfNodes;
         }
 
         public string SelectGroupHeader(HtmlNode row)
         {
             var header = row.SelectSingleNode("td[@class='line']");
-            return (header == null)? "" : header.InnerText;
+            return (header == null)? string.Empty : header.InnerText;
         }
 
         public string SelectSelectedDate(HtmlDocument document)
@@ -63,9 +72,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             var items = document.DocumentNode.SelectSingleNode("//input[@name='date']");
 
-            if (items == null) return string.Empty;
-
-            return items.Attributes["value"].Value;
+            return items == null ? string.Empty : items.Attributes["value"].Value;
         }
     }
 }

@@ -9,6 +9,7 @@ namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
         IEnumerable<HtmlNode> SelectRadioStations(HtmlNode radioStationGroup);
         IEnumerable<HtmlNode> SelectSearchResults(HtmlDocument document);
         IEnumerable<HtmlNode> SelectCurrentlyBroadcastedTracks(HtmlDocument document);
+        IEnumerable<HtmlNode> SelectTableCells(HtmlNode tableRow);
         string SelectGroupHeader(HtmlNode row);
         string SelectSelectedDate(HtmlDocument document);
     }
