@@ -292,8 +292,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             var radioStationGroups = _domSelector.SelectRadioStationGroups(document);
 
-            if (radioStationGroups == null) return new List<RadioStationGroup>();
-
             foreach (var radioStationGroup in radioStationGroups)
             {
                 result.Add(new RadioStationGroupParser(_domSelector).Parse(radioStationGroup));
@@ -306,8 +304,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         {
             var result = new List<Track>();
             var mostPopularTracks = _domSelector.SelectSearchResults(document);
-
-            if(mostPopularTracks == null) return result;
 
             foreach (var mostPopularTrack in mostPopularTracks)
             {
