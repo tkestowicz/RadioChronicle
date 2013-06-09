@@ -74,5 +74,10 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             return items == null ? string.Empty : items.Attributes["value"].Value;
         }
+
+        public bool CheckIfRowIsAGroupHeader(HtmlNode row)
+        {
+            return string.IsNullOrEmpty(SelectGroupHeader(row)) == false;
+        }
     }
 }

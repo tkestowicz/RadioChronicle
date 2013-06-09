@@ -13,10 +13,59 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
     public class OdsluchaneEuDOMParser : IDOMParser
     {
 
-        internal interface ISpecifiedDOMParser<out TReturned, in TType> where TReturned : class
+        internal interface ISpecifiedDOMParser<out TReturned, in TType>
                                                         where TType : class
         {
             TReturned Parse(TType input);
+        }
+
+        internal class DateParser : ISpecifiedDOMParser<DateTime, string>
+        {
+            private const string _BroadcastedShortDatePattern = "dd-MM-yyyy";
+            private const string _BroadcastedDateTimePattern = "dd-MM-yyyy HH:mm";
+            private const string _DefaultDateTimePattern = _BroadcastedDateTimePattern;
+
+            private readonly string _dateTimePattern;
+
+            internal enum DateTimePattern
+            {
+                BroadcastedShortDate,
+                BroadcastedDateTime
+            }
+
+            internal DateParser()
+            {
+                _dateTimePattern = _DefaultDateTimePattern;
+            }
+
+            internal DateParser(DateTimePattern replaceDateTimePattern)
+            {
+                switch (replaceDateTimePattern)
+                {
+                    case DateTimePattern.BroadcastedShortDate:
+                        _dateTimePattern = _BroadcastedShortDatePattern;
+                        break;
+                    case DateTimePattern.BroadcastedDateTime:
+                        _dateTimePattern = _BroadcastedDateTimePattern;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException("replaceDateTimePattern");
+                }
+                
+            }
+
+            #region Implementation of ISpecifiedDOMParser<out DateTime,in string>
+
+            public DateTime Parse(string input)
+            {
+                var outputDateTime = new DateTime();
+
+                DateTime.TryParseExact(input, _dateTimePattern, null, DateTimeStyles.None, out outputDateTime);
+
+                return outputDateTime;
+            }
+
+            #endregion
         }
 
         internal class TrackParser : ISpecifiedDOMParser<Track, IEnumerable<HtmlNode>>
@@ -71,7 +120,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             private readonly TrackHistory _parsedTrackHistory = new TrackHistory();
             private const int _IndexOfTrackBroadcastedTimeElement = 0;
             private const string _BroadcastedShortDatePattern = "dd-MM-yyyy";
-            private const string _BroadcastedDateTimePattern = "dd-MM-yyyy HH:mm";
 
             internal TrackHistoryParser(DateTime dateWhenTrackWasBroadcasted)
             {
@@ -100,9 +148,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             {
                 var stringToParse = string.Format("{0} {1}", _dateWhenTrackWasBroadcasted.ToString(_BroadcastedShortDatePattern), broadcastedTime);
 
-                DateTime outputDateTime;
-                if(DateTime.TryParseExact(stringToParse, _BroadcastedDateTimePattern, null, DateTimeStyles.None, out outputDateTime))
-                    _parsedTrackHistory.Broadcasted = outputDateTime;
+                _parsedTrackHistory.Broadcasted = new DateParser().Parse(stringToParse);
             }
         }
 
@@ -278,12 +324,16 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             var results = _domSelector.SelectSearchResults(document);
 
-            DateTime currentGroup = new DateTime();
+            var currentGroup = new DateTime();
             foreach (var resultRow in results)
             {
-                if (_CheckIfRowIsAGroupHeader(resultRow) &&
-                    TryParseShortDateFromString(_domSelector.SelectGroupHeader(resultRow), out currentGroup))
+                if (_domSelector.CheckIfRowIsAGroupHeader(resultRow))
+                {
+                    currentGroup =
+                        new DateParser(DateParser.DateTimePattern.BroadcastedShortDate).Parse(
+                            _domSelector.SelectGroupHeader(resultRow));
                     continue;
+                }
 
 
                 var track = _ParseDOMAndReturnTrackFromSearchResults(resultRow, currentGroup);
@@ -317,11 +367,10 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             var retrievedBroadcastHistory = _domSelector.SelectSearchResults(document);
 
-            DateTime trackWasBroadcasted;
-            TryParseShortDateFromString(_domSelector.SelectSelectedDate(document), out trackWasBroadcasted);
+            var trackWasBroadcasted = new DateParser(DateParser.DateTimePattern.BroadcastedShortDate).Parse(_domSelector.SelectSelectedDate(document));
             foreach (var retrievedRow in retrievedBroadcastHistory)
             {
-                if (_CheckIfRowIsAGroupHeader(retrievedRow))
+                if (_domSelector.CheckIfRowIsAGroupHeader(retrievedRow))
                     continue;
 
                 var track = _ParseDOMAndReturnTrackFromSearchResults(retrievedRow, trackWasBroadcasted);
@@ -341,8 +390,13 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             var currentGroup = new DateTime();
             foreach (var retrievedRow in retrievedTrackHistory)
             {
-                if (_CheckIfRowIsAGroupHeader(retrievedRow) && TryParseShortDateFromString(_domSelector.SelectGroupHeader(retrievedRow), out currentGroup))
-                        continue;
+                if (_domSelector.CheckIfRowIsAGroupHeader(retrievedRow))
+                {
+                    currentGroup =
+                        new DateParser(DateParser.DateTimePattern.BroadcastedShortDate).Parse(
+                            _domSelector.SelectGroupHeader(retrievedRow));
+                    continue;
+                }
 
                 var trackHistory = _ParseDOMAndReturnTrackHistory(retrievedRow, currentGroup);
 
@@ -354,7 +408,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         private TrackHistory _ParseDOMAndReturnTrackHistory(HtmlNode retrievedRow, DateTime dateWhenTrackWasBroadcasted)
         {
-            const int radioStationElement = 1;
             const int cellsInRow = 2;
 
             try{
@@ -365,7 +418,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
                 var trackHistory = new TrackHistoryParser(dateWhenTrackWasBroadcasted).Parse(tableCells);
 
-                trackHistory.RadioStation = new RadioStationParser().Parse(tableCells);// new RadioStation() { Name = tableCells.ElementAt(radioStationElement).InnerText };
+                trackHistory.RadioStation = new RadioStationParser().Parse(tableCells);
 
                 return trackHistory;
             }
@@ -431,18 +484,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             track = new TrackParser().Parse(tableCells);
 
             return track;
-        }
-
-        private bool TryParseShortDateFromString(string stringAsDate, out DateTime outputDateTime)
-        {
-            const string ShortDatePattern = "dd-MM-yyyy";
-
-            return DateTime.TryParseExact(stringAsDate, ShortDatePattern, null, DateTimeStyles.None, out outputDateTime);
-        }
-
-        private bool _CheckIfRowIsAGroupHeader(HtmlNode row)
-        {
-            return string.IsNullOrEmpty(_domSelector.SelectGroupHeader(row)) == false;
         }
     }
 }

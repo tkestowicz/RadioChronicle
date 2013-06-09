@@ -12,5 +12,6 @@ namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
         IEnumerable<HtmlNode> SelectTableCells(HtmlNode tableRow);
         string SelectGroupHeader(HtmlNode row);
         string SelectSelectedDate(HtmlDocument document);
+        bool CheckIfRowIsAGroupHeader(HtmlNode row);
     }
 }
