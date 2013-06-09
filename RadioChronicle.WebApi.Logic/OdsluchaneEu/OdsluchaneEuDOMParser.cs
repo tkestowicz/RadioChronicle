@@ -21,45 +21,46 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         internal class TrackParser : IDOMParser<Track, ICollection<HtmlNode>>
         {
-            const int _IndexOfTrackNameElement = 1;
-            const int _IndexOfTrackRelativeUrlElement = _IndexOfTrackNameElement;
+            private const int _IndexOfTrackNameElement = 1;
+            private const int _IndexOfTrackRelativeUrlElement = _IndexOfTrackNameElement;
+            private const int _IndexOfTrackTimesPlayedElement = 2;
+
+            private readonly Track _parsedTrack = Track.Empty;
 
             #region Implementation of IDOMParser<Track,HtmlNode>
 
             public Track Parse(ICollection<HtmlNode> input)
-            {
-                try
-                {
-                    var track = Track.Empty;
+            {     
+                _ParseName(input.ElementAt(_IndexOfTrackNameElement));
+                _ParseRelativeUrl(input.ElementAt(_IndexOfTrackRelativeUrlElement));
+                _ParseTimesPlayed(input.ElementAt(_IndexOfTrackTimesPlayedElement));
 
-                    track.Name = _ParseName(input.ElementAt(_IndexOfTrackNameElement));
-                    track.RelativeUrlToTrackDetails = _ParseRelativeUrl(input.ElementAt(_IndexOfTrackRelativeUrlElement));
-
-                    return track;
-                }
-                catch
-                {
-                    return Track.Empty;   
-                }
-            }
+                return _parsedTrack;
+           }
 
             #endregion
 
-            private string _ParseName(HtmlNode cell)
+            private void _ParseName(HtmlNode cell)
             {
-                return HttpUtility.HtmlDecode(cell.InnerText) ?? string.Empty;
+                _parsedTrack.Name = HttpUtility.HtmlDecode(cell.InnerText) ?? string.Empty;
             }
 
-            private string _ParseRelativeUrl(HtmlNode cell)
+            private void _ParseRelativeUrl(HtmlNode cell)
             {
                 try
                 {
-                    return cell.ChildNodes.Single().Attributes["href"].Value;
+                    _parsedTrack.RelativeUrlToTrackDetails = cell.ChildNodes.Single().Attributes["href"].Value;
                 }
                 catch
                 {
-                    return string.Empty;
                 }
+            }
+
+            private void _ParseTimesPlayed(HtmlNode cell)
+            {
+                int timesPlayed;
+                if (int.TryParse(cell.InnerText, out timesPlayed))
+                    _parsedTrack.TimesPlayed = timesPlayed;
             }
         }
 
@@ -292,9 +293,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                     Name = track.ChildNodes[radioNameElementIndex].InnerText.Trim()
                 };
 
-                var value = Track.Empty;
-
-                value = new TrackParser().Parse(track.ChildNodes[trackInfoElementIndex].ChildNodes);
+                var value = new TrackParser().Parse(track.ChildNodes[trackInfoElementIndex].ChildNodes);
 
                 return new KeyValuePair<RadioStation, Track>(key, value);
             }
@@ -306,7 +305,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         private Track _ParseDOMAndReturnMostPopularTrack(HtmlNode mostPopularTrack)
         {
-            const int trackTimesPlayedElement = 2;
             const int cellsInRow = 4;
 
             var track = Track.Empty;
@@ -316,10 +314,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             if (tableCells == null || tableCells.Count != cellsInRow) return track;
 
             track = new TrackParser().Parse(tableCells);
-
-            int timesPlayed;
-            if (int.TryParse(tableCells[trackTimesPlayedElement].InnerText, out timesPlayed))
-                track.TimesPlayed = timesPlayed;
 
             return track;
         }
