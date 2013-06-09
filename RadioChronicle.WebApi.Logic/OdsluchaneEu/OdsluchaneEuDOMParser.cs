@@ -268,7 +268,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 if (TryParseDateTimeFromString(stringToParse, out broadcastedDateTime, "dd-MM-yyyy HH:mm"))
                 {
                     track.TrackHistory = new List<TrackHistory>{ new TrackHistory(){ Broadcasted = broadcastedDateTime} };
-                    track.PlayedFirstTime = broadcastedDateTime;
                 }
 
                 return track;

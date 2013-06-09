@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,13 +22,10 @@ namespace RadioChronicle.WebApi.Logic.Model
                     Name = "",
                     RelativeUrlToTrackDetails = "",
                     TimesPlayed = 0,
-                    PlayedFirstTime = null,
                     TrackHistory = new List<TrackHistory>()
                 };
             }
         }
-
-        public DateTime? PlayedFirstTime { get; set; }
 
         #region Overrides of Object
 
@@ -54,7 +50,7 @@ namespace RadioChronicle.WebApi.Logic.Model
         protected bool Equals(Track otherTrack)
         {
             return Name == otherTrack.Name && RelativeUrlToTrackDetails == otherTrack.RelativeUrlToTrackDetails &&
-                   TimesPlayed == otherTrack.TimesPlayed && PlayedFirstTime.Equals(otherTrack.PlayedFirstTime) &&
+                   TimesPlayed == otherTrack.TimesPlayed &&
                    Equals(otherTrack.TrackHistory);
         }
 
