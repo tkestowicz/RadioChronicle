@@ -191,7 +191,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 var radioStations = _ParseDOMAndSelectRadioStations(_domSelector.SelectRadioStations(radioStationGroup));
                 result.Add(new RadioStationGroup()
                 {
-                    GroupName = radioStationGroup.Attributes[0].Value,
+                    Name = radioStationGroup.Attributes[0].Value,
                     RadioStations = radioStations
                 });
             }

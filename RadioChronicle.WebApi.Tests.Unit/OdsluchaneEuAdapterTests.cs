@@ -112,7 +112,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
                 {
                     new RadioStationGroup()
                     {
-                        GroupName = "Eurozet",
+                        Name = "Eurozet",
 
                         RadioStations = new List<RadioStation>()
                         {
@@ -145,7 +145,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
                     },
                     new RadioStationGroup()
                     {
-                        GroupName = "RMF",
+                        Name = "RMF",
 
                         RadioStations = new List<RadioStation>()
                         {
@@ -173,7 +173,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
                     },
                     new RadioStationGroup()
                     {
-                        GroupName = "ESKA",
+                        Name = "ESKA",
 
                         RadioStations = new List<RadioStation>()
                         {
@@ -191,7 +191,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
                     },
                     new RadioStationGroup()
                     {
-                        GroupName = "Grupa Radiowa Agory",
+                        Name = "Grupa Radiowa Agory",
 
                         RadioStations = new List<RadioStation>()
                         {
@@ -214,7 +214,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
                     },
                     new RadioStationGroup()
                     {
-                        GroupName = "Polskie Radio",
+                        Name = "Polskie Radio",
 
                         RadioStations = new List<RadioStation>()
                         {
@@ -242,7 +242,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
                     },
                     new RadioStationGroup()
                     {
-                        GroupName = "Radio FaMa",
+                        Name = "Radio FaMa",
 
                         RadioStations = new List<RadioStation>()
                         {
@@ -260,7 +260,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
                     },
                     new RadioStationGroup()
                     {
-                        GroupName = "Pozostałe",
+                        Name = "Pozostałe",
 
                         RadioStations = new List<RadioStation>()
                         {
@@ -1440,7 +1440,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             {
                 new RadioStationGroup()
                 {
-                    GroupName = "Eurozet",
+                    Name = "Eurozet",
                     RadioStations = new List<RadioStation>()
                 }
             };

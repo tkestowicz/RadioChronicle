@@ -5,7 +5,7 @@ namespace RadioChronicle.WebApi.Logic.Model
 {
     public class RadioStationGroup
     {
-        public string GroupName { get; set; }
+        public string Name { get; set; }
 
         public IEnumerable<RadioStation> RadioStations { get; set; }
 
@@ -30,7 +30,7 @@ namespace RadioChronicle.WebApi.Logic.Model
                 colEqual = RadioStations.ElementAt(i).Equals(toEqual.RadioStations.ElementAt(i));
             }
 
-            return toEqual.GroupName == GroupName && colEqual;
+            return toEqual.Name == Name && colEqual;
         }
 
         #region Overrides of Object
@@ -43,7 +43,7 @@ namespace RadioChronicle.WebApi.Logic.Model
         /// </returns>
         public override int GetHashCode()
         {
-            return string.IsNullOrEmpty(GroupName) ? 0 : GroupName.GetHashCode() + RadioStations.GetHashCode();
+            return string.IsNullOrEmpty(Name) ? 0 : Name.GetHashCode() + RadioStations.GetHashCode();
         }
 
         #endregion
