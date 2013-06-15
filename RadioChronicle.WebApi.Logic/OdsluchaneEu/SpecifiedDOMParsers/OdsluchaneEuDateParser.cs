@@ -4,48 +4,49 @@ using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
 {
-    public class OdsluchaneEuDateParser : ISpecifiedDOMParser<DateTime, string>
+
+    public class OdsluchaneEuDateParserArgs
     {
-        private const string _BroadcastedShortDatePattern = "dd-MM-yyyy";
-        private const string _BroadcastedDateTimePattern = "dd-MM-yyyy HH:mm";
-        private const string _DefaultDateTimePattern = _BroadcastedDateTimePattern;
+        public OdsluchaneEuDateParser.DateTimePattern DateFormat { get; set; }
 
-        private readonly string _dateTimePattern;
+        public string StringToParse { get; set; }
+    }
 
-        internal enum DateTimePattern
+    public class OdsluchaneEuDateParser : ISpecifiedDOMParser<DateTime, OdsluchaneEuDateParserArgs>
+    {
+        public const string BroadcastedShortDatePattern = "dd-MM-yyyy";
+        public const string BroadcastedDateTimePattern = "dd-MM-yyyy HH:mm";
+        private const string _DefaultDateTimePattern = BroadcastedDateTimePattern;
+
+        public enum DateTimePattern
         {
             BroadcastedShortDate,
             BroadcastedDateTime
         }
 
-        internal OdsluchaneEuDateParser()
-        {
-            _dateTimePattern = _DefaultDateTimePattern;
-        }
-
-        internal OdsluchaneEuDateParser(DateTimePattern replaceDateTimePattern)
+        public string GetStringDateTimeFormat(DateTimePattern replaceDateTimePattern)
         {
             switch (replaceDateTimePattern)
             {
                 case DateTimePattern.BroadcastedShortDate:
-                    _dateTimePattern = _BroadcastedShortDatePattern;
-                    break;
+                    return BroadcastedShortDatePattern;
+
                 case DateTimePattern.BroadcastedDateTime:
-                    _dateTimePattern = _BroadcastedDateTimePattern;
-                    break;
+                    return BroadcastedDateTimePattern;
+
                 default:
-                    throw new ArgumentOutOfRangeException("replaceDateTimePattern");
+                    return _DefaultDateTimePattern;
             }
                 
         }
 
-        #region Implementation of ISpecifiedDOMParser<out DateTime,in string>
+        #region Implementation of ISpecifiedDOMParser<out DateTime,in OdsluchaneEuDateParserArgs>
 
-        public DateTime Parse(string input)
+        public DateTime Parse(OdsluchaneEuDateParserArgs input)
         {
-            var outputDateTime = new DateTime();
+            DateTime outputDateTime;
 
-            DateTime.TryParseExact(input, _dateTimePattern, null, DateTimeStyles.None, out outputDateTime);
+            DateTime.TryParseExact(input.StringToParse, GetStringDateTimeFormat(input.DateFormat), null, DateTimeStyles.None, out outputDateTime);
 
             return outputDateTime;
         }

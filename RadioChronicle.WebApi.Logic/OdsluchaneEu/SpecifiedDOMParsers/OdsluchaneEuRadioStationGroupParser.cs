@@ -12,17 +12,21 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
 
         private readonly IDOMSelector _domSelector;
 
-        private readonly RadioStationGroup _parsedRadioStationGroup = new RadioStationGroup();
+        private RadioStationGroup _parsedRadioStationGroup;
+        private readonly ISpecifiedDOMParser<RadioStation, IEnumerable<HtmlAttribute>> _radioParser;
 
-        public OdsluchaneEuRadioStationGroupParser(IDOMSelector domSelector)
+        public OdsluchaneEuRadioStationGroupParser(IDOMSelector domSelector, ISpecifiedDOMParser<RadioStation, IEnumerable<HtmlAttribute>> radioParser)
         {
             _domSelector = domSelector;
+            _radioParser = radioParser;
         }
 
         #region Implementation of ISpecifiedDOMParser<out RadioStationGroup,in IEnumerable<HtmlNode>>
 
         public RadioStationGroup Parse(HtmlNode input)
         {
+            _parsedRadioStationGroup = new RadioStationGroup();
+
             try
             {
                 _ParseGroupName(input.Attributes.ElementAt(_IndexOfRadioGroupNameElement));
@@ -47,7 +51,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
                 {
                     if (!radioStation.Attributes.Any()) continue;
 
-                    result.Add(new OdsluchaneEuRadioStationParser().Parse(radioStation.Attributes));
+                    result.Add(_radioParser.Parse(radioStation.Attributes));
                 }
             }
 

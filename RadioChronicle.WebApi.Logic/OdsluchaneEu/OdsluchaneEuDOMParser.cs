@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using HtmlAgilityPack;
@@ -13,10 +12,20 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
     public class OdsluchaneEuDOMParser : IDOMParser
     {
         private readonly IDOMSelector _domSelector;
+        private readonly ISpecifiedDOMParser<RadioStationGroup, HtmlNode> _radioStationGroupParser;
+        private readonly ISpecifiedDOMParser<RadioStation, IEnumerable<HtmlNode>> _radioStationParser;
+        private readonly ISpecifiedDOMParser<DateTime, OdsluchaneEuDateParserArgs> _dateParser;
+        private readonly ITrackHistoryParser _trackHistoryParser;
+        private readonly ITrackParser _trackParser;
 
-        public OdsluchaneEuDOMParser(IDOMSelector domSelector)
+        public OdsluchaneEuDOMParser(IDOMSelector domSelector, ISpecifiedDOMParser<RadioStationGroup, HtmlNode> radioStationGroupParser, ISpecifiedDOMParser<RadioStation, IEnumerable<HtmlNode>> radioStationParser, ISpecifiedDOMParser<DateTime, OdsluchaneEuDateParserArgs> dateParser, ITrackHistoryParser trackHistoryParser, ITrackParser trackParser)
         {
             _domSelector = domSelector;
+            _radioStationGroupParser = radioStationGroupParser;
+            _radioStationParser = radioStationParser;
+            _dateParser = dateParser;
+            _trackHistoryParser = trackHistoryParser;
+            _trackParser = trackParser;
         }
 
         public IEnumerable<RadioStationGroup> ParseDOMAndSelectRadioStationGroups(HtmlDocument document)
@@ -27,7 +36,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             foreach (var radioStationGroup in radioStationGroups)
             {
-                result.Add(new OdsluchaneEuRadioStationGroupParser(_domSelector).Parse(radioStationGroup));
+                result.Add(_radioStationGroupParser.Parse(radioStationGroup));
             }
 
             return result;
@@ -42,7 +51,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             foreach (var mostPopularTrack in mostPopularTracks)
             {
-                var track = _ParseRowToObject(mostPopularTrack, cellsInRow, new OdsluchaneEuTrackParser(), Track.Empty);
+                var track = _ParseRowToObject(mostPopularTrack, cellsInRow, _trackParser, Track.Empty);
                 if(track.Equals(Track.Empty) == false) result.Add(track);
             }
 
@@ -63,13 +72,16 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 if (_domSelector.CheckIfRowIsAGroupHeader(resultRow))
                 {
                     currentGroup =
-                        new OdsluchaneEuDateParser(OdsluchaneEuDateParser.DateTimePattern.BroadcastedShortDate).Parse(
-                            _domSelector.SelectGroupHeader(resultRow));
+                        _dateParser.Parse(new OdsluchaneEuDateParserArgs()
+                        {
+                            DateFormat = OdsluchaneEuDateParser.DateTimePattern.BroadcastedShortDate,
+                            StringToParse = _domSelector.SelectGroupHeader(resultRow)
+                        });
                     continue;
                 }
 
-
-                var track = _ParseRowToObject(resultRow, cellsInRow, new OdsluchaneEuTrackParser(currentGroup), Track.Empty);
+                _trackParser.DateWhenTrackWasBroadcasted = currentGroup;
+                var track = _ParseRowToObject(resultRow, cellsInRow, _trackParser, Track.Empty);
 
                 if(track.Equals(Track.Empty) == false) result.Add(track);
 
@@ -102,13 +114,19 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             var retrievedBroadcastHistory = _domSelector.SelectSearchResults(document);
 
-            var trackWasBroadcasted = new OdsluchaneEuDateParser(OdsluchaneEuDateParser.DateTimePattern.BroadcastedShortDate).Parse(_domSelector.SelectSelectedDate(document));
+            var trackWasBroadcasted = _dateParser.Parse(new OdsluchaneEuDateParserArgs()
+            {
+                DateFormat = OdsluchaneEuDateParser.DateTimePattern.BroadcastedShortDate,
+                StringToParse = _domSelector.SelectSelectedDate(document)
+            });
+
             foreach (var retrievedRow in retrievedBroadcastHistory)
             {
                 if (_domSelector.CheckIfRowIsAGroupHeader(retrievedRow))
                     continue;
 
-                var track = _ParseRowToObject(retrievedRow, cellsInRow, new OdsluchaneEuTrackParser(trackWasBroadcasted), Track.Empty);
+                _trackParser.DateWhenTrackWasBroadcasted = trackWasBroadcasted;
+                var track = _ParseRowToObject(retrievedRow, cellsInRow, _trackParser, Track.Empty);
 
                 if(track.Equals(Track.Empty) == false) result.Add(track);
             }
@@ -129,13 +147,16 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             {
                 if (_domSelector.CheckIfRowIsAGroupHeader(retrievedRow))
                 {
-                    currentGroup =
-                        new OdsluchaneEuDateParser(OdsluchaneEuDateParser.DateTimePattern.BroadcastedShortDate).Parse(
-                            _domSelector.SelectGroupHeader(retrievedRow));
+                    currentGroup = _dateParser.Parse(new OdsluchaneEuDateParserArgs()
+                    {
+                        DateFormat = OdsluchaneEuDateParser.DateTimePattern.BroadcastedShortDate,
+                        StringToParse = _domSelector.SelectGroupHeader(retrievedRow)
+                    });
                     continue;
                 }
 
-                var trackHistory = _ParseRowToObject(retrievedRow, cellsInRow, new OdsluchaneEuTrackHistoryParser(currentGroup), new TrackHistory());
+                _trackHistoryParser.DateWhenTrackWasBroadcasted = currentGroup;
+                var trackHistory = _ParseRowToObject(retrievedRow, cellsInRow, _trackHistoryParser, new TrackHistory());
 
                 if(new TrackHistory().Equals(trackHistory) == false) result.Add(trackHistory);
             }
@@ -147,9 +168,9 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         {
             try
             {
-                var key = new OdsluchaneEuRadioStationParser().Parse(_domSelector.SelectChildNodes(track));
+                var key = _radioStationParser.Parse(_domSelector.SelectChildNodes(track));
 
-                var value = new OdsluchaneEuTrackParser().Parse(_domSelector.SelectChildNodes(_domSelector.SelectUlElements(track).FirstOrDefault()));
+                var value = _trackParser.Parse(_domSelector.SelectChildNodes(_domSelector.SelectUlElements(track).FirstOrDefault()));
 
                 return new KeyValuePair<RadioStation, Track>(key, value);
             }

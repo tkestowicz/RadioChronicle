@@ -8,29 +8,26 @@ using RadioChronicle.WebApi.Logic.Model;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
 {
-    public class OdsluchaneEuTrackParser : ISpecifiedDOMParser<Track, IEnumerable<HtmlNode>>
+    public class OdsluchaneEuTrackParser : ITrackParser
     {
-        private readonly DateTime? _dateWhenTrackWasBroadcasted;
         private const int _IndexOfTrackNameElement = 1;
         private const int _IndexOfTrackRelativeUrlElement = _IndexOfTrackNameElement;
         private const int _IndexOfTrackTimesPlayedElement = 2;
+        
+        private Track _parsedTrack;
+        private readonly ITrackHistoryParser _trackHistoryParser;
 
-
-        private readonly Track _parsedTrack = Track.Empty;
-
-        internal OdsluchaneEuTrackParser()
+        public OdsluchaneEuTrackParser(ITrackHistoryParser trackHistoryParser)
         {
-        }
-
-        internal OdsluchaneEuTrackParser(DateTime dateWhenTrackWasBroadcasted)
-        {
-            _dateWhenTrackWasBroadcasted = dateWhenTrackWasBroadcasted;
+            _trackHistoryParser = trackHistoryParser;
         }
 
         #region Implementation of ISpecifiedDOMParser<Track, IEnumerable<HtmlNode>>
 
         public Track Parse(IEnumerable<HtmlNode> input)
         {
+            _parsedTrack = Track.Empty;
+
             try
             {
                 _ParseName(input.ElementAt(_IndexOfTrackNameElement));
@@ -49,11 +46,11 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
 
         private void _ParseTrackHistory(IEnumerable<HtmlNode> input)
         {
-            if (_dateWhenTrackWasBroadcasted.HasValue)
+            if (DateWhenTrackWasBroadcasted.HasValue)
             {
                 _parsedTrack.TrackHistory = new List<TrackHistory>()
                 {
-                    new OdsluchaneEuTrackHistoryParser(_dateWhenTrackWasBroadcasted.Value).Parse(input)
+                    _trackHistoryParser.Parse(input)
                 };
             }
         }
@@ -80,5 +77,15 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
             if (int.TryParse(cell.InnerText, out timesPlayed))
                 _parsedTrack.TimesPlayed = timesPlayed;
         }
+
+        #region Implementation of ITrackParser
+
+        public DateTime? DateWhenTrackWasBroadcasted
+        {
+            get { return _trackHistoryParser.DateWhenTrackWasBroadcasted; }
+            set { _trackHistoryParser.DateWhenTrackWasBroadcasted = value; }
+        }
+
+        #endregion
     }
 }

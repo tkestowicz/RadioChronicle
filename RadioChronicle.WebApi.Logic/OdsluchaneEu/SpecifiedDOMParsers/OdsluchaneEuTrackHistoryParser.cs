@@ -7,23 +7,24 @@ using RadioChronicle.WebApi.Logic.Model;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
 {
-    public class OdsluchaneEuTrackHistoryParser: ISpecifiedDOMParser<TrackHistory, IEnumerable<HtmlNode>>
+    public class OdsluchaneEuTrackHistoryParser: ITrackHistoryParser
     {
-        private readonly DateTime _dateWhenTrackWasBroadcasted;
-        private readonly TrackHistory _parsedTrackHistory = new TrackHistory();
+        private TrackHistory _parsedTrackHistory;
+        private readonly ISpecifiedDOMParser<RadioStation, IEnumerable<HtmlNode>> _radioStationParser;
+        private readonly ISpecifiedDOMParser<DateTime, OdsluchaneEuDateParserArgs> _dateParser;
         private const int _IndexOfTrackBroadcastedTimeElement = 0;
-        private const string _BroadcastedShortDatePattern = "dd-MM-yyyy";
 
-        internal OdsluchaneEuTrackHistoryParser(DateTime dateWhenTrackWasBroadcasted)
+        public OdsluchaneEuTrackHistoryParser(ISpecifiedDOMParser<RadioStation, IEnumerable<HtmlNode>> radioStationParser, ISpecifiedDOMParser<DateTime, OdsluchaneEuDateParserArgs> dateParser)
         {
-            _dateWhenTrackWasBroadcasted = dateWhenTrackWasBroadcasted;
+            _radioStationParser = radioStationParser;
+            _dateParser = dateParser;
         }
 
         #region Implementation of ISpecifiedDOMParser<out TrackHistory,in IEnumerable<HtmlNode>>
 
         public TrackHistory Parse(IEnumerable<HtmlNode> input)
         {
-
+            _parsedTrackHistory = new TrackHistory();
             try
             {
                 _ParseBroadcastedDateTime(input.ElementAt(_IndexOfTrackBroadcastedTimeElement).InnerText);
@@ -38,16 +39,24 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
 
         #endregion
 
+        #region Implementation of ITrackHistoryParser
+
+        public DateTime? DateWhenTrackWasBroadcasted { get; set; }
+
+        #endregion
+
         private void _ParseRadioStation(IEnumerable<HtmlNode> input)
         {
-            _parsedTrackHistory.RadioStation = new OdsluchaneEuRadioStationParser().Parse(input);
+            _parsedTrackHistory.RadioStation = _radioStationParser.Parse(input);
         }
 
         private void _ParseBroadcastedDateTime(string broadcastedTime)
         {
-            var stringToParse = string.Format("{0} {1}", _dateWhenTrackWasBroadcasted.ToString(_BroadcastedShortDatePattern), broadcastedTime);
+            if (DateWhenTrackWasBroadcasted.HasValue == false) return;
 
-            _parsedTrackHistory.Broadcasted = new OdsluchaneEuDateParser().Parse(stringToParse);
+            var stringToParse = string.Format("{0} {1}", DateWhenTrackWasBroadcasted.Value.ToString(OdsluchaneEuDateParser.BroadcastedShortDatePattern), broadcastedTime);
+
+            _parsedTrackHistory.Broadcasted = _dateParser.Parse(new OdsluchaneEuDateParserArgs(){ DateFormat = OdsluchaneEuDateParser.DateTimePattern.BroadcastedDateTime, StringToParse = stringToParse});
         }
     }
 }

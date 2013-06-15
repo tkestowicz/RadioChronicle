@@ -7,9 +7,9 @@ using RadioChronicle.WebApi.Logic.Model;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
 {
-    public class OdsluchaneEuRadioStationParser : ISpecifiedDOMParser<RadioStation, IEnumerable<HtmlNode>>
+    public class OdsluchaneEuRadioStationParser : ISpecifiedDOMParser<RadioStation, IEnumerable<HtmlNode>>, ISpecifiedDOMParser<RadioStation, IEnumerable<HtmlAttribute>>
     {
-        private readonly RadioStation _parsedRadioStation = new RadioStation();
+        private RadioStation _parsedRadioStation;
         private const int _IndexOfRadioStationElementInCurrentlyBroadcastedList = 0;
         private const int _IndexOfRadioStationElementInTrackHistoryList = 1;
 
@@ -17,6 +17,8 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
 
         public RadioStation Parse(IEnumerable<HtmlNode> input)
         {
+            _parsedRadioStation = new RadioStation();
+
             try
             {
                 var index = _DetermineCallContext(input);
@@ -34,6 +36,8 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
 
         public RadioStation Parse(IEnumerable<HtmlAttribute> input)
         {
+            _parsedRadioStation = new RadioStation();
+
             try
             {
                 _ParseId(input);
