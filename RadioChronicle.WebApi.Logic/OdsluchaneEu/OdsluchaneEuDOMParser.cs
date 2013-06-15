@@ -36,7 +36,8 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             foreach (var radioStationGroup in radioStationGroups)
             {
-                result.Add(_radioStationGroupParser.Parse(radioStationGroup));
+                var parsedRadioStationGroup = _radioStationGroupParser.Parse(radioStationGroup);
+                if(parsedRadioStationGroup.IsNotEmpty()) result.Add(parsedRadioStationGroup);
             }
 
             return result;
@@ -52,7 +53,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             foreach (var mostPopularTrack in mostPopularTracks)
             {
                 var track = _ParseRowToObject(mostPopularTrack, cellsInRow, _trackParser, Track.Empty);
-                if(track.Equals(Track.Empty) == false) result.Add(track);
+                if(track.IsNotEmpty()) result.Add(track);
             }
 
             return result;
@@ -83,7 +84,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 _trackParser.DateWhenTrackWasBroadcasted = currentGroup;
                 var track = _ParseRowToObject(resultRow, cellsInRow, _trackParser, Track.Empty);
 
-                if(track.Equals(Track.Empty) == false) result.Add(track);
+                if(track.IsNotEmpty()) result.Add(track);
 
             }
 
@@ -100,7 +101,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             {
                 var parsedRow = _ParseDOMAndReturnCurrentlyBroadcastedTrack(track);
 
-                if (parsedRow.Value.Equals(Track.Empty) == false) result.Add(parsedRow.Key, parsedRow.Value);
+                if (parsedRow.Value.IsNotEmpty()) result.Add(parsedRow.Key, parsedRow.Value);
             }
 
             return result;
@@ -128,7 +129,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 _trackParser.DateWhenTrackWasBroadcasted = trackWasBroadcasted;
                 var track = _ParseRowToObject(retrievedRow, cellsInRow, _trackParser, Track.Empty);
 
-                if(track.Equals(Track.Empty) == false) result.Add(track);
+                if(track.IsNotEmpty()) result.Add(track);
             }
 
             return result;
@@ -158,7 +159,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 _trackHistoryParser.DateWhenTrackWasBroadcasted = currentGroup;
                 var trackHistory = _ParseRowToObject(retrievedRow, cellsInRow, _trackHistoryParser, TrackHistory.Empty);
 
-                if(trackHistory.Equals(TrackHistory.Empty) == false) result.Add(trackHistory);
+                if(trackHistory.IsNotEmpty()) result.Add(trackHistory);
             }
 
             return result;

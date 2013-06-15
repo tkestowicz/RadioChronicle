@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Infrastracture\CollectionCheckerExtension.cs" />
     <Compile Include="Infrastracture\Interfaces\IDOMParser.cs" />
+    <Compile Include="Infrastracture\Interfaces\IModel.cs" />
     <Compile Include="Infrastracture\Interfaces\IRemoteRadioChronicleService.cs" />
     <Compile Include="Infrastracture\Interfaces\IRequestHelper.cs" />
     <Compile Include="Infrastracture\Interfaces\ITrackHistoryParser.cs" />

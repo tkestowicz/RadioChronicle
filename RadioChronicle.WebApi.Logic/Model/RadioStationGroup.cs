@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
 
 namespace RadioChronicle.WebApi.Logic.Model
 {
-    public class RadioStationGroup
+    public class RadioStationGroup : IModel
     {
         public string Name { get; set; }
 
@@ -59,6 +60,11 @@ namespace RadioChronicle.WebApi.Logic.Model
         public override int GetHashCode()
         {
             return string.IsNullOrEmpty(Name) ? 0 : Name.GetHashCode() + RadioStations.GetHashCode();
+        }
+
+        public bool IsNotEmpty()
+        {
+            return Equals(Empty) == false;
         }
 
         #endregion

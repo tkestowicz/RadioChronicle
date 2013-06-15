@@ -1,8 +1,9 @@
 using System;
+using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
 
 namespace RadioChronicle.WebApi.Logic.Model
 {
-    public class TrackHistory
+    public class TrackHistory : IModel
     {
         public DateTime? Broadcasted { get; set; }
 
@@ -62,5 +63,10 @@ namespace RadioChronicle.WebApi.Logic.Model
         #endregion
 
         #endregion
+
+        public bool IsNotEmpty()
+        {
+            return Equals(Empty) == false;
+        }
     }
 }

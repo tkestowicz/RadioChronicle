@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
 
 namespace RadioChronicle.WebApi.Logic.Model
 {
-    public class Track
+    public class Track : IModel
     {
         public string Name { get; set; }
 
@@ -84,6 +85,11 @@ namespace RadioChronicle.WebApi.Logic.Model
                 hashCode = (hashCode * 397) ^ (TrackHistory != null ? TrackHistory.GetHashCode() : 0);
                 return hashCode;
             }
+        }
+
+        public bool IsNotEmpty()
+        {
+            return Equals(Empty) == false;
         }
 
         #endregion

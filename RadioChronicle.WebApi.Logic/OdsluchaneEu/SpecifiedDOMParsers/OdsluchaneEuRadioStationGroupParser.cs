@@ -51,7 +51,9 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
                 {
                     if (!radioStation.Attributes.Any()) continue;
 
-                    result.Add(_radioParser.Parse(radioStation.Attributes));
+                    var parsedRadioStation = _radioParser.Parse(radioStation.Attributes);
+
+                    if(parsedRadioStation.IsNotEmpty()) result.Add(parsedRadioStation);
                 }
             }
 

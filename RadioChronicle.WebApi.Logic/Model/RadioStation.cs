@@ -1,6 +1,8 @@
+using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
+
 namespace RadioChronicle.WebApi.Logic.Model
 {
-    public class RadioStation
+    public class RadioStation : IModel
     {
         public int Id { get; set; }
 
@@ -50,6 +52,11 @@ namespace RadioChronicle.WebApi.Logic.Model
         public override int GetHashCode()
         {
             return string.IsNullOrEmpty(Name) ? 0 : Name.GetHashCode() + Id.GetHashCode();
+        }
+
+        public bool IsNotEmpty()
+        {
+            return Equals(Empty) == false;
         }
 
         #endregion
