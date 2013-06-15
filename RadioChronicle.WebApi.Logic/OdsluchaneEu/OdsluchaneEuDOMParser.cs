@@ -410,7 +410,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
                 var tableCells = _domSelector.SelectTableCells(retrievedRow);
 
-                if (tableCells == null || tableCells.Count() != cellsInRow) return new TrackHistory();
+                if (tableCells.HasExpectedNumberOfElements(cellsInRow) == false) return new TrackHistory();
 
                 var trackHistory = new TrackHistoryParser(dateWhenTrackWasBroadcasted).Parse(tableCells);
 
@@ -434,12 +434,11 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
                 var tableCells = _domSelector.SelectTableCells(resultRow);
 
-                if (tableCells == null || tableCells.Count() != cellsInRow) return track;
+                if (tableCells.HasExpectedNumberOfElements(cellsInRow) == false) return track;
 
                 track = new TrackParser().Parse(tableCells);
 
                 track.TrackHistory = new List<TrackHistory> { new TrackHistoryParser(dateWhenTrackWasBroadcasted).Parse(tableCells) };
-
 
                 return track;
             }
@@ -475,11 +474,18 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             var tableCells = _domSelector.SelectTableCells(mostPopularTrack);
 
-            if (tableCells == null || tableCells.Count() != cellsInRow) return track;
-
-            track = new TrackParser().Parse(tableCells);
+            if (tableCells.HasExpectedNumberOfElements(cellsInRow))
+                track = new TrackParser().Parse(tableCells);
 
             return track;
+        }
+    }
+
+    internal static class CollectionCheckerExtension
+    {
+        internal static bool HasExpectedNumberOfElements<TType>(this IEnumerable<TType> collection, int expectedNumberOfElements)
+        {
+            return collection != null && collection.Count() == expectedNumberOfElements;
         }
     }
 }
