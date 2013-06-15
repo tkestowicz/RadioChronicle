@@ -198,7 +198,11 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             {
                 try
                 {
-                    _ParseName(input.ElementAt(_DetermineCallContext(input)));
+                    var index = _DetermineCallContext(input);
+
+                    // this check reduces number of thrown exceptions
+                    if (index >= 0)
+                        _ParseName(input.ElementAt(index));
                 }
                 catch
                 {
