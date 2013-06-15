@@ -70,12 +70,22 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         internal class TrackParser : ISpecifiedDOMParser<Track, IEnumerable<HtmlNode>>
         {
+            private readonly DateTime? _dateWhenTrackWasBroadcasted;
             private const int _IndexOfTrackNameElement = 1;
             private const int _IndexOfTrackRelativeUrlElement = _IndexOfTrackNameElement;
             private const int _IndexOfTrackTimesPlayedElement = 2;
-            
+
 
             private readonly Track _parsedTrack = Track.Empty;
+
+            internal TrackParser()
+            {
+            }
+
+            internal TrackParser(DateTime dateWhenTrackWasBroadcasted)
+            {
+                _dateWhenTrackWasBroadcasted = dateWhenTrackWasBroadcasted;
+            }
 
             #region Implementation of ISpecifiedDOMParser<Track, IEnumerable<HtmlNode>>
 
@@ -84,11 +94,23 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 _ParseName(input.ElementAt(_IndexOfTrackNameElement));
                 _ParseRelativeUrl(input.ElementAt(_IndexOfTrackRelativeUrlElement));
                 _ParseTimesPlayed(input.ElementAt(_IndexOfTrackTimesPlayedElement));
+                _ParseTrackHistory(input);
 
                 return _parsedTrack;
            }
 
             #endregion
+
+            private void _ParseTrackHistory(IEnumerable<HtmlNode> input)
+            {
+                if (_dateWhenTrackWasBroadcasted.HasValue)
+                {
+                    _parsedTrack.TrackHistory = new List<TrackHistory>()
+                    {
+                        new TrackHistoryParser(_dateWhenTrackWasBroadcasted.Value).Parse(input)
+                    };
+                }
+            }
 
             private void _ParseName(HtmlNode cell)
             {
@@ -452,9 +474,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
                 if (tableCells.HasExpectedNumberOfElements(cellsInRow) == false) return track;
 
-                track = new TrackParser().Parse(tableCells);
-
-                track.TrackHistory = new List<TrackHistory> { new TrackHistoryParser(dateWhenTrackWasBroadcasted).Parse(tableCells) };
+                track = new TrackParser(dateWhenTrackWasBroadcasted).Parse(tableCells);
 
                 return track;
             }
