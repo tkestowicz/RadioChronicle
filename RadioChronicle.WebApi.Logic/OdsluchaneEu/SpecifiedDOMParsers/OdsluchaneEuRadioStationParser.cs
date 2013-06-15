@@ -17,7 +17,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
 
         public RadioStation Parse(IEnumerable<HtmlNode> input)
         {
-            _parsedRadioStation = new RadioStation();
+            _parsedRadioStation = RadioStation.Empty;
 
             try
             {
@@ -36,7 +36,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
 
         public RadioStation Parse(IEnumerable<HtmlAttribute> input)
         {
-            _parsedRadioStation = new RadioStation();
+            _parsedRadioStation = RadioStation.Empty;
 
             try
             {

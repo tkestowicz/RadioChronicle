@@ -8,6 +8,19 @@ namespace RadioChronicle.WebApi.Logic.Model
 
         public bool IsDefault { get; set; }
 
+        public static RadioStation Empty
+        {
+            get
+            {
+                return new RadioStation()
+                {
+                    Id = 0,
+                    IsDefault = false,
+                    Name = string.Empty
+                };
+            }
+        }
+
         #region Overrides of Object
 
         /// <summary>

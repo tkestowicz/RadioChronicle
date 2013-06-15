@@ -4,9 +4,21 @@ namespace RadioChronicle.WebApi.Logic.Model
 {
     public class TrackHistory
     {
-        public DateTime Broadcasted { get; set; }
+        public DateTime? Broadcasted { get; set; }
 
         public RadioStation RadioStation { get; set; }
+
+        public static TrackHistory Empty
+        {
+            get
+            {
+                return new TrackHistory()
+                {
+                    Broadcasted = null,
+                    RadioStation = RadioStation.Empty
+                };
+            }
+        }
 
         #region Overrides of Object
 

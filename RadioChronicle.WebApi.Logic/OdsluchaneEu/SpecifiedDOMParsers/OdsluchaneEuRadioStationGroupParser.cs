@@ -25,7 +25,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
 
         public RadioStationGroup Parse(HtmlNode input)
         {
-            _parsedRadioStationGroup = new RadioStationGroup();
+            _parsedRadioStationGroup = RadioStationGroup.Empty;
 
             try
             {

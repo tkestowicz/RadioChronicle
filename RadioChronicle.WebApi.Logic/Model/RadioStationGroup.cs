@@ -9,6 +9,18 @@ namespace RadioChronicle.WebApi.Logic.Model
 
         public IEnumerable<RadioStation> RadioStations { get; set; }
 
+        public static RadioStationGroup Empty
+        {
+            get
+            {
+                return new RadioStationGroup()
+                {
+                    Name = string.Empty,
+                    RadioStations = new List<RadioStation>()
+                };
+            }
+        }
+
         #region Overrides of Object
 
         /// <summary>

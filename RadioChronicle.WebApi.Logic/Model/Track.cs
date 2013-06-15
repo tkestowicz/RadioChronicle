@@ -19,8 +19,8 @@ namespace RadioChronicle.WebApi.Logic.Model
             {
                 return new Track()
                 {
-                    Name = "",
-                    RelativeUrlToTrackDetails = "",
+                    Name = string.Empty,
+                    RelativeUrlToTrackDetails = string.Empty,
                     TimesPlayed = 0,
                     TrackHistory = new List<TrackHistory>()
                 };

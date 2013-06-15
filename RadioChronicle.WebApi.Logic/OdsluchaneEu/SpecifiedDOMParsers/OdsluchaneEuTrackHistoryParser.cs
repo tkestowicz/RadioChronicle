@@ -24,7 +24,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.SpecifiedDOMParsers
 
         public TrackHistory Parse(IEnumerable<HtmlNode> input)
         {
-            _parsedTrackHistory = new TrackHistory();
+            _parsedTrackHistory = TrackHistory.Empty;
             try
             {
                 _ParseBroadcastedDateTime(input.ElementAt(_IndexOfTrackBroadcastedTimeElement).InnerText);

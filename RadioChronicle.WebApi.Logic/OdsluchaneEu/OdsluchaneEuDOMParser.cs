@@ -156,9 +156,9 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 }
 
                 _trackHistoryParser.DateWhenTrackWasBroadcasted = currentGroup;
-                var trackHistory = _ParseRowToObject(retrievedRow, cellsInRow, _trackHistoryParser, new TrackHistory());
+                var trackHistory = _ParseRowToObject(retrievedRow, cellsInRow, _trackHistoryParser, TrackHistory.Empty);
 
-                if(new TrackHistory().Equals(trackHistory) == false) result.Add(trackHistory);
+                if(trackHistory.Equals(TrackHistory.Empty) == false) result.Add(trackHistory);
             }
 
             return result;
@@ -176,7 +176,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             }
             catch
             {
-                return new KeyValuePair<RadioStation, Track>(new RadioStation(), Track.Empty);
+                return new KeyValuePair<RadioStation, Track>(RadioStation.Empty, Track.Empty);
             }
         }
 
