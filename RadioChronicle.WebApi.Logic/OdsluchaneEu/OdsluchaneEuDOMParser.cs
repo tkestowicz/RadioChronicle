@@ -90,11 +90,17 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             #region Implementation of ISpecifiedDOMParser<Track, IEnumerable<HtmlNode>>
 
             public Track Parse(IEnumerable<HtmlNode> input)
-            {     
-                _ParseName(input.ElementAt(_IndexOfTrackNameElement));
-                _ParseRelativeUrl(input.ElementAt(_IndexOfTrackRelativeUrlElement));
-                _ParseTimesPlayed(input.ElementAt(_IndexOfTrackTimesPlayedElement));
-                _ParseTrackHistory(input);
+            {
+                try
+                {
+                    _ParseName(input.ElementAt(_IndexOfTrackNameElement));
+                    _ParseRelativeUrl(input.ElementAt(_IndexOfTrackRelativeUrlElement));
+                    _ParseTimesPlayed(input.ElementAt(_IndexOfTrackTimesPlayedElement));
+                    _ParseTrackHistory(input);
+                }
+                catch
+                {
+                }
 
                 return _parsedTrack;
            }
@@ -453,13 +459,11 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         private KeyValuePair<RadioStation, Track> _ParseDOMAndReturnCurrentlyBroadcastedTrack(HtmlNode track)
         {
-            const int trackInfoElementIndex = 1;
-
             try
             {
-                var key = new RadioStationParser().Parse(track.ChildNodes);
+                var key = new RadioStationParser().Parse(_domSelector.SelectChildNodes(track));
 
-                var value = new TrackParser().Parse(track.ChildNodes[trackInfoElementIndex].ChildNodes);
+                var value = new TrackParser().Parse(_domSelector.SelectChildNodes(_domSelector.SelectUlElements(track).FirstOrDefault()));
 
                 return new KeyValuePair<RadioStation, Track>(key, value);
             }

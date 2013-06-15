@@ -60,6 +60,22 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return cells ?? _EmptyListOfNodes;
         }
 
+        public IEnumerable<HtmlNode> SelectUlElements(HtmlNode node)
+        {
+            if (node == null) return _EmptyListOfNodes;
+
+            var ulElements = node.SelectNodes("ul");
+
+            return ulElements ?? _EmptyListOfNodes;
+        }
+
+        public IEnumerable<HtmlNode> SelectChildNodes(HtmlNode node)
+        {
+            if (node == null && node.HasChildNodes == false) return _EmptyListOfNodes;
+
+            return node.ChildNodes;
+        }
+
         public string SelectGroupHeader(HtmlNode row)
         {
             var header = row.SelectSingleNode("td[@class='line']");
