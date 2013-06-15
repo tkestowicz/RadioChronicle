@@ -63,32 +63,9 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         {
             const int cellsInRow = 3;
 
-            var result = new List<Track>();
+            var items = _ParseSearchResultsToCollection(_trackParser, document, Track.Empty, cellsInRow);
 
-            var results = _domSelector.SelectSearchResults(document);
-
-            var currentGroup = new DateTime();
-            foreach (var resultRow in results)
-            {
-                if (_domSelector.CheckIfRowIsAGroupHeader(resultRow))
-                {
-                    currentGroup =
-                        _dateParser.Parse(new OdsluchaneEuDateParserArgs()
-                        {
-                            DateFormat = OdsluchaneEuDateParser.DateTimePattern.BroadcastedShortDate,
-                            StringToParse = _domSelector.SelectGroupHeader(resultRow)
-                        });
-                    continue;
-                }
-
-                _trackParser.DateWhenTrackWasBroadcasted = currentGroup;
-                var track = _ParseRowToObject(resultRow, cellsInRow, _trackParser, Track.Empty);
-
-                if(track.IsNotEmpty()) result.Add(track);
-
-            }
-
-            return result;
+            return items.Select(item => item as Track).ToList();
         }
 
         public IDictionary<RadioStation, Track> ParseDOMAndSelectCurrentlyBroadcastedTracks(HtmlDocument document)
@@ -139,30 +116,47 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         {
             const int cellsInRow = 2;
 
-            var result = new List<TrackHistory>();
+            var items = _ParseSearchResultsToCollection(_trackHistoryParser, document, TrackHistory.Empty, cellsInRow);
 
-            var retrievedTrackHistory = _domSelector.SelectSearchResults(document);
-            
-            var currentGroup = new DateTime();
-            foreach (var retrievedRow in retrievedTrackHistory)
+            return items.Select(item => item as TrackHistory).ToList();
+        }
+
+        private IEnumerable<IModel> _ParseSearchResultsToCollection(ISpecifiedDOMParser<IModel, IEnumerable<HtmlNode>> parser, HtmlDocument document, IModel emptyEntity, int expectedCellsInRow)
+        {
+            var allRows = _domSelector.SelectSearchResults(document);
+
+            var result = new List<IModel>();
+
+            var dateWhenTrackWasBroadcasted = new DateTime();
+            foreach (var row in allRows)
             {
-                if (_domSelector.CheckIfRowIsAGroupHeader(retrievedRow))
+                if (_domSelector.CheckIfRowIsAGroupHeader(row))
                 {
-                    currentGroup = _dateParser.Parse(new OdsluchaneEuDateParserArgs()
+                    _SetBroadcastedDate(parser, _dateParser.Parse(new OdsluchaneEuDateParserArgs()
                     {
                         DateFormat = OdsluchaneEuDateParser.DateTimePattern.BroadcastedShortDate,
-                        StringToParse = _domSelector.SelectGroupHeader(retrievedRow)
-                    });
+                        StringToParse = _domSelector.SelectGroupHeader(row)
+                    }));
                     continue;
                 }
 
-                _trackHistoryParser.DateWhenTrackWasBroadcasted = currentGroup;
-                var trackHistory = _ParseRowToObject(retrievedRow, cellsInRow, _trackHistoryParser, TrackHistory.Empty);
+                
 
-                if(trackHistory.IsNotEmpty()) result.Add(trackHistory);
+                var record = _ParseRowToObject(row, expectedCellsInRow, parser, emptyEntity);
+
+                if (record.IsNotEmpty()) result.Add(record);
             }
 
             return result;
+        }
+
+        private void _SetBroadcastedDate(ISpecifiedDOMParser<IModel, IEnumerable<HtmlNode>> parser, DateTime dateWhenTrackWasBroadcasted)
+        {
+            if (parser is ITrackHistoryParser)
+                (parser as ITrackHistoryParser).DateWhenTrackWasBroadcasted = dateWhenTrackWasBroadcasted;
+
+            else if (parser is ITrackParser)
+                (parser as ITrackParser).DateWhenTrackWasBroadcasted = dateWhenTrackWasBroadcasted;
         }
 
         private KeyValuePair<RadioStation, Track> _ParseDOMAndReturnCurrentlyBroadcastedTrack(HtmlNode track)
