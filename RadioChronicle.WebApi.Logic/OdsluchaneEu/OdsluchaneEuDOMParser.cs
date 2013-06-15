@@ -134,6 +134,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 try
                 {
                     _ParseBroadcastedDateTime(input.ElementAt(_IndexOfTrackBroadcastedTimeElement).InnerText);
+                    _ParseRadioStation(input);
                 }
                 catch
                 {
@@ -143,6 +144,11 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             }
 
             #endregion
+
+            private void _ParseRadioStation(IEnumerable<HtmlNode> input)
+            {
+                _parsedTrackHistory.RadioStation = new RadioStationParser().Parse(input);
+            }
 
             private void _ParseBroadcastedDateTime(string broadcastedTime)
             {
@@ -158,7 +164,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             private const int _IndexOfRadioStationElementInCurrentlyBroadcastedList = 0;
             private const int _IndexOfRadioStationElementInTrackHistoryList = 1;
 
-
             #region Implementation of ISpecifiedDOMParser<out RadioStation,in IEnumerable<HtmlNode>>
 
             public RadioStation Parse(IEnumerable<HtmlNode> input)
@@ -172,13 +177,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 }
 
                 return _parsedRadioStation;
-            }
-
-            private int _DetermineCallContext(IEnumerable<HtmlNode> htmlNodes)
-            {
-                const int contextIsTrackHistory = 2;
-                
-                return htmlNodes.Count() == contextIsTrackHistory ? _IndexOfRadioStationElementInTrackHistoryList : _IndexOfRadioStationElementInCurrentlyBroadcastedList;
             }
 
             public RadioStation Parse(IEnumerable<HtmlAttribute> input)
@@ -197,6 +195,27 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             }
 
             #endregion
+
+            private int _DetermineCallContext(IEnumerable<HtmlNode> htmlNodes)
+            {
+                const int numberOfCellsInTrackHistoryRow = 2;
+                const int numberOfCellsInCurrentlyBroadcastedRow = 3;
+
+                Func<IEnumerable<HtmlNode>, bool> contextIsTrackHistory =
+                    nodes => nodes.Count() == numberOfCellsInTrackHistoryRow;
+
+                Func<IEnumerable<HtmlNode>, bool> contextIsCurrentlyBroadcasted =
+                    nodes => nodes.Count() == numberOfCellsInCurrentlyBroadcastedRow && nodes.FirstOrDefault().NodeType == HtmlNodeType.Text;
+
+                if (contextIsCurrentlyBroadcasted(htmlNodes))
+                    return _IndexOfRadioStationElementInCurrentlyBroadcastedList;
+
+                if (contextIsTrackHistory(htmlNodes)) return _IndexOfRadioStationElementInTrackHistoryList;
+
+                const int undefinedContext = -1;
+
+                return undefinedContext;
+            }
 
             private void _ParseId(IEnumerable<HtmlAttribute> attributes)
             {
@@ -410,13 +429,10 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
                 var tableCells = _domSelector.SelectTableCells(retrievedRow);
 
-                if (tableCells.HasExpectedNumberOfElements(cellsInRow) == false) return new TrackHistory();
+                if (tableCells.HasExpectedNumberOfElements(cellsInRow)) 
+                    return new TrackHistoryParser(dateWhenTrackWasBroadcasted).Parse(tableCells);
 
-                var trackHistory = new TrackHistoryParser(dateWhenTrackWasBroadcasted).Parse(tableCells);
-
-                trackHistory.RadioStation = new RadioStationParser().Parse(tableCells);
-
-                return trackHistory;
+                return new TrackHistory();
             }
             catch
             {
