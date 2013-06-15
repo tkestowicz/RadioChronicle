@@ -343,12 +343,14 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         public IEnumerable<Track> ParseDOMAndSelectMostPopularTracks(HtmlDocument document)
         {
+            const int cellsInRow = 4;
+
             var result = new List<Track>();
             var mostPopularTracks = _domSelector.SelectSearchResults(document);
 
             foreach (var mostPopularTrack in mostPopularTracks)
             {
-                var track = _ParseDOMAndReturnMostPopularTrack(mostPopularTrack);
+                var track = _ParseRowToObject(mostPopularTrack, cellsInRow, new TrackParser(), Track.Empty);
                 if(track.Equals(Track.Empty) == false) result.Add(track);
             }
 
@@ -357,6 +359,8 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         public IEnumerable<Track> ParseDOMAndSelectNewestTracks(HtmlDocument document)
         {
+            const int cellsInRow = 3;
+
             var result = new List<Track>();
 
             var results = _domSelector.SelectSearchResults(document);
@@ -373,7 +377,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 }
 
 
-                var track = _ParseDOMAndReturnTrackFromSearchResults(resultRow, currentGroup);
+                var track = _ParseRowToObject(resultRow, cellsInRow, new TrackParser(currentGroup), Track.Empty);
 
                 if(track.Equals(Track.Empty) == false) result.Add(track);
 
@@ -400,6 +404,8 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         public IEnumerable<Track> ParseDOMAndSelectBroadcastHistory(HtmlDocument document)
         {
+            const int cellsInRow = 3;
+
             var result = new List<Track>();
 
             var retrievedBroadcastHistory = _domSelector.SelectSearchResults(document);
@@ -410,7 +416,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 if (_domSelector.CheckIfRowIsAGroupHeader(retrievedRow))
                     continue;
 
-                var track = _ParseDOMAndReturnTrackFromSearchResults(retrievedRow, trackWasBroadcasted);
+                var track = _ParseRowToObject(retrievedRow, cellsInRow, new TrackParser(trackWasBroadcasted), Track.Empty);
 
                 if(track.Equals(Track.Empty) == false) result.Add(track);
             }
@@ -420,6 +426,8 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         public IEnumerable<TrackHistory> ParseDOMAndSelectTrackHistory(HtmlDocument document)
         {
+            const int cellsInRow = 2;
+
             var result = new List<TrackHistory>();
 
             var retrievedTrackHistory = _domSelector.SelectSearchResults(document);
@@ -435,53 +443,12 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                     continue;
                 }
 
-                var trackHistory = _ParseDOMAndReturnTrackHistory(retrievedRow, currentGroup);
+                var trackHistory = _ParseRowToObject(retrievedRow, cellsInRow, new TrackHistoryParser(currentGroup), new TrackHistory());
 
                 if(new TrackHistory().Equals(trackHistory) == false) result.Add(trackHistory);
             }
 
             return result;
-        }
-
-        private TrackHistory _ParseDOMAndReturnTrackHistory(HtmlNode retrievedRow, DateTime dateWhenTrackWasBroadcasted)
-        {
-            const int cellsInRow = 2;
-
-            try{
-
-                var tableCells = _domSelector.SelectTableCells(retrievedRow);
-
-                if (tableCells.HasExpectedNumberOfElements(cellsInRow)) 
-                    return new TrackHistoryParser(dateWhenTrackWasBroadcasted).Parse(tableCells);
-
-                return new TrackHistory();
-            }
-            catch
-            {
-                return new TrackHistory();
-            }
-        }
-
-        private Track _ParseDOMAndReturnTrackFromSearchResults(HtmlNode resultRow, DateTime dateWhenTrackWasBroadcasted)
-        {
-            const int cellsInRow = 3;
-
-            try
-            {
-                var track = Track.Empty;
-
-                var tableCells = _domSelector.SelectTableCells(resultRow);
-
-                if (tableCells.HasExpectedNumberOfElements(cellsInRow) == false) return track;
-
-                track = new TrackParser(dateWhenTrackWasBroadcasted).Parse(tableCells);
-
-                return track;
-            }
-            catch
-            {
-                return Track.Empty;
-            }
         }
 
         private KeyValuePair<RadioStation, Track> _ParseDOMAndReturnCurrentlyBroadcastedTrack(HtmlNode track)
@@ -498,22 +465,19 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             }
             catch
             {
-                return new KeyValuePair<RadioStation, Track>(null, Track.Empty);
+                return new KeyValuePair<RadioStation, Track>(new RadioStation(), Track.Empty);
             }
         }
 
-        private Track _ParseDOMAndReturnMostPopularTrack(HtmlNode mostPopularTrack)
+        private TResult _ParseRowToObject<TResult>(HtmlNode row, int expectedCellsInRow,
+            ISpecifiedDOMParser<TResult, IEnumerable<HtmlNode>> parser, TResult emptyRecord)
         {
-            const int cellsInRow = 4;
+            var tableCells = _domSelector.SelectTableCells(row);
 
-            var track = Track.Empty;
+            if (tableCells.HasExpectedNumberOfElements(expectedCellsInRow))
+                return parser.Parse(tableCells);
 
-            var tableCells = _domSelector.SelectTableCells(mostPopularTrack);
-
-            if (tableCells.HasExpectedNumberOfElements(cellsInRow))
-                track = new TrackParser().Parse(tableCells);
-
-            return track;
+            return emptyRecord;
         }
     }
 
