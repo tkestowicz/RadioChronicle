@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastracture\Interfaces\ICollectionParser.cs" />
     <Compile Include="Infrastracture\Interfaces\IParser.cs" />
     <Compile Include="Infrastracture\Interfaces\IResponseParser.cs" />
     <Compile Include="Infrastracture\Interfaces\IRemoteRadioChronicleService.cs" />
@@ -62,7 +63,10 @@
     <Compile Include="OdsluchaneEu\OdsluchaneEURemoteServiceArgumentsValidator.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEuUrlRepository.cs" />
     <Compile Include="OdsluchaneEu\Parsers\MostPopularTrackParser.cs" />
-    <Compile Include="OdsluchaneEu\Parsers\MostPopularTracksParser.cs" />
+    <Compile Include="OdsluchaneEu\Parsers\NewestTrackParser.cs" />
+    <Compile Include="OdsluchaneEu\Parsers\TrackBroadcastHistoryParser.cs" />
+    <Compile Include="OdsluchaneEu\Parsers\TrackCollectionParser.cs" />
+    <Compile Include="OdsluchaneEu\Parsers\TrackHistoryParser.cs" />
     <Compile Include="OdsluchaneEu\Parsers\TrackParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -16,22 +16,11 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
 
         protected override int NumberOfCellsInRow { get { return 4;  } }
 
-        protected override int IndexOfTrackNameElement { get { return 1; } }
-
         protected override Track ParseAdditionalDetails(Track track, IList<HtmlNode> cellsWithTrackDetails)
         {
             const int trackTimesPlayedElement = 2;
 
-            try
-            {
-                var trackUrlDetails = cellsWithTrackDetails[IndexOfTrackNameElement].ChildNodes.Single().Attributes["href"].Value;
-
-                track.RelativeUrlToTrackDetails = trackUrlDetails;
-            }
-            catch
-            {
-
-            }
+            track.RelativeUrlToTrackDetails = ParseTrackUrl(cellsWithTrackDetails[IndexOfTrackNameElement]);
 
             int timesPlayed;
             if (int.TryParse(cellsWithTrackDetails[trackTimesPlayedElement].InnerText, out timesPlayed))

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
@@ -6,13 +7,13 @@ using RadioChronicle.WebApi.Logic.Model;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
 {
-    public abstract class TrackParser : IParser<HtmlNode, Track>
+    public abstract class TrackParser : IRowParser< Track>
     {
         private readonly ISelectorHelper<HtmlNode> selectorHelper;
 
         protected abstract int NumberOfCellsInRow { get; }
 
-        protected abstract int IndexOfTrackNameElement { get; }
+        protected virtual int IndexOfTrackNameElement { get { return 1; } }
 
         protected abstract Track ParseAdditionalDetails(Track track, IList<HtmlNode> cellsWithTrackDetails);
 
@@ -21,19 +22,38 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
             this.selectorHelper = selectorHelper;
         }
 
+        private string ParseTrackName(IList<HtmlNode> parsedCells)
+        {
+            return HttpUtility.HtmlDecode(parsedCells[IndexOfTrackNameElement].InnerText);
+        }
+
+        protected string ParseTrackUrl(HtmlNode urlCell)
+        {
+            return urlCell.ChildNodes.Single().Attributes["href"].Value;
+        }
+
         #region Implementation of IParser<out Track>
+
+        public HtmlNode GroupNode { protected get; set; }
 
         public Track Parse(HtmlNode node)
         {
-            var track = Track.Empty;
+            try
+            {
+                var track = Track.Empty;
 
-            var tableCells = selectorHelper.GetListOfNodes(node, "td");
+                var tableCells = selectorHelper.GetListOfNodes(node, "td");
 
-            if (tableCells.Count != NumberOfCellsInRow) return track;
+                if (tableCells.Count != NumberOfCellsInRow) return track;
 
-            track.Name = HttpUtility.HtmlDecode(tableCells[IndexOfTrackNameElement].InnerText) ?? track.Name;
+                track.Name = ParseTrackName(tableCells) ?? track.Name;
 
-            return ParseAdditionalDetails(track, tableCells);
+                return ParseAdditionalDetails(track, tableCells);
+            }
+            catch
+            {
+                return Track.Empty;
+            }
         }
 
         #endregion

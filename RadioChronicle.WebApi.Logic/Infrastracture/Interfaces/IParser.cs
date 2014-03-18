@@ -1,9 +1,12 @@
+using HtmlAgilityPack;
+
 namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
 {
-    public interface IParser<in TInput, out TResult>
-        where TInput : class
+    public interface IRowParser<out TResult>
         where TResult : class
     {
-        TResult Parse(TInput node);
+        HtmlNode GroupNode { set; }
+
+        TResult Parse(HtmlNode node);
     }
 }
