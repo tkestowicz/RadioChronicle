@@ -43,10 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastracture\Interfaces\IDOMParser.cs" />
+    <Compile Include="Infrastracture\Interfaces\IParser.cs" />
+    <Compile Include="Infrastracture\Interfaces\IResponseParser.cs" />
     <Compile Include="Infrastracture\Interfaces\IRemoteRadioChronicleService.cs" />
     <Compile Include="Infrastracture\Interfaces\IRequestHelper.cs" />
+    <Compile Include="Infrastracture\Interfaces\ISelectorHelper.cs" />
     <Compile Include="Infrastracture\Interfaces\IUrlRepository.cs" />
+    <Compile Include="Infrastracture\SelectorHelper.cs" />
     <Compile Include="Model\Track.cs" />
     <Compile Include="Infrastracture\ServerRequestHelper.cs" />
     <Compile Include="Model\RadioStation.cs" />
@@ -55,14 +58,18 @@
     <Compile Include="Infrastracture\Interfaces\IRemoteServiceArgumentsValidator.cs" />
     <Compile Include="Infrastracture\ApplicationTime.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEuRemoteRadioChronicleServiceAdapter.cs" />
-    <Compile Include="OdsluchaneEu\OdsluchaneEuDOMParser.cs" />
+    <Compile Include="OdsluchaneEu\OdsluchaneEuResponseParser.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEURemoteServiceArgumentsValidator.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEuUrlRepository.cs" />
+    <Compile Include="OdsluchaneEu\Parsers\MostPopularTrackParser.cs" />
+    <Compile Include="OdsluchaneEu\Parsers\MostPopularTracksParser.cs" />
+    <Compile Include="OdsluchaneEu\Parsers\TrackParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

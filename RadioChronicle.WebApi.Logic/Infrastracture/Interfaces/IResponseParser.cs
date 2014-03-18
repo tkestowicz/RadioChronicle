@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Xml.XPath;
 using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Model;
 
 namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
 {
-    public interface IDOMParser
+    public interface IResponseParser
     {
         IEnumerable<RadioStationGroup> ParseDOMAndSelectRadioStationGroups(HtmlDocument document);
         IEnumerable<Track> ParseDOMAndSelectMostPopularTracks(HtmlDocument document);

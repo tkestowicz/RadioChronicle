@@ -11,14 +11,14 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
     {
         private readonly IRequestHelper _requestHelper;
         private readonly IUrlRepository _urlRepository;
-        private readonly IDOMParser _domParser;
+        private readonly IResponseParser responseParser;
         private readonly IRemoteServiceArgumentsValidator _argumentsValidator;
 
-        public OdsluchaneEuRemoteRadioChronicleServiceAdapter(IRequestHelper requestHelper, IUrlRepository urlRepository, IDOMParser domParser, IRemoteServiceArgumentsValidator argumentsValidator)
+        public OdsluchaneEuRemoteRadioChronicleServiceAdapter(IRequestHelper requestHelper, IUrlRepository urlRepository, IResponseParser responseParser, IRemoteServiceArgumentsValidator argumentsValidator)
         {
             _requestHelper = requestHelper;
             _urlRepository = urlRepository;
-            _domParser = domParser;
+            this.responseParser = responseParser;
             _argumentsValidator = argumentsValidator;
         }
 
@@ -63,7 +63,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         {
             var doc = _requestHelper.RequestURL(_urlRepository.RadioStationsPage.Value);
 
-            return _domParser.ParseDOMAndSelectRadioStationGroups(doc);
+            return responseParser.ParseDOMAndSelectRadioStationGroups(doc);
         }
 
         public IEnumerable<Track> GetMostPopularTracks(int radioStationId, int month, int year)
@@ -73,7 +73,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             var doc = _requestHelper.RequestURL(_urlRepository.MostPopularTracksPage(radioStationId, month, year).Value);
 
-            return _domParser.ParseDOMAndSelectMostPopularTracks(doc).Take(10).ToList();
+            return responseParser.ParseDOMAndSelectMostPopularTracks(doc).Take(10).ToList();
         }
 
         public IEnumerable<Track> GetNewestTracks(int radioStationId)
@@ -82,14 +82,14 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
             var doc = _requestHelper.RequestURL(_urlRepository.NewestTracksPage(radioStationId).Value);
 
-            return _domParser.ParseDOMAndSelectNewestTracks(doc).Take(10).ToList();
+            return responseParser.ParseDOMAndSelectNewestTracks(doc).Take(10).ToList();
         }
 
         public IDictionary<RadioStation, Track> GetCurrentlyBroadcastedTracks()
         {
             var doc = _requestHelper.RequestURL(_urlRepository.CurrentlyBroadcastedTrack.Value);
 
-            return _domParser.ParseDOMAndSelectCurrentlyBroadcastedTracks(doc).OrderBy(e => e.Key.Name).ToDictionary(k => k.Key, v => v.Value);
+            return responseParser.ParseDOMAndSelectCurrentlyBroadcastedTracks(doc).OrderBy(e => e.Key.Name).ToDictionary(k => k.Key, v => v.Value);
         }
 
         public IEnumerable<Track> GetBroadcastHistory(int radioStation, DateTime day, int hourFrom, int hourTo)
@@ -101,7 +101,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
                 _requestHelper.RequestURL(_urlRepository.BroadcastHistoryPage(radioStation, day, hourFrom, hourTo).Value);
 
             return
-                _domParser.ParseDOMAndSelectBroadcastHistory(doc)
+                responseParser.ParseDOMAndSelectBroadcastHistory(doc)
                     .ToList();
         }
 
@@ -114,7 +114,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
         {
             var doc = _requestHelper.RequestURL(_urlRepository.TrackDetailsPage(relativeUrlToTrackDetails).Value);
 
-            return _domParser.ParseDOMAndSelectTrackHistory(doc);
+            return responseParser.ParseDOMAndSelectTrackHistory(doc);
         }
 
         private void VerifyHourRangeAndSetDefault(ref int hourFrom, ref int hourTo)
