@@ -39,11 +39,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return getListOfNodes(document, "//select[@name='r']/optgroup");
         }
 
-        private IEnumerable<HtmlNode> SelectListWithRadioStationsFromHtmlGroup(HtmlNode radioStationGroup)
-        {
-            return radioStationGroup.SelectNodes("option");
-        }
-
         private IList<HtmlNode> SelectResultsListWithTracks(HtmlDocument document)
         {
             // skip first element which is a result header
@@ -57,23 +52,11 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         public IEnumerable<RadioStationGroup> ParseDOMAndSelectRadioStationGroups(HtmlDocument document)
         {
-            var result = new List<RadioStationGroup>();
+            var parser = new RadioStationGroupParser(new RadioStationCollectionParser(), new RadioStationParser());
 
             var radioStationGroups = SelectListWithGroupedRadioStationsFromHTMLDocument(document);
 
-            if (radioStationGroups == null) return result;
-
-            foreach (var radioStationGroup in radioStationGroups)
-            {
-                var radioStations = ParseDOMAndSelectRadioStations(SelectListWithRadioStationsFromHtmlGroup(radioStationGroup));
-                result.Add(new RadioStationGroup()
-                {
-                    GroupName = radioStationGroup.Attributes[0].Value,
-                    RadioStations = radioStations
-                });
-            }
-
-            return result;
+            return radioStationGroups.Select(parser.Parse);
         }
 
         public IEnumerable<Track> ParseDOMAndSelectMostPopularTracks(HtmlDocument document)
@@ -118,33 +101,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             var rows = SelectResultsListWithTracks(document);
 
             return trackHistoryCollectionParser.Parse(rows, new TrackHistoryParser());
-        }
-
-        private IEnumerable<RadioStation> ParseDOMAndSelectRadioStations(IEnumerable<HtmlNode> radioStations)
-        {
-            var result = new List<RadioStation>();
-
-            if (radioStations == null) return result;
-
-            foreach (var radioStation in radioStations)
-            {
-                if (!radioStation.Attributes.Any()) continue;
-
-                var radioName = radioStation.Attributes.SingleOrDefault(a => a.Name == "label");
-                var radioId = radioStation.Attributes.SingleOrDefault(a => a.Name == "value");
-
-                var isSelected = radioStation.Attributes.SingleOrDefault(a => a.Name == "selected");
-                var isDefault = isSelected != null && isSelected.Value == "selected";
-
-                result.Add(new RadioStation()
-                {
-                    Id = (radioId != null) ? int.Parse(radioId.Value) : 0,
-                    Name = (radioName != null) ? radioName.Value : "",
-                    IsDefault = isDefault
-                });
-            }
-
-            return result;
         }
         
         private KeyValuePair<RadioStation, Track> ParseDOMAndReturnCurrentlyBroadcastedTrack(HtmlNode track)
