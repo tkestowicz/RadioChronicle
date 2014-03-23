@@ -1,14 +1,13 @@
 using System.Collections.Generic;
-using System.Linq;
 using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
-using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.POCO;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
 {
-    public class MostPopularTrackParser : TrackParser
+    public class MostPopularTrackParser : TrackParser, IMostPopularTrackParser
     {
-        public MostPopularTrackParser(ISelectorHelper<HtmlNode> selectorHelper) : base(selectorHelper)
+        public MostPopularTrackParser(IHtmlDocumentHelper htmlDocumentHelper) : base(htmlDocumentHelper)
         {
         }
 

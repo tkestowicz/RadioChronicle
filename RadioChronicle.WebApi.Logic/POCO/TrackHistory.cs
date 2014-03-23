@@ -1,6 +1,6 @@
 using System;
 
-namespace RadioChronicle.WebApi.Logic.Model
+namespace RadioChronicle.WebApi.Logic.POCO
 {
     public class TrackHistory
     {

@@ -2,26 +2,25 @@ using System;
 using System.Globalization;
 using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
-using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.OdsluchaneEu.Interfaces;
+using RadioChronicle.WebApi.Logic.POCO;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
 {
-    public class TrackHistoryParser : IRowParser<TrackHistory>
+    public class TrackHistoryParser : ITrackHistoryParser
     {
-        //TODO: refactor
+        private readonly IOdsluchaneEuResponseHelper responseHelper;
+
+        public TrackHistoryParser(IOdsluchaneEuResponseHelper responseHelper)
+        {
+            this.responseHelper = responseHelper;
+        }
+
         private bool TryParseDateTimeFromString(string stringToParse, out DateTime outputDateTime)
         {
             const string ShortDatePattern = "dd-MM-yyyy H:mm";
 
             return DateTime.TryParseExact(stringToParse, ShortDatePattern, null, DateTimeStyles.None, out outputDateTime);
-        }
-
-        //TODO: refactor
-        private string SelectGroupHeader(HtmlNode row)
-        {
-            var header = row.SelectSingleNode("td[@class='line']");
-
-            return (header == null) ? string.Empty : header.InnerText;
         }
 
         #region Overrides of TrackParser
@@ -34,7 +33,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
 
         public HtmlNode GroupNode { set; private get; }
 
-        //TODO: refactor if possible
         public TrackHistory Parse(HtmlNode node)
         {
             const int trackBroadcastedTimeElement = 0;
@@ -51,7 +49,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
                 trackHistory.RadioStation = new RadioStation() { Name = tableCells[radioStationElement].InnerText };
 
                 DateTime broadcastedDateTime;
-                var stringToParse = string.Format("{0} {1}", SelectGroupHeader(GroupNode),
+                var stringToParse = string.Format("{0} {1}", responseHelper.HeaderValue(GroupNode),
                     tableCells[trackBroadcastedTimeElement].InnerText);
                 if (TryParseDateTimeFromString(stringToParse, out broadcastedDateTime))
                     trackHistory.Broadcasted = broadcastedDateTime;

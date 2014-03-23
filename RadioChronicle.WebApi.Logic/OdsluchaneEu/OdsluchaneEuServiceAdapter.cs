@@ -1,25 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using RadioChronicle.WebApi.Logic.Infrastracture;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
-using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.POCO;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 {
-    public class OdsluchaneEuRemoteRadioChronicleServiceAdapter : IRemoteRadioChronicleService
+    public class OdsluchaneEuServiceAdapter : IRemoteRadioChronicleService
     {
-        private readonly IRequestHelper _requestHelper;
-        private readonly IUrlRepository _urlRepository;
+        private readonly IRequestHelper requestHelper;
+        private readonly IUrlRepository urlRepository;
         private readonly IResponseParser responseParser;
-        private readonly IRemoteServiceArgumentsValidator _argumentsValidator;
+        private readonly IRemoteServiceArgumentsValidator argumentsValidator;
 
-        public OdsluchaneEuRemoteRadioChronicleServiceAdapter(IRequestHelper requestHelper, IUrlRepository urlRepository, IResponseParser responseParser, IRemoteServiceArgumentsValidator argumentsValidator)
+        public OdsluchaneEuServiceAdapter(IRequestHelper requestHelper, IUrlRepository urlRepository, IResponseParser responseParser, IRemoteServiceArgumentsValidator argumentsValidator, IComponentContext container)
         {
-            _requestHelper = requestHelper;
-            _urlRepository = urlRepository;
+            this.requestHelper = requestHelper;
+            this.urlRepository = urlRepository;
             this.responseParser = responseParser;
-            _argumentsValidator = argumentsValidator;
+            this.argumentsValidator = argumentsValidator;
         }
 
         public int DefaultYear
@@ -61,9 +62,9 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         public IEnumerable<RadioStationGroup> GetRadioStations()
         {
-            var doc = _requestHelper.RequestURL(_urlRepository.RadioStationsPage.Value);
+            var doc = requestHelper.RequestUrl(urlRepository.RadioStationsPage.Value);
 
-            return responseParser.ParseDOMAndSelectRadioStationGroups(doc);
+            return responseParser.ParseAndSelectRadioStationGroups(doc);
         }
 
         public IEnumerable<Track> GetMostPopularTracks(int radioStationId, int month, int year)
@@ -71,25 +72,25 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             VerifyRadioStationIdAndSetDefault(ref radioStationId);
             VerifyMonthAndYear(ref month, ref year);
 
-            var doc = _requestHelper.RequestURL(_urlRepository.MostPopularTracksPage(radioStationId, month, year).Value);
+            var doc = requestHelper.RequestUrl(urlRepository.MostPopularTracksPage(radioStationId, month, year).Value);
 
-            return responseParser.ParseDOMAndSelectMostPopularTracks(doc).Take(10).ToList();
+            return responseParser.ParseAndSelectMostPopularTracks(doc).Take(10).ToList();
         }
 
         public IEnumerable<Track> GetNewestTracks(int radioStationId)
         {
             VerifyRadioStationIdAndSetDefault(ref radioStationId);
 
-            var doc = _requestHelper.RequestURL(_urlRepository.NewestTracksPage(radioStationId).Value);
+            var doc = requestHelper.RequestUrl(urlRepository.NewestTracksPage(radioStationId).Value);
 
-            return responseParser.ParseDOMAndSelectNewestTracks(doc).Take(10).ToList();
+            return responseParser.ParseAndSelectNewestTracks(doc).Take(10).ToList();
         }
 
         public IDictionary<RadioStation, Track> GetCurrentlyBroadcastedTracks()
         {
-            var doc = _requestHelper.RequestURL(_urlRepository.CurrentlyBroadcastedTrack.Value);
+            var doc = requestHelper.RequestUrl(urlRepository.CurrentlyBroadcastedTrack.Value);
 
-            return responseParser.ParseDOMAndSelectCurrentlyBroadcastedTracks(doc).OrderBy(e => e.Key.Name).ToDictionary(k => k.Key, v => v.Value);
+            return responseParser.ParseAndSelectCurrentlyBroadcastedTracks(doc).OrderBy(e => e.Key.Name).ToDictionary(k => k.Key, v => v.Value);
         }
 
         public IEnumerable<Track> GetBroadcastHistory(int radioStation, DateTime day, int hourFrom, int hourTo)
@@ -98,10 +99,10 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             VerifyHourRangeAndSetDefault(ref hourFrom, ref hourTo);
 
             var doc =
-                _requestHelper.RequestURL(_urlRepository.BroadcastHistoryPage(radioStation, day, hourFrom, hourTo).Value);
+                requestHelper.RequestUrl(urlRepository.BroadcastHistoryPage(radioStation, day, hourFrom, hourTo).Value);
 
             return
-                responseParser.ParseDOMAndSelectBroadcastHistory(doc)
+                responseParser.ParseAndSelectBroadcastHistory(doc)
                     .ToList();
         }
 
@@ -112,16 +113,16 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         public IEnumerable<TrackHistory> GetTrackHistory(string relativeUrlToTrackDetails)
         {
-            var doc = _requestHelper.RequestURL(_urlRepository.TrackDetailsPage(relativeUrlToTrackDetails).Value);
+            var doc = requestHelper.RequestUrl(urlRepository.TrackDetailsPage(relativeUrlToTrackDetails).Value);
 
-            return responseParser.ParseDOMAndSelectTrackHistory(doc);
+            return responseParser.ParseAndSelectTrackHistory(doc);
         }
 
         private void VerifyHourRangeAndSetDefault(ref int hourFrom, ref int hourTo)
         {
-            if (!_argumentsValidator.IsHourValid(hourFrom)) hourFrom = DefaultHourFrom;
-            if (!_argumentsValidator.IsHourValid(hourTo)) hourTo = DefaultHourTo;
-            if (!_argumentsValidator.IsRangeValid(hourFrom, hourTo))
+            if (!argumentsValidator.IsHourValid(hourFrom)) hourFrom = DefaultHourFrom;
+            if (!argumentsValidator.IsHourValid(hourTo)) hourTo = DefaultHourTo;
+            if (!argumentsValidator.IsRangeValid(hourFrom, hourTo))
             {
                 hourFrom = DefaultHourFrom;
                 hourTo = DefaultHourTo;
@@ -130,13 +131,13 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         private void VerifyRadioStationIdAndSetDefault(ref int radioStationId)
         {
-            if (!_argumentsValidator.IsRadioStationIdValid(GetRadioStations(), radioStationId)) radioStationId = DefaultRadioStation.Id;
+            if (!argumentsValidator.IsRadioStationIdValid(GetRadioStations(), radioStationId)) radioStationId = DefaultRadioStation.Id;
         }
 
         private void VerifyMonthAndYear(ref int month, ref int year)
         {
-            if (!_argumentsValidator.IsMonthValid(month)) month = DefaultMonth;
-            if (!_argumentsValidator.IsYearValid(year)) year = DefaultYear;
+            if (!argumentsValidator.IsMonthValid(month)) month = DefaultMonth;
+            if (!argumentsValidator.IsYearValid(year)) year = DefaultYear;
         }
     }
 }

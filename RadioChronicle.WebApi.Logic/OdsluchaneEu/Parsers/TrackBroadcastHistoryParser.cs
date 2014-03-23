@@ -2,33 +2,19 @@ using System;
 using System.Collections.Generic;
 using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
-using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.OdsluchaneEu.Interfaces;
+using RadioChronicle.WebApi.Logic.POCO;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
 {
-    public class TrackBroadcastHistoryParser : TrackParser
+    public class TrackBroadcastHistoryParser : TrackParser, ITrackBroadcastHistoryParser
     {
-        public TrackBroadcastHistoryParser(ISelectorHelper<HtmlNode> selectorHelper)
-            : base(selectorHelper)
+        private readonly IOdsluchaneEuResponseHelper responseHelper;
+
+        public TrackBroadcastHistoryParser(IHtmlDocumentHelper htmlDocumentHelper, IOdsluchaneEuResponseHelper responseHelper)
+            : base(htmlDocumentHelper)
         {
-        }
-
-        //TODO: refactor
-        private bool TryParseDateTimeFromString(string stringToParse, out DateTime outputDateTime)
-        {
-            return DateTime.TryParse(stringToParse, out outputDateTime);
-        }
-
-        //TODO: refactor
-        private string SelectSelectedDate(HtmlNode node)
-        {
-            if (node == null) return string.Empty;
-
-            var items = node.SelectSingleNode("//input[@name='date']");
-
-            if (items == null) return string.Empty;
-
-            return items.Attributes["value"].Value;
+            this.responseHelper = responseHelper;
         }
 
         #region Overrides of TrackParser
@@ -42,10 +28,10 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
             track.RelativeUrlToTrackDetails = ParseTrackUrl(cellsWithTrackDetails[IndexOfTrackNameElement]);
 
             DateTime broadcastedDateTime;
-            var stringToParse = string.Format("{0} {1}", SelectSelectedDate(GroupNode),
+            var stringToParse = string.Format("{0} {1}", responseHelper.SelectedDate(GroupNode),
                 cellsWithTrackDetails[trackBroadcastedTimeElement].InnerText);
 
-            if (TryParseDateTimeFromString(stringToParse, out broadcastedDateTime))
+            if (DateTime.TryParse(stringToParse, out broadcastedDateTime))
                 track.TrackHistory = new List<TrackHistory> { new TrackHistory() { Broadcasted = broadcastedDateTime } };
 
             return track;

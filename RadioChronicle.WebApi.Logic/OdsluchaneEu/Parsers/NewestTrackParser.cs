@@ -3,38 +3,32 @@ using System.Collections.Generic;
 using System.Globalization;
 using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
-using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.OdsluchaneEu.Interfaces;
+using RadioChronicle.WebApi.Logic.POCO;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
 {
-    public class NewestTrackParser : TrackParser
+    public class NewestTrackParser : TrackParser, INewestTrackParser
     {
-        public NewestTrackParser(ISelectorHelper<HtmlNode> selectorHelper) : base(selectorHelper)
+        private readonly IOdsluchaneEuResponseHelper responseHelper;
+
+        public NewestTrackParser(IHtmlDocumentHelper htmlDocumentHelper, IOdsluchaneEuResponseHelper responseHelper) : base(htmlDocumentHelper)
         {
+            this.responseHelper = responseHelper;
         }
 
-        //TODO: refactor
-        private string SelectGroupHeader(HtmlNode row)
-        {
-            var header = row.SelectSingleNode("td[@class='line']");
-
-            return (header == null) ? string.Empty : header.InnerText;
-        }
-
-        //TODO: refactor
         private DateTime? DateWhenTrackWasBroadcastedFirstTime
         {
             get
             {
                 DateTime outputDateTime;
-                if (TryParseShortDateFromString(SelectGroupHeader(GroupNode), out outputDateTime))
+                if (TryParseShortDateFromString(responseHelper.HeaderValue(GroupNode), out outputDateTime))
                     return outputDateTime;
 
                 return new DateTime?();
             }
         }
 
-        //TODO: refactor
         private bool TryParseShortDateFromString(string stringAsDate, out DateTime outputDateTime)
         {
             const string ShortDatePattern = "dd-MM-yyyy";

@@ -9,6 +9,6 @@ namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
         /// </summary>
         /// <param name="url">URL which has to be requested.</param>
         /// <returns>Server response as a HTML document.</returns>
-        HtmlDocument RequestURL(string url);
+        HtmlDocument RequestUrl(string url);
     }
 }

@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using System.Web;
 using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
 
 namespace RadioChronicle.WebApi.Logic.Infrastracture
 {
-    public class SelectorHelper : ISelectorHelper<HtmlNode>, ISelectorHelper<HtmlDocument>
+    public class HtmlDocumentHelper : IHtmlDocumentHelper
     {
         private static readonly IList<HtmlNode> DefaultCollection = new List<HtmlNode>(0); 
 
-        #region Implementation of ISelectorHelper<in HtmlDocument>
+        #region Implementation of IHtmlDocumentHelper<in HtmlDocument>
 
         public IList<HtmlNode> GetListOfNodes(HtmlDocument node, string selector)
         {
@@ -17,9 +18,14 @@ namespace RadioChronicle.WebApi.Logic.Infrastracture
             return node.DocumentNode.SelectNodes(selector) ?? DefaultCollection;
         }
 
+        public string DecodeHtml(string input)
+        {
+            return HttpUtility.HtmlDecode(input);
+        }
+
         #endregion
 
-        #region Implementation of ISelectorHelper<in HtmlNode>
+        #region Implementation of IHtmlDocumentHelper<in HtmlNode>
 
         public IList<HtmlNode> GetListOfNodes(HtmlNode node, string selector)
         {

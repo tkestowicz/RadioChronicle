@@ -15,7 +15,7 @@ namespace RadioChronicle.WebApi.Logic.Infrastracture
         /// </summary>
         /// <param name="url">URL which has to be requested.</param>
         /// <returns>Document with HTML response.</returns>
-        public HtmlDocument RequestURL(string url)
+        public HtmlDocument RequestUrl(string url)
         {
             var web = new HtmlWeb();
             return web.Load(url);

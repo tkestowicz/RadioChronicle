@@ -8,7 +8,7 @@ using Moq;
 using NUnit.Framework;
 using RadioChronicle.WebApi.Logic.Infrastracture;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
-using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.POCO;
 using Should;
 
 namespace RadioChronicle.WebApi.Tests.Unit
@@ -1468,7 +1468,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [Description("Happy path")]
         public void get_radio_stations___response_contains_radio_stations___returns_list_of_radio_stations_grouped_by_radio_family()
         {
-            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
+            _requestHelperMock.Setup(s => s.RequestUrl(_urlRepository.RadioStationsPage.Value))
                 .Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
 
             var result = _remoteRadioChronicleService.GetRadioStations();
@@ -1479,7 +1479,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [TestCase(ResponseKeys.Empty, Category ="Get radio stations", Description = "Response is empty.")]
         public void get_radio_stations___response_is_different_than_expected___returns_empty_list(ResponseKeys response)
         {
-            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
+            _requestHelperMock.Setup(s => s.RequestUrl(_urlRepository.RadioStationsPage.Value))
                 .Returns(_getFakeResponse(ResponseKeys.Empty));
 
             var result = _remoteRadioChronicleService.GetRadioStations();
@@ -1493,7 +1493,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [Category("Get radio stations")]
         public void get_radio_stations___response_has_one_radio_group_with_no_radio_stations___returns_radio_station_group_with_empty_radio_stations()
         {
-            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
+            _requestHelperMock.Setup(s => s.RequestUrl(_urlRepository.RadioStationsPage.Value))
                 .Returns(_getFakeResponse(ResponseKeys.WithOneRadioGroupAndNoRadioStations));
 
             var result = _remoteRadioChronicleService.GetRadioStations();
@@ -1518,7 +1518,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             var radioStation = _DefaultRadioStation;
             var month = _DefaultMonth;
             var year = _DefaultYear;
-            _requestHelperMock.Setup(s => s.RequestURL(string.Format(_urlRepository.MostPopularTracksPage(radioStation.Id, month, year).Value)))
+            _requestHelperMock.Setup(s => s.RequestUrl(string.Format(_urlRepository.MostPopularTracksPage(radioStation.Id, month, year).Value)))
                 .Returns(_getFakeResponse(responseKey));
 
             var result = _remoteRadioChronicleService.GetMostPopularTracks(radioStation.Id, month, year);
@@ -1547,8 +1547,8 @@ namespace RadioChronicle.WebApi.Tests.Unit
             if(month.HasValue == false) month = _DefaultMonth;
             if(year.HasValue == false) year = _DefaultYear;
 
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.MostPopularTracksPage(_DefaultRadioStation.Id, _DefaultMonth, _DefaultYear).Value))
+            _requestHelperMock.Setup(r => r.RequestUrl(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
+            _requestHelperMock.Setup(r => r.RequestUrl(_urlRepository.MostPopularTracksPage(_DefaultRadioStation.Id, _DefaultMonth, _DefaultYear).Value))
                                     .Returns(_getFakeResponse(ResponseKeys.WithMostPopularTracks));
 
             var result = _remoteRadioChronicleService.GetMostPopularTracks(radioStationId.Value, month.Value, year.Value);
@@ -1564,8 +1564,8 @@ namespace RadioChronicle.WebApi.Tests.Unit
         {
             if (radioStationId.HasValue == false) radioStationId = _DefaultRadioStation.Id;
 
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.NewestTracksPage(_DefaultRadioStation.Id).Value)).Returns(_getFakeResponse(ResponseKeys.WithNewestTracks));
+            _requestHelperMock.Setup(r => r.RequestUrl(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
+            _requestHelperMock.Setup(r => r.RequestUrl(_urlRepository.NewestTracksPage(_DefaultRadioStation.Id).Value)).Returns(_getFakeResponse(ResponseKeys.WithNewestTracks));
 
             var result = _remoteRadioChronicleService.GetNewestTracks(radioStationId.Value);
 
@@ -1583,8 +1583,8 @@ namespace RadioChronicle.WebApi.Tests.Unit
         public void get_newest_tracks___response_is_different_than_expected___returns_empty_list(ResponseKeys response)
         {
 
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.NewestTracksPage(_DefaultRadioStation.Id).Value)).Returns(_getFakeResponse(response));
+            _requestHelperMock.Setup(r => r.RequestUrl(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
+            _requestHelperMock.Setup(r => r.RequestUrl(_urlRepository.NewestTracksPage(_DefaultRadioStation.Id).Value)).Returns(_getFakeResponse(response));
 
             var result = _remoteRadioChronicleService.GetNewestTracks(_DefaultRadioStation.Id);
 
@@ -1598,7 +1598,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [Description("Happy path")]
         public void currently_broadcasted___response_contains_tracks___returns_currently_broadcasted_tracks_ordered_by_radio_station_ascending()
         {
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.CurrentlyBroadcastedTrack.Value)).Returns(_getFakeResponse(ResponseKeys.WithCurrentlyBroadcastedTracks));
+            _requestHelperMock.Setup(r => r.RequestUrl(_urlRepository.CurrentlyBroadcastedTrack.Value)).Returns(_getFakeResponse(ResponseKeys.WithCurrentlyBroadcastedTracks));
 
             var result = _remoteRadioChronicleService.GetCurrentlyBroadcastedTracks();
 
@@ -1609,7 +1609,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [TestCase(ResponseKeys.NoneRadioStationIsBroadcasting, Category = "Currently broadcasted", Description = "None radio station is broadcasting.")]
         public void currently_broadcasted___response_is_different_than_expected___returns_empty_list(ResponseKeys response)
         {
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.CurrentlyBroadcastedTrack.Value)).Returns(_getFakeResponse(response));
+            _requestHelperMock.Setup(r => r.RequestUrl(_urlRepository.CurrentlyBroadcastedTrack.Value)).Returns(_getFakeResponse(response));
 
             var result = _remoteRadioChronicleService.GetCurrentlyBroadcastedTracks();
 
@@ -1634,10 +1634,10 @@ namespace RadioChronicle.WebApi.Tests.Unit
             if (hourFrom.HasValue == false) hourFrom = _DefaultHourFrom;
             if (hourTo.HasValue == false) hourTo = _DefaultHourTo;
 
-            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
+            _requestHelperMock.Setup(s => s.RequestUrl(_urlRepository.RadioStationsPage.Value))
                 .Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
 
-            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.BroadcastHistoryPage(_DefaultRadioStation.Id, _DefaultDay, _DefaultHourFrom, _DefaultHourTo).Value))
+            _requestHelperMock.Setup(s => s.RequestUrl(_urlRepository.BroadcastHistoryPage(_DefaultRadioStation.Id, _DefaultDay, _DefaultHourFrom, _DefaultHourTo).Value))
                 .Returns(_getFakeResponse(ResponseKeys.WithBroadcastHistory));
 
             var result = _remoteRadioChronicleService.GetBroadcastHistory(radioStationId.Value, _DefaultDay, hourFrom.Value, hourTo.Value);
@@ -1653,10 +1653,10 @@ namespace RadioChronicle.WebApi.Tests.Unit
 
             if (radioStationId.HasValue == false) radioStationId = _DefaultRadioStation.Id;
 
-            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.RadioStationsPage.Value))
+            _requestHelperMock.Setup(s => s.RequestUrl(_urlRepository.RadioStationsPage.Value))
                 .Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
 
-            _requestHelperMock.Setup(s => s.RequestURL(_urlRepository.BroadcastHistoryPage(_DefaultRadioStation.Id, _DefaultDay, _DefaultHourFrom, _DefaultHourTo).Value))
+            _requestHelperMock.Setup(s => s.RequestUrl(_urlRepository.BroadcastHistoryPage(_DefaultRadioStation.Id, _DefaultDay, _DefaultHourFrom, _DefaultHourTo).Value))
                 .Returns(_getFakeResponse(ResponseKeys.WithBroadcastHistory));
 
             var result = _remoteRadioChronicleService.GetMostRecentTracks(radioStationId.Value);
@@ -1670,8 +1670,8 @@ namespace RadioChronicle.WebApi.Tests.Unit
         public void get_most_recent_tracks___response_is_different_than_expected___returns_empty_list(ResponseKeys response)
         {
 
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.NewestTracksPage(_DefaultRadioStation.Id).Value)).Returns(_getFakeResponse(response));
+            _requestHelperMock.Setup(r => r.RequestUrl(_urlRepository.RadioStationsPage.Value)).Returns(_getFakeResponse(ResponseKeys.WithRadioStations));
+            _requestHelperMock.Setup(r => r.RequestUrl(_urlRepository.NewestTracksPage(_DefaultRadioStation.Id).Value)).Returns(_getFakeResponse(response));
 
             var result = _remoteRadioChronicleService.GetMostRecentTracks(_DefaultRadioStation.Id);
 
@@ -1685,7 +1685,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [Description("Happy path.")]
         public void get_track_history___response_contains_history___returns_all_broadcasts_of_the_track_ordered_by_date_descending()
         {
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.TrackDetailsPage(DefaultRelativeUrlToTrackDetails).Value)).Returns(_getFakeResponse(ResponseKeys.WithTrackHistory));
+            _requestHelperMock.Setup(r => r.RequestUrl(_urlRepository.TrackDetailsPage(DefaultRelativeUrlToTrackDetails).Value)).Returns(_getFakeResponse(ResponseKeys.WithTrackHistory));
 
             var result = _remoteRadioChronicleService.GetTrackHistory(DefaultRelativeUrlToTrackDetails);
 
@@ -1700,7 +1700,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
         [TestCase(ResponseKeys.WithTrackHistoryWhereHistoryRowHas5Columns, DefaultRelativeUrlToTrackDetails, Category = "Get track history", Description = "Relative url is correct but response has more columns than expected.")]
         public void get_track_history___response_is_different_than_expected___returns_empty_list(ResponseKeys response, string relativeUrlToTrackDetails)
         {
-            _requestHelperMock.Setup(r => r.RequestURL(_urlRepository.TrackDetailsPage(relativeUrlToTrackDetails).Value))
+            _requestHelperMock.Setup(r => r.RequestUrl(_urlRepository.TrackDetailsPage(relativeUrlToTrackDetails).Value))
                                             .Returns(_getFakeResponse(response));
 
             var result = _remoteRadioChronicleService.GetTrackHistory(relativeUrlToTrackDetails);

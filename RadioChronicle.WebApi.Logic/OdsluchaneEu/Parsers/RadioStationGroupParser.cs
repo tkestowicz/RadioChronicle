@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
-using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.POCO;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
 {
-    public class RadioStationGroupParser : IRowParser<RadioStationGroup>
+    public class RadioStationGroupParser : IRadioGroupParser
     {
-        private readonly ICollectionParser<RadioStation> radioStationsCollectionParser;
-        private readonly IRowParser<RadioStation> radioStationParser;
+        private readonly IRadioStationCollectionParser radioStationsCollectionParser;
+        private readonly IRadioStationParser radioStationParser;
 
-        public RadioStationGroupParser(ICollectionParser<RadioStation> radioStationsCollectionParser, IRowParser<RadioStation> radioStationParser)
+        public RadioStationGroupParser(IRadioStationCollectionParser radioStationsCollectionParser, IRadioStationParser radioStationParser)
         {
             this.radioStationsCollectionParser = radioStationsCollectionParser;
             this.radioStationParser = radioStationParser;

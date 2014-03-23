@@ -1,12 +1,13 @@
-namespace RadioChronicle.WebApi.Logic.Model
+using System.Collections.Generic;
+using System.Linq;
+
+namespace RadioChronicle.WebApi.Logic.POCO
 {
-    public class RadioStation
+    public class RadioStationGroup
     {
-        public int Id { get; set; }
+        public string GroupName { get; set; }
 
-        public string Name { get; set; }
-
-        public bool IsDefault { get; set; }
+        public IEnumerable<RadioStation> RadioStations { get; set; }
 
         #region Overrides of Object
 
@@ -19,11 +20,17 @@ namespace RadioChronicle.WebApi.Logic.Model
         /// <param name="obj">The object to compare with the current object. </param>
         public override bool Equals(object obj)
         {
-            if ((obj is RadioStation) == false) return false;
+            if ((obj is RadioStationGroup) == false) return false;
 
-            var toEqual = obj as RadioStation;
+            var toEqual = obj as RadioStationGroup;
 
-            return (toEqual.Id == Id && toEqual.Name == Name && toEqual.IsDefault == IsDefault);
+            var colEqual = toEqual.RadioStations.Count() == RadioStations.Count();
+            for (int i = 0; i < RadioStations.Count(); i++)
+            {
+                colEqual = RadioStations.ElementAt(i).Equals(toEqual.RadioStations.ElementAt(i));
+            }
+
+            return toEqual.GroupName == GroupName && colEqual;
         }
 
         #region Overrides of Object
@@ -36,7 +43,7 @@ namespace RadioChronicle.WebApi.Logic.Model
         /// </returns>
         public override int GetHashCode()
         {
-            return string.IsNullOrEmpty(Name) ? 0 : Name.GetHashCode() + Id.GetHashCode();
+            return string.IsNullOrEmpty(GroupName) ? 0 : GroupName.GetHashCode() + RadioStations.GetHashCode();
         }
 
         #endregion

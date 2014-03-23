@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.0.2\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Configuration">
+      <HintPath>..\packages\Autofac.3.0.2\lib\net40\Autofac.Configuration.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
@@ -48,22 +54,25 @@
     <Compile Include="Infrastracture\Interfaces\IResponseParser.cs" />
     <Compile Include="Infrastracture\Interfaces\IRemoteRadioChronicleService.cs" />
     <Compile Include="Infrastracture\Interfaces\IRequestHelper.cs" />
-    <Compile Include="Infrastracture\Interfaces\ISelectorHelper.cs" />
+    <Compile Include="Infrastracture\Interfaces\IHtmlDocumentHelper.cs" />
+    <Compile Include="Infrastracture\Interfaces\MarkerInterfaces.cs" />
     <Compile Include="Infrastracture\Interfaces\IUrlRepository.cs" />
-    <Compile Include="Infrastracture\SelectorHelper.cs" />
-    <Compile Include="Model\Track.cs" />
+    <Compile Include="Infrastracture\HtmlDocumentHelper.cs" />
+    <Compile Include="POCO\Track.cs" />
     <Compile Include="Infrastracture\ServerRequestHelper.cs" />
-    <Compile Include="Model\RadioStation.cs" />
-    <Compile Include="Model\RadioStationGroup.cs" />
-    <Compile Include="Model\TrackHistory.cs" />
+    <Compile Include="POCO\RadioStation.cs" />
+    <Compile Include="POCO\RadioStationGroup.cs" />
+    <Compile Include="POCO\TrackHistory.cs" />
     <Compile Include="Infrastracture\Interfaces\IRemoteServiceArgumentsValidator.cs" />
     <Compile Include="Infrastracture\ApplicationTime.cs" />
-    <Compile Include="OdsluchaneEu\OdsluchaneEuRemoteRadioChronicleServiceAdapter.cs" />
+    <Compile Include="OdsluchaneEu\Interfaces\IOdsluchaneEuResponseHelper.cs" />
+    <Compile Include="OdsluchaneEu\Helpers\OdsluchaneEuOdsluchaneEuResponseHelper.cs" />
+    <Compile Include="OdsluchaneEu\Interfaces\IXPathSelectorsRepository.cs" />
+    <Compile Include="OdsluchaneEu\OdsluchaneEuServiceAdapter.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEuResponseParser.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEURemoteServiceArgumentsValidator.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEuUrlRepository.cs" />
     <Compile Include="OdsluchaneEu\Parsers\CurrentlyBroadcastedTrackParser.cs" />
-    <Compile Include="OdsluchaneEu\Parsers\CurrentlyBroadcastedTracksCollectionParser.cs" />
     <Compile Include="OdsluchaneEu\Parsers\MostPopularTrackParser.cs" />
     <Compile Include="OdsluchaneEu\Parsers\NewestTrackParser.cs" />
     <Compile Include="OdsluchaneEu\Parsers\RadioStationCollectionParser.cs" />

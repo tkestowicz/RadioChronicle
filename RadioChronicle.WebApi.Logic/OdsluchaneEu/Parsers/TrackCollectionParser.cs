@@ -1,26 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
-using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.OdsluchaneEu.Interfaces;
+using RadioChronicle.WebApi.Logic.POCO;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
 {
-    public class TrackCollectionParser : ICollectionParser<Track>, ICollectionParser<TrackHistory>, ICollectionParser<KeyValuePair<RadioStation, Track>>
+    public class TrackCollectionParser : ITrackCollectionParser
     {
-        //TODO: refactor
-        private string SelectGroupHeader(HtmlNode row)
-        {
-            var header = row.SelectSingleNode("td[@class='line']");
+        private readonly IOdsluchaneEuResponseHelper responseHelper;
 
-            return (header == null) ? string.Empty : header.InnerText;
-        }
-
-        private bool CheckIfRowIsAGroupHeader(HtmlNode row)
+        public TrackCollectionParser(IOdsluchaneEuResponseHelper responseHelper)
         {
-            return string.IsNullOrEmpty(SelectGroupHeader(row)) == false;
+            this.responseHelper = responseHelper;
         }
 
         private IEnumerable<TRow> Parse<TRow>(IEnumerable<HtmlNode> rows, IRowParser<TRow> rowParser, Func<TRow, bool> isEmpty)
@@ -28,7 +22,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
         {
             foreach (var row in rows)
             {
-                if (CheckIfRowIsAGroupHeader(row))
+                if (responseHelper.IsGroupHeader(row))
                 {
                     rowParser.GroupNode = row;
                     continue;

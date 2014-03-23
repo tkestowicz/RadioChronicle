@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
-using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.POCO;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
 {
     public abstract class TrackParser : IRowParser< Track>
     {
-        private readonly ISelectorHelper<HtmlNode> selectorHelper;
+        private readonly IHtmlDocumentHelper htmlDocumentHelper;
 
         protected abstract int NumberOfCellsInRow { get; }
 
@@ -17,14 +16,14 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
 
         protected abstract Track ParseAdditionalDetails(Track track, IList<HtmlNode> cellsWithTrackDetails);
 
-        protected TrackParser(ISelectorHelper<HtmlNode> selectorHelper)
+        protected TrackParser(IHtmlDocumentHelper htmlDocumentHelper)
         {
-            this.selectorHelper = selectorHelper;
+            this.htmlDocumentHelper = htmlDocumentHelper;
         }
 
         protected string ParseTrackName(IList<HtmlNode> parsedCells)
         {
-            return HttpUtility.HtmlDecode(parsedCells[IndexOfTrackNameElement].InnerText);
+            return htmlDocumentHelper.DecodeHtml(parsedCells[IndexOfTrackNameElement].InnerText);
         }
 
         protected string ParseTrackUrl(HtmlNode urlCell)
@@ -42,7 +41,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
             {
                 var track = Track.Empty;
 
-                var tableCells = selectorHelper.GetListOfNodes(node, "td");
+                var tableCells = htmlDocumentHelper.GetListOfNodes(node, "td");
 
                 if (tableCells.Count != NumberOfCellsInRow) return track;
 

@@ -1,14 +1,19 @@
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
-using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.POCO;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
 {
-    public class CurrentlyBroadcastedTrackParser : IRowParser<KeyValuePair<RadioStation, Track>>
+    public class CurrentlyBroadcastedTrackParser : ICurrentlyBroadcastedTrack
     {
+
+        private readonly IHtmlDocumentHelper htmlDocumentHelper;
+
+        public CurrentlyBroadcastedTrackParser(IHtmlDocumentHelper htmlDocumentHelper)
+        {
+            this.htmlDocumentHelper = htmlDocumentHelper;
+        }
 
         #region Implementation of IRowParser<out KeyValuePair<RadioStation,Track>>
 
@@ -32,7 +37,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
                 
                 var trackInfo = node.ChildNodes[trackInfoElementIndex];
 
-                track.Name = HttpUtility.HtmlDecode(trackInfo.InnerText.Trim());
+                track.Name = htmlDocumentHelper.DecodeHtml(trackInfo.InnerText.Trim());
                 track.RelativeUrlToTrackDetails = trackInfo.ChildNodes[trackInfoElementIndex].FirstChild.Attributes["href"].Value;
 
                 return new KeyValuePair<RadioStation, Track>(key, track);

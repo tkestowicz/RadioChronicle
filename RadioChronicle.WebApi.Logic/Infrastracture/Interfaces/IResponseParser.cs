@@ -1,18 +1,21 @@
-using System;
 using System.Collections.Generic;
-using System.Xml.XPath;
 using HtmlAgilityPack;
-using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.POCO;
 
 namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
 {
     public interface IResponseParser
     {
-        IEnumerable<RadioStationGroup> ParseDOMAndSelectRadioStationGroups(HtmlDocument document);
-        IEnumerable<Track> ParseDOMAndSelectMostPopularTracks(HtmlDocument document);
-        IEnumerable<Track> ParseDOMAndSelectNewestTracks(HtmlDocument document);
-        IDictionary<RadioStation, Track> ParseDOMAndSelectCurrentlyBroadcastedTracks(HtmlDocument document);
-        IEnumerable<Track> ParseDOMAndSelectBroadcastHistory(HtmlDocument document);
-        IEnumerable<TrackHistory> ParseDOMAndSelectTrackHistory(HtmlDocument document);
+        IEnumerable<RadioStationGroup> ParseAndSelectRadioStationGroups(HtmlDocument document);
+
+        IEnumerable<Track> ParseAndSelectMostPopularTracks(HtmlDocument document);
+        
+        IEnumerable<Track> ParseAndSelectNewestTracks(HtmlDocument document);
+        
+        IDictionary<RadioStation, Track> ParseAndSelectCurrentlyBroadcastedTracks(HtmlDocument document);
+        
+        IEnumerable<Track> ParseAndSelectBroadcastHistory(HtmlDocument document);
+        
+        IEnumerable<TrackHistory> ParseAndSelectTrackHistory(HtmlDocument document);
     }
 }

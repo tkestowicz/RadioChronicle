@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.POCO;
 
 namespace RadioChronicle.WebApi.Logic.Infrastracture.Interfaces
 {

@@ -1,100 +1,73 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Web;
+using Autofac;
 using HtmlAgilityPack;
-using RadioChronicle.WebApi.Logic.Infrastracture;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
-using RadioChronicle.WebApi.Logic.Model;
-using RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers;
+using RadioChronicle.WebApi.Logic.OdsluchaneEu.Interfaces;
+using RadioChronicle.WebApi.Logic.POCO;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 {
-    //TODO: refactor
     public class OdsluchaneEuResponseParser : IResponseParser
     {
 
-        private readonly ICollectionParser<Track> trackCollectionParser;
-        private readonly ICollectionParser<KeyValuePair<RadioStation, Track>> currentTracksCollectionParser;
-        private readonly ICollectionParser<TrackHistory> trackHistoryCollectionParser;
-        private readonly ISelectorHelper<HtmlNode> nodeSelectorHelper;
+        private readonly ITrackCollectionParser trackCollectionParser;
+        private readonly IHtmlDocumentHelper htmlDocumentHelper;
+        private readonly IXPathSelectorsRepository selectorsRepository;
+        private readonly IComponentContext resolver;
 
-        private readonly Func<HtmlDocument, string, IEnumerable<HtmlNode>> getListOfNodes = (document, selector) =>
+        public OdsluchaneEuResponseParser(IComponentContext resolver)
         {
-            if (document == null) return new List<HtmlNode>();
-
-            return document.DocumentNode.SelectNodes(selector) ?? new HtmlNodeCollection(null);
-        };
-
-        public OdsluchaneEuResponseParser(ICollectionParser<Track> trackCollectionParser, ICollectionParser<TrackHistory> trackHistoryCollectionParser, ISelectorHelper<HtmlNode> nodeSelectorHelper, ICollectionParser<KeyValuePair<RadioStation, Track>> currentTracksCollectionParser)
-        {
-            this.trackCollectionParser = trackCollectionParser;
-            this.trackHistoryCollectionParser = trackHistoryCollectionParser;
-            this.nodeSelectorHelper = nodeSelectorHelper;
-            this.currentTracksCollectionParser = currentTracksCollectionParser;
+            this.trackCollectionParser = resolver.Resolve<ITrackCollectionParser>();
+            this.htmlDocumentHelper = resolver.Resolve<IHtmlDocumentHelper>();
+            this.selectorsRepository = resolver.Resolve<IXPathSelectorsRepository>();
+            this.resolver = resolver;
         }
 
-        private IEnumerable<HtmlNode> SelectListWithGroupedRadioStationsFromHTMLDocument(HtmlDocument document)
+        public IEnumerable<RadioStationGroup> ParseAndSelectRadioStationGroups(HtmlDocument document)
         {
-            return getListOfNodes(document, "//select[@name='r']/optgroup");
+            var parser = resolver.Resolve<IRadioGroupParser>();
+
+            var rows = htmlDocumentHelper.GetListOfNodes(document, selectorsRepository.ListOfRadioStations);
+
+            return rows.Select(parser.Parse);
         }
 
-        private IList<HtmlNode> SelectResultsListWithTracks(HtmlDocument document)
+        public IEnumerable<Track> ParseAndSelectMostPopularTracks(HtmlDocument document)
         {
-            // skip first element which is a result header
-            return getListOfNodes(document, "//table[@class='wyniki']/tr").Skip(1).ToList();
+            var rows = htmlDocumentHelper.GetListOfNodes(document, selectorsRepository.ListOfTracks);
+
+            return trackCollectionParser.Parse(rows, resolver.Resolve<IMostPopularTrackParser>());
         }
 
-        private IList<HtmlNode> SelectCurrentlyBroadcastedTracks(HtmlDocument document)
+        public IEnumerable<Track> ParseAndSelectNewestTracks(HtmlDocument document)
         {
-            return getListOfNodes(document, "//ul[@class='panel_aktualnie']/li").ToList();
+            var rows = htmlDocumentHelper.GetListOfNodes(document, selectorsRepository.ListOfTracks);
+
+            return trackCollectionParser.Parse(rows, resolver.Resolve<INewestTrackParser>());
         }
 
-        public IEnumerable<RadioStationGroup> ParseDOMAndSelectRadioStationGroups(HtmlDocument document)
+        public IDictionary<RadioStation, Track> ParseAndSelectCurrentlyBroadcastedTracks(HtmlDocument document)
         {
-            var parser = new RadioStationGroupParser(new RadioStationCollectionParser(), new RadioStationParser());
+            var rows = htmlDocumentHelper.GetListOfNodes(document, selectorsRepository.ListOfCurrentlyBroadcastedTracks);
 
-            var radioStationGroups = SelectListWithGroupedRadioStationsFromHTMLDocument(document);
-
-            return radioStationGroups.Select(parser.Parse);
-        }
-
-        public IEnumerable<Track> ParseDOMAndSelectMostPopularTracks(HtmlDocument document)
-        {
-            var rows = SelectResultsListWithTracks(document);
-
-            return trackCollectionParser.Parse(rows, new MostPopularTrackParser(nodeSelectorHelper));
-        }
-
-        public IEnumerable<Track> ParseDOMAndSelectNewestTracks(HtmlDocument document)
-        {
-            var rows = SelectResultsListWithTracks(document);
-
-            return trackCollectionParser.Parse(rows, new NewestTrackParser(nodeSelectorHelper));
-        }
-
-        public IDictionary<RadioStation, Track> ParseDOMAndSelectCurrentlyBroadcastedTracks(HtmlDocument document)
-        {
-            var rows = SelectCurrentlyBroadcastedTracks(document);
-
-            return currentTracksCollectionParser.Parse(rows, new CurrentlyBroadcastedTrackParser())
+            return trackCollectionParser.Parse(rows, resolver.Resolve<ICurrentlyBroadcastedTrack>())
                 .ToDictionary(key => key.Key, value => value.Value);
         }
 
-        public IEnumerable<Track> ParseDOMAndSelectBroadcastHistory(HtmlDocument document)
+        public IEnumerable<Track> ParseAndSelectBroadcastHistory(HtmlDocument document)
         {
-            var rows = SelectResultsListWithTracks(document);
+            var rows = htmlDocumentHelper.GetListOfNodes(document, selectorsRepository.ListOfTracks);
 
-            return trackCollectionParser.Parse(rows, new TrackBroadcastHistoryParser(nodeSelectorHelper));
+            return trackCollectionParser.Parse(rows, resolver.Resolve<ITrackBroadcastHistoryParser>());
         }
 
-        public IEnumerable<TrackHistory> ParseDOMAndSelectTrackHistory(HtmlDocument document)
+        public IEnumerable<TrackHistory> ParseAndSelectTrackHistory(HtmlDocument document)
         {
-            var rows = SelectResultsListWithTracks(document);
+            var rows = htmlDocumentHelper.GetListOfNodes(document, selectorsRepository.ListOfTracks);
 
-            return trackHistoryCollectionParser.Parse(rows, new TrackHistoryParser());
+            return trackCollectionParser.Parse(rows, resolver.Resolve<ITrackHistoryParser>());
         }
     }
 }

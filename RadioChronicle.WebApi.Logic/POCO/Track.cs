@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RadioChronicle.WebApi.Logic.Model
+namespace RadioChronicle.WebApi.Logic.POCO
 {
     public class Track
     {

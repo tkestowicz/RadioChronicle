@@ -1,11 +1,11 @@
 using System.Linq;
 using HtmlAgilityPack;
 using RadioChronicle.WebApi.Logic.Infrastracture.Interfaces;
-using RadioChronicle.WebApi.Logic.Model;
+using RadioChronicle.WebApi.Logic.POCO;
 
 namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
 {
-    public class RadioStationParser : IRowParser<RadioStation>
+    public class RadioStationParser : IRadioStationParser
     {
         #region Implementation of IRowParser<out RadioStation>
 
