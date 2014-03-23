@@ -17,6 +17,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
     {
 
         private readonly ICollectionParser<Track> trackCollectionParser;
+        private readonly ICollectionParser<KeyValuePair<RadioStation, Track>> currentTracksCollectionParser;
         private readonly ICollectionParser<TrackHistory> trackHistoryCollectionParser;
         private readonly ISelectorHelper<HtmlNode> nodeSelectorHelper;
 
@@ -27,11 +28,12 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return document.DocumentNode.SelectNodes(selector) ?? new HtmlNodeCollection(null);
         };
 
-        public OdsluchaneEuResponseParser(ICollectionParser<Track> trackCollectionParser, ICollectionParser<TrackHistory> trackHistoryCollectionParser, ISelectorHelper<HtmlNode> nodeSelectorHelper)
+        public OdsluchaneEuResponseParser(ICollectionParser<Track> trackCollectionParser, ICollectionParser<TrackHistory> trackHistoryCollectionParser, ISelectorHelper<HtmlNode> nodeSelectorHelper, ICollectionParser<KeyValuePair<RadioStation, Track>> currentTracksCollectionParser)
         {
             this.trackCollectionParser = trackCollectionParser;
             this.trackHistoryCollectionParser = trackHistoryCollectionParser;
             this.nodeSelectorHelper = nodeSelectorHelper;
+            this.currentTracksCollectionParser = currentTracksCollectionParser;
         }
 
         private IEnumerable<HtmlNode> SelectListWithGroupedRadioStationsFromHTMLDocument(HtmlDocument document)
@@ -45,9 +47,9 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             return getListOfNodes(document, "//table[@class='wyniki']/tr").Skip(1).ToList();
         }
 
-        private IEnumerable<HtmlNode> SelectCurrentlyBroadcastedTracks(HtmlDocument document)
+        private IList<HtmlNode> SelectCurrentlyBroadcastedTracks(HtmlDocument document)
         {
-            return getListOfNodes(document, "//ul[@class='panel_aktualnie']/li");
+            return getListOfNodes(document, "//ul[@class='panel_aktualnie']/li").ToList();
         }
 
         public IEnumerable<RadioStationGroup> ParseDOMAndSelectRadioStationGroups(HtmlDocument document)
@@ -75,18 +77,10 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
 
         public IDictionary<RadioStation, Track> ParseDOMAndSelectCurrentlyBroadcastedTracks(HtmlDocument document)
         {
-            var result = new Dictionary<RadioStation, Track>();
+            var rows = SelectCurrentlyBroadcastedTracks(document);
 
-            var retrievedTracks = SelectCurrentlyBroadcastedTracks(document);
-
-            foreach (var track in retrievedTracks)
-            {
-                var parsedRow = ParseDOMAndReturnCurrentlyBroadcastedTrack(track);
-
-                if (parsedRow.Value.Equals(Track.Empty) == false) result.Add(parsedRow.Key, parsedRow.Value);
-            }
-
-            return result;
+            return currentTracksCollectionParser.Parse(rows, new CurrentlyBroadcastedTrackParser())
+                .ToDictionary(key => key.Key, value => value.Value);
         }
 
         public IEnumerable<Track> ParseDOMAndSelectBroadcastHistory(HtmlDocument document)
@@ -101,37 +95,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             var rows = SelectResultsListWithTracks(document);
 
             return trackHistoryCollectionParser.Parse(rows, new TrackHistoryParser());
-        }
-        
-        private KeyValuePair<RadioStation, Track> ParseDOMAndReturnCurrentlyBroadcastedTrack(HtmlNode track)
-        {
-            const int radioNameElementIndex = 0;
-            const int trackInfoElementIndex = 1;
-
-            try
-            {
-                var key = new RadioStation()
-                {
-                    Id = 0,
-                    IsDefault = false,
-                    Name = track.ChildNodes[radioNameElementIndex].InnerText.Trim()
-                };
-
-                var value = Track.Empty;
-
-
-                
-                var trackInfo = track.ChildNodes[trackInfoElementIndex].ChildNodes[trackInfoElementIndex];
-
-                value.Name = HttpUtility.HtmlDecode(trackInfo.InnerText);
-                value.RelativeUrlToTrackDetails = trackInfo.ChildNodes.Single().Attributes["href"].Value;
-
-                return new KeyValuePair<RadioStation, Track>(key, value);
-            }
-            catch
-            {
-                return new KeyValuePair<RadioStation, Track>(null, Track.Empty);
-            }
         }
     }
 }

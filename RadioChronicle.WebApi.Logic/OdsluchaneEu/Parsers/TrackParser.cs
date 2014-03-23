@@ -22,7 +22,7 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu.Parsers
             this.selectorHelper = selectorHelper;
         }
 
-        private string ParseTrackName(IList<HtmlNode> parsedCells)
+        protected string ParseTrackName(IList<HtmlNode> parsedCells)
         {
             return HttpUtility.HtmlDecode(parsedCells[IndexOfTrackNameElement].InnerText);
         }

@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Collections.Generic;
+using Autofac;
 using HtmlAgilityPack;
 using Moq;
 using RadioChronicle.WebApi.Logic.Infrastracture;
@@ -21,7 +22,7 @@ namespace RadioChronicle.WebApi.Tests.Unit
             builder.RegisterType<OdsluchaneEuUrlRepository>().As<IUrlRepository>();
             builder.RegisterType<OdsluchaneEuRemoteRadioChronicleServiceAdapter>().As<IRemoteRadioChronicleService>();
             builder.RegisterType<OdsluchaneEURemoteServiceArgumentsValidator>().As<IRemoteServiceArgumentsValidator>();
-            builder.RegisterType<TrackCollectionParser>().As<ICollectionParser<Track>, ICollectionParser<TrackHistory>>();
+            builder.RegisterType<TrackCollectionParser>().As<ICollectionParser<Track>, ICollectionParser<TrackHistory>, ICollectionParser<KeyValuePair<RadioStation, Track>>>();
             builder.RegisterType<SelectorHelper>().As<ISelectorHelper<HtmlNode>, ISelectorHelper<HtmlDocument>>();
             
             return builder.Build();

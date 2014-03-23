@@ -62,8 +62,13 @@
     <Compile Include="OdsluchaneEu\OdsluchaneEuResponseParser.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEURemoteServiceArgumentsValidator.cs" />
     <Compile Include="OdsluchaneEu\OdsluchaneEuUrlRepository.cs" />
+    <Compile Include="OdsluchaneEu\Parsers\CurrentlyBroadcastedTrackParser.cs" />
+    <Compile Include="OdsluchaneEu\Parsers\CurrentlyBroadcastedTracksCollectionParser.cs" />
     <Compile Include="OdsluchaneEu\Parsers\MostPopularTrackParser.cs" />
     <Compile Include="OdsluchaneEu\Parsers\NewestTrackParser.cs" />
+    <Compile Include="OdsluchaneEu\Parsers\RadioStationCollectionParser.cs" />
+    <Compile Include="OdsluchaneEu\Parsers\RadioStationGroupParser.cs" />
+    <Compile Include="OdsluchaneEu\Parsers\RadioStationParser.cs" />
     <Compile Include="OdsluchaneEu\Parsers\TrackBroadcastHistoryParser.cs" />
     <Compile Include="OdsluchaneEu\Parsers\TrackCollectionParser.cs" />
     <Compile Include="OdsluchaneEu\Parsers\TrackHistoryParser.cs" />
