@@ -59,7 +59,9 @@
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
     <Compile Include="OdsluchaneEuAdapterTests.cs" />
+    <Compile Include="OdsluchaneEuHelpers\OdsluchaneEuFakeResponsesService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="OdsluchaneEuHelpers\OdsluhaneEuTestDataRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -71,40 +73,40 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FakeResponses\ResponseTrackDetailsPageDoesNotExists.txt">
+    <Content Include="OdsluchaneEuHelpers\FakeResponses\ResponseTrackDetailsPageDoesNotExists.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FakeResponses\ResponseWithTrackHistory.txt">
+    <Content Include="OdsluchaneEuHelpers\FakeResponses\ResponseWithTrackHistory.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FakeResponses\ResponseNoneRadioStationIsBroadcasting.txt">
+    <Content Include="OdsluchaneEuHelpers\FakeResponses\ResponseNoneRadioStationIsBroadcasting.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FakeResponses\ResponseWithBroadcastHistoryInRMFFM_06.06.2013_9_11.txt">
+    <Content Include="OdsluchaneEuHelpers\FakeResponses\ResponseWithBroadcastHistoryInRMFFM_06.06.2013_9_11.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FakeResponses\ResponseWithCurrentlyBroadcastedTracksIn_2013.06.05_20.34.txt">
+    <Content Include="OdsluchaneEuHelpers\FakeResponses\ResponseWithCurrentlyBroadcastedTracksIn_2013.06.05_20.34.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FakeResponses\ResponseWithMostPopularTracksWhereTrackRowHas5Columns.txt">
+    <Content Include="OdsluchaneEuHelpers\FakeResponses\ResponseWithMostPopularTracksWhereTrackRowHas5Columns.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FakeResponses\ResponseWithMostPopularTracksWhereTrackRowHas3Columns.txt">
+    <Content Include="OdsluchaneEuHelpers\FakeResponses\ResponseWithMostPopularTracksWhereTrackRowHas3Columns.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FakeResponses\ResponseWithMostRecentTracksWhereTrackRowHas2Columns.txt">
+    <Content Include="OdsluchaneEuHelpers\FakeResponses\ResponseWithMostRecentTracksWhereTrackRowHas2Columns.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FakeResponses\ResponseWithNewestTracksOnRMFFMInMay2013.txt">
+    <Content Include="OdsluchaneEuHelpers\FakeResponses\ResponseWithNewestTracksOnRMFFMInMay2013.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FakeResponses\ResponseWithOneGroupAndNoRadioStations.txt">
+    <Content Include="OdsluchaneEuHelpers\FakeResponses\ResponseWithOneGroupAndNoRadioStations.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FakeResponses\ResponseWithRadioStationList.txt">
+    <Content Include="OdsluchaneEuHelpers\FakeResponses\ResponseWithRadioStationList.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FakeResponses\ResponseWithMostPopularTracksOnRMFFMInMay2013.txt">
+    <Content Include="OdsluchaneEuHelpers\FakeResponses\ResponseWithMostPopularTracksOnRMFFMInMay2013.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

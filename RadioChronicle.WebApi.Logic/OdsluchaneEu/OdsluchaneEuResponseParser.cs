@@ -25,13 +25,6 @@ namespace RadioChronicle.WebApi.Logic.OdsluchaneEu
             this.resolver = resolver;
         }
 
-        private TResult ParseAndSelect<TResult, TParser>(HtmlDocument document, string selector, TParser parser)
-        {
-            var rows = htmlDocumentHelper.GetListOfNodes(document, selector);
-
-            return trackCollectionParser.Parse(rows, parser);
-        }
-
         public IEnumerable<RadioStationGroup> ParseAndSelectRadioStationGroups(HtmlDocument document)
         {
             var parser = resolver.Resolve<IRadioGroupParser>();
